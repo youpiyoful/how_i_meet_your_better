@@ -28,7 +28,7 @@
 **And** the user stay in the same detail product page
 
 
-**Given** \ ceci n'est pas un test c'est un test
+**Given** \ ceci n'est pas un test c'est un faux test de vrai test
 **When** \
 **Then**
 
