@@ -56,7 +56,9 @@ ROOT_URLCONF = 'himyb.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'business/templates'),
+            ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -119,11 +121,15 @@ USE_L10N = True
 
 USE_TZ = True
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "business/static"),
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-# INTERNAL_IPS = [
-#     '127.0.0.1',
-# ]
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
