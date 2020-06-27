@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Creative - Start Bootstrap Theme</title>
+    <title>Pur Beure</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="{% static 'business/assets/img/favicon.ico' %}" />
+    <link rel="icon" type="image/x-icon" href="{% static 'business/assets/img/logo_pur_beurre-favicon.png' %}" />
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
@@ -27,13 +27,19 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
         <div class="container">
-            <a class="navbar-brand js-scroll-trigger" href="#page-top">Start Bootstrap</a><button
+            <img class="col-md-1" src="{% static 'business/assets/img/logo_pur_beurre.png' %}" alt="logo biscuit">
+            <a class="navbar-brand js-scroll-trigger" href="#page-top">Pur Beure</a><button
                 class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto my-2 my-lg-0">
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>
+                    <!-- <div class="input-group input-group-sm mb-3"> -->
+                    <li class="nav-item">
+                        <input type="text" placeholder="chercher" aria-label="Recherche"
+                            class="js-scroll-trigger form-control">
+                    </li>
+                    <!-- </div> -->
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#services">Services</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Portfolio</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>
@@ -46,15 +52,10 @@
         <div class="container h-100">
             <div class="row h-100 align-items-center justify-content-center text-center">
                 <div class="col-lg-10 align-self-end">
-                    <h1 class="text-uppercase text-white font-weight-bold">Your Favorite Source of Free Bootstrap Themes
-                    </h1>
-                    <hr class="divider my-4" />
+                    {% block title %}{% endblock %}
                 </div>
                 <div class="col-lg-8 align-self-baseline">
-                    <p class="text-white-75 font-weight-light mb-5">Start Bootstrap can help you build better websites
-                        using the Bootstrap framework! Just download a theme and start customizing, no strings attached!
-                    </p>
-                    <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Find Out More</a>
+                    {% block subtitle %}{% endblock %}
                 </div>
             </div>
         </div>
@@ -116,8 +117,9 @@
         <div class="container-fluid p-0">
             <div class="row no-gutters">
                 <div class="col-lg-4 col-sm-6">
-                    <a class="portfolio-box" href="{% static 'business/assets/img/portfolio/fullsize/1.jpg' %}"><img class="img-fluid"
-                            src="{% static 'business/assets/img/portfolio/thumbnails/1.jpg' %}" alt="" />
+                    <a class="portfolio-box" href="{% static 'business/assets/img/portfolio/fullsize/1.jpg' %}"><img
+                            class="img-fluid" src="{% static 'business/assets/img/portfolio/thumbnails/1.jpg' %}"
+                            alt="" />
                         <div class="portfolio-box-caption">
                             <div class="project-category text-white-50">Category</div>
                             <div class="project-name">Project Name</div>
@@ -125,8 +127,9 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a class="portfolio-box" href="{% static 'business/assets/img/portfolio/fullsize/2.jpg' %}"><img class="img-fluid"
-                            src="{% static 'business/assets/img/portfolio/thumbnails/2.jpg' %}" alt="" />
+                    <a class="portfolio-box" href="{% static 'business/assets/img/portfolio/fullsize/2.jpg' %}"><img
+                            class="img-fluid" src="{% static 'business/assets/img/portfolio/thumbnails/2.jpg' %}"
+                            alt="" />
                         <div class="portfolio-box-caption">
                             <div class="project-category text-white-50">Category</div>
                             <div class="project-name">Project Name</div>
@@ -134,8 +137,9 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a class="portfolio-box" href="{% static 'business/assets/img/portfolio/fullsize/3.jpg' %}"><img class="img-fluid"
-                            src="{% static 'business/assets/img/portfolio/thumbnails/3.jpg' %}" alt="" />
+                    <a class="portfolio-box" href="{% static 'business/assets/img/portfolio/fullsize/3.jpg' %}"><img
+                            class="img-fluid" src="{% static 'business/assets/img/portfolio/thumbnails/3.jpg' %}"
+                            alt="" />
                         <div class="portfolio-box-caption">
                             <div class="project-category text-white-50">Category</div>
                             <div class="project-name">Project Name</div>
@@ -143,8 +147,9 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a class="portfolio-box" href="{% static 'business/assets/img/portfolio/fullsize/4.jpg' %}"><img class="img-fluid"
-                            src="{% static 'business/assets/img/portfolio/thumbnails/4.jpg' %}" alt="" />
+                    <a class="portfolio-box" href="{% static 'business/assets/img/portfolio/fullsize/4.jpg' %}"><img
+                            class="img-fluid" src="{% static 'business/assets/img/portfolio/thumbnails/4.jpg' %}"
+                            alt="" />
                         <div class="portfolio-box-caption">
                             <div class="project-category text-white-50">Category</div>
                             <div class="project-name">Project Name</div>
@@ -152,8 +157,9 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a class="portfolio-box" href="{% static 'business/assets/img/portfolio/fullsize/5.jpg' %}"><img class="img-fluid"
-                            src="{% static 'business/assets/img/portfolio/thumbnails/5.jpg' %}" alt="" />
+                    <a class="portfolio-box" href="{% static 'business/assets/img/portfolio/fullsize/5.jpg' %}"><img
+                            class="img-fluid" src="{% static 'business/assets/img/portfolio/thumbnails/5.jpg' %}"
+                            alt="" />
                         <div class="portfolio-box-caption">
                             <div class="project-category text-white-50">Category</div>
                             <div class="project-name">Project Name</div>
@@ -161,8 +167,9 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a class="portfolio-box" href="{% static 'business/assets/img/portfolio/fullsize/6.jpg' %}"><img class="img-fluid"
-                            src="{% static 'business/assets/img/portfolio/thumbnails/6.jpg' %}" alt="" />
+                    <a class="portfolio-box" href="{% static 'business/assets/img/portfolio/fullsize/6.jpg' %}"><img
+                            class="img-fluid" src="{% static 'business/assets/img/portfolio/thumbnails/6.jpg' %}"
+                            alt="" />
                         <div class="portfolio-box-caption p-3">
                             <div class="project-category text-white-50">Category</div>
                             <div class="project-name">Project Name</div>
