@@ -12,6 +12,10 @@ def index(request):
     return render(request, 'business/index.html')
     # return HttpResponse(template.render(request))
 
+def results(request):
+    """return the results of substitutions product"""
+    return render(request, 'business/results.html')
+
 def display_name(request, name):
     """display the name past in params"""
     return HttpResponse("mon nom est %s" % name)
