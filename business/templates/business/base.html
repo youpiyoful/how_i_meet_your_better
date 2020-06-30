@@ -28,7 +28,7 @@
     <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
         <div class="container">
             <img class="col-md-1 logo" src="{% static 'business/assets/img/logo_pur_beurre.png' %}" alt="logo biscuit">
-            <a class="navbar-brand js-scroll-trigger" href="#page-top">Pur Beure</a><button
+            <a class="navbar-brand js-scroll-trigger {{ active_home }}" href="http://127.0.0.1:8000/">Pur Beure</a><button
                 class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -65,6 +65,7 @@
             </div>
         </div>
     </nav>
+    <div id="arrow-up"><a class="js-scroll-trigger" href="#page-top"><i class="far fa-arrow-alt-circle-up fa-3x"></i></a></div>
     <!-- Masthead-->
     {% block header %}{% endblock %}
     <!-- About-->
