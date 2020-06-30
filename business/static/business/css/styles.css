@@ -6067,7 +6067,7 @@ a.close.disabled {
 }
 
 .bg-primary {
-  background-color: #f4623a !important;
+  background-color: #C45525 !important;
 }
 
 a.bg-primary:hover, a.bg-primary:focus,
@@ -9962,6 +9962,12 @@ hr.divider {
   border-color: #f4623a;
 }
 
+hr.divider-light {
+  max-width: 3.25rem;
+  border-width: 0.2rem;
+  border-color: #fff;
+}
+
 hr.light {
   border-color: #fff;
 }
@@ -10042,6 +10048,22 @@ hr.light {
   }
   #mainNav.navbar-scrolled .navbar-nav .nav-item .nav-link:hover {
     color: #f4623a;
+  }
+
+  /* #mainNav.logo {
+    display: none;
+  } */
+}
+
+@media screen and (max-width: 640px) {
+  .logo, .big-img {
+    display: none;
+  }
+}
+
+@media (min-width: 641px){
+  .min-img {
+    display: none;
   }
 }
 
