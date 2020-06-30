@@ -40,13 +40,27 @@
                             class="js-scroll-trigger form-control">
                     </li>
                     <!-- </div> -->
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#services">
-                            <img src="{% static 'business/assets/img/noun_Carrot_29691.svg' %}" height="50px"
-                                width="50px" alt="carrote">
-                        </a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio"><img
-                        <i class="far fa-user fa-3x"></i></a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#portfolio">
+                            <i class="far fa-user fa-2x"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="http://127.0.0.1:8000/himyb/results">
+                            <!-- <img src="{% static 'business/assets/img/noun_Carrot_29691.svg' %}" height="50px"
+                                width="50px" alt="carrote" class="text-white"> -->
+                            <i class="fas fa-carrot fa-2x" aria-hidden="false"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="#contact">
+                            {# {% if request.user.is_authenticated: %} #}
+                            <!-- <i class="fas fa-sign-out-alt"></i> -->
+                            {# {% else %} #}
+                            <i class="fas fa-sign-in-alt fa-2x"></i>
+                            {# {% endif %} #}
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
