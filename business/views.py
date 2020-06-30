@@ -14,7 +14,7 @@ def index(request):
 
 def results(request):
     """return the results of substitutions product"""
-    return render(request, 'business/results.html')
+    return render(request, 'business/results.html', {'active_results': 'active'})
 
 def display_name(request, name):
     """display the name past in params"""
