@@ -75,3 +75,10 @@ function scrollFunction() {
     arrowUp.style.display = "none";
   }
 }
+
+// const urlImage = document.getElementById("url_img").value;
+// const cssTag = "url(" + urlImage + ")";
+// console.log(cssTag);
+const band = document.getElementsByClassName("band")[0];
+console.log(band)
+// band.style.backgroundImage = cssTag;
