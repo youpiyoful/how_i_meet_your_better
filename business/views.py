@@ -14,7 +14,12 @@ def index(request):
 
 def results(request):
     """return the results of substitutions product"""
-    return render(request, 'business/results.html', {'active_results': 'active'})
+    context = {
+        'active_results': 'active',
+        'food_to_substitute': 'nutella par exemple',
+        'url_image': 'business/assets/img/portfolio/fullsize/4.jpg'
+    }
+    return render(request, 'business/results.html', context)
 
 def display_name(request, name):
     """display the name past in params"""
