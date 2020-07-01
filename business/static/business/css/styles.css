@@ -10119,6 +10119,7 @@ header.masthead h1 {
 #food-results .container-fluid .food-results-box, #food-results .container-sm .food-results-box, #food-results .container-md .food-results-box, #food-results .container-lg .food-results-box, #food-results .container-xl .food-results-box {
   position: relative;
   display: block;
+  padding-top: 2em;
 }
 #food-results .container-fluid .food-results-box .food-results-box-caption, #food-results .container-sm .food-results-box .food-results-box-caption, #food-results .container-md .food-results-box .food-results-box-caption, #food-results .container-lg .food-results-box .food-results-box-caption, #food-results .container-xl .food-results-box .food-results-box-caption {
   display: flex;
@@ -10126,7 +10127,7 @@ header.masthead h1 {
   justify-content: center;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 2em);
   position: absolute;
   bottom: 0;
   text-align: center;
@@ -10155,6 +10156,27 @@ header.masthead h1 {
 
 
 /* EXTEND TEMPLATE */
-.container-fluid {
+/* .container-fluid {
+  padding-top: 5rem;
+} */
 
+.nutriscore-container {
+  position: absolute;
+  top: calc(-1em + 2em);
+  right: 0;
+  background: var(--rigolo);
+  border-radius:50%;
+  width: 4em;
+  height: 4em;
+  z-index: 1;
 }
+
+.nutriscore {
+  text-align: center;
+}
+
+section#food-results p.font-weight-bold.text-center {
+  padding-top: 5rem;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+} 
