@@ -17,7 +17,45 @@ def results(request):
     context = {
         'active_results': 'active',
         'food_to_substitute': 'nutella par exemple',
-        'url_image': 'business/assets/img/portfolio/fullsize/4.jpg'
+        'url_image': 'https://static.openfoodfacts.org/images/products/301/762/042/1006/front_fr.176.400.jpg',
+        'foods_substitute': [
+            {   
+                'nutriscore': 'A',
+                'name': 'nutella',
+                'category': 'pâte à tartiner',
+                'url_image': 'business/assets/img/portfolio/thumbnails/2.jpg'
+            },
+            {   
+                'nutriscore': 'B',
+                'name': 'coca',
+                'category': 'soda',
+                'url_image': 'business/assets/img/portfolio/thumbnails/2.jpg'
+            },
+            {   
+                'nutriscore': 'B',
+                'name': 'coca',
+                'category': 'soda',
+                'url_image': 'business/assets/img/portfolio/thumbnails/2.jpg'
+            },
+            {   
+                'nutriscore': 'B',
+                'name': 'coca',
+                'category': 'soda',
+                'url_image': 'business/assets/img/portfolio/thumbnails/2.jpg'
+            },
+            {   
+                'nutriscore': 'B',
+                'name': 'coca',
+                'category': 'soda',
+                'url_image': 'business/assets/img/portfolio/thumbnails/2.jpg'
+            },
+            {   
+                'nutriscore': 'B',
+                'name': 'coca',
+                'category': 'soda',
+                'url_image': 'business/assets/img/portfolio/thumbnails/2.jpg'
+            }
+        ]
     }
     return render(request, 'business/results.html', context)
 
