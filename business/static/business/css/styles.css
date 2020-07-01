@@ -10160,7 +10160,7 @@ header.masthead h1 {
   padding-top: 5rem;
 } */
 
-.nutriscore-container {
+div.nutriscore-container {
   position: absolute;
   top: calc(-1em + 2em);
   right: 0;
@@ -10173,6 +10173,9 @@ header.masthead h1 {
 
 .nutriscore {
   text-align: center;
+  font-size: 1em;
+  padding-top: calc(4em / 3);
+  padding-bottom: calc(4em / 3);
 }
 
 section#food-results p.font-weight-bold.text-center {
