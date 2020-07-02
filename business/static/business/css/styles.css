@@ -3414,7 +3414,7 @@ input[type=button].btn-block {
   color: #495057;
   text-align: center;
   white-space: nowrap;
-  background-color: #e9ecef;
+  background-color: var(--biscuit);
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
 }
@@ -10120,6 +10120,8 @@ header.masthead h1 {
   position: relative;
   display: block;
   padding-top: 2em;
+  background-size: cover;
+  background-position: center;
 }
 #food-results .container-fluid .food-results-box .food-results-box-caption, #food-results .container-sm .food-results-box .food-results-box-caption, #food-results .container-md .food-results-box .food-results-box-caption, #food-results .container-lg .food-results-box .food-results-box-caption, #food-results .container-xl .food-results-box .food-results-box-caption {
   display: flex;
@@ -10182,4 +10184,4 @@ section#food-results p.font-weight-bold.text-center {
   padding-top: 5rem;
   margin-bottom: 2rem;
   font-size: 1.5rem;
-} 
+}
