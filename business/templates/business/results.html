@@ -25,12 +25,14 @@
     <div class="container-fluid">
         <div class="row">
             {% for food in foods_substitute %}
-            <div class="col-sm-4">
+            <div class="col-sm-4 pt-results">
                 <div class="nutriscore-container">
                     <p class="nutriscore">{{ food.nutriscore }}</p>
                 </div>
-                <a class="food-results-box" href="{% static food.url_image %}"><img
-                        class="img-fluid" src="{% static food.url_image %}" alt="{{ food.name }}" />
+                <a class="food-results-box" href="{% static food.url_image %}">
+                    <!-- <img class="img-fluid" src="{% static food.url_image %}" alt="{{ food.name }}"/> -->
+                    <div class="band img-container" style="background: url({% static food.url_image %});"></div>
+                    <!-- <div class="band img-container" style="background: url({{ food.url_image }});"></div> -->
                     <div class="food-results-box-caption">
                         <div class="project-category text-white-50">{{ food.category }}</div>
                         <div class="project-name">{{ food.name }}</div>

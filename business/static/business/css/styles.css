@@ -10119,7 +10119,7 @@ header.masthead h1 {
 #food-results .container-fluid .food-results-box, #food-results .container-sm .food-results-box, #food-results .container-md .food-results-box, #food-results .container-lg .food-results-box, #food-results .container-xl .food-results-box {
   position: relative;
   display: block;
-  padding-top: 2em;
+  /* padding-top: 2em; */
   background-size: cover;
   background-position: center;
 }
@@ -10129,12 +10129,13 @@ header.masthead h1 {
   justify-content: center;
   flex-direction: column;
   width: 100%;
-  height: calc(100% - 2em);
+  height: 100%;
   position: absolute;
   bottom: 0;
   text-align: center;
   opacity: 0;
   color: #fff;
+  /* z-index: 2; */
   background: rgba(244, 98, 58, 0.9);
   transition: opacity 0.25s ease;
   text-align: center;
@@ -10184,4 +10185,19 @@ section#food-results p.font-weight-bold.text-center {
   padding-top: 5rem;
   margin-bottom: 2rem;
   font-size: 1.5rem;
+}
+
+.img-container {
+  width: 478px;
+  height: 256px;
+}
+
+.pt-results{
+  padding-top: 2em;
+}
+
+@media (max-width: 576px) {
+  .img-container {
+    max-width: 370px;
+  }
 }
