@@ -10201,3 +10201,15 @@ section#food-results p.font-weight-bold.text-center {
     max-width: 370px;
   }
 }
+
+.inline-block {
+  display: inline-block;
+}
+
+.margin-auto {
+  margin: auto;
+}
+
+.width-fit-content {
+  width: fit-content;
+}
