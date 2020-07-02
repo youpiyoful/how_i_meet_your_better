@@ -21,6 +21,7 @@ from business import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('himyb/', include('business.urls')),
+    path('my-account/', include('user.urls')),
     path('admin/', admin.site.urls),
 ]
 
