@@ -73,7 +73,7 @@ def detail_food(request, food):
         {
             'name': 'nutella',
             'nutriscore': 'e',
-            'link_open_food_fact': 'https:/wait.com',
+            'link_open_food_fact': 'https://fr.openfoodfacts.org/produit/3017620421006/nutella-ferrero',
             'category': 'pâte à tartiner',
             'nutri_per_100g': 'de la merde',
             'url_image': '"https://static.openfoodfacts.org/images/products/301/762/042/1006/front_fr.176.400.jpg'
