@@ -16,16 +16,26 @@
 </header>
 {% endblock %}
 {% block product-results %}
-<div class="row">
-    <div class="col-md-4 text-center">
-        <div class="mt-5">
-            <h3 class="h4 mb-2">Nutriscore</h3>
+<div class="container">
+    <div class="row">
+        <!-- <div class="col-md-2 p-0 m-0"></div> -->
+        <div class="col-md-6">
+            <div class="mt-5">
+                <h3 class="h5 mb-2">Note nutritionnelle de couleur</h3>
+                <img src="https://static.openfoodfacts.org/images/misc/nutriscore-{{ food_detail.nutriscore }}.svg" alt="nutriscore">
+            </div>
         </div>
-    </div>
-    <div class="col-md-4 text-center">
-        <div class="mt-5">
-            
+        <!-- <div class="col-md-4"></div> -->
+        <div class="col-md-6 mt-5">
+
+            <h3 class="h5 mb-2">Repère nutritionnels pour 100g</h3>
+            <div class="row mt-3">
+                <img src="https://static.openfoodfacts.org/images/misc/high.svg" alt="pastille de couleur" class="pastille">
+                <div class="inline-block mt-auto mb-auto m-2">salut</div>
+            </div>
+
         </div>
+        <!-- <div class="col-md-2 p-0 m-0"></div> -->
     </div>
 </div>
 {% endblock %}
