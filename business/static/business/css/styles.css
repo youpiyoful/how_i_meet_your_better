@@ -10120,8 +10120,6 @@ header.masthead h1 {
   position: relative;
   display: block;
   /* padding-top: 2em; */
-  background-size: cover;
-  background-position: center;
 }
 #food-results .container-fluid .food-results-box .food-results-box-caption, #food-results .container-sm .food-results-box .food-results-box-caption, #food-results .container-md .food-results-box .food-results-box-caption, #food-results .container-lg .food-results-box .food-results-box-caption, #food-results .container-xl .food-results-box .food-results-box-caption {
   display: flex;
