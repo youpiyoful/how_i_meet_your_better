@@ -10207,3 +10207,14 @@ section#food-results p.font-weight-bold.text-center {
 .width-fit-content {
   width: fit-content;
 }
+
+.row .row {
+  margin: 0 -.9375rem;
+  max-width: none;
+  width: auto;
+}
+
+.pastille {
+  width: 1.5rem;
+  height: 1.5rem;
+}
