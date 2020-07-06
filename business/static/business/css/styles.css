@@ -10225,3 +10225,14 @@ section#food-results p.font-weight-bold.text-center {
     margin-bottom: 2em;
   }
 }
+
+.informations {
+  width: 50%;
+  /* background-color: black; */
+  /* min-height: 100px; */
+}
+
+.bg-black {
+  background-color: black;
+  min-height: 100px;
+}
