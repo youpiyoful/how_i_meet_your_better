@@ -14,3 +14,19 @@
     </div>
 </header>
 {% endblock %}
+
+{% block my_informations %}
+<section class="informations m-auto">
+    <div class="container mt-5">
+        {% for k, v in user.items %}
+        <div class="row mt-1">
+            <div class="col-md-2"></div>
+            <div class="col-md-4">{{ k }} :</div>
+            <!-- <div class="col-md-6 bg-primary">{{ v }}</div> -->
+            <input required="required" disabled="disabled" class="col-md-6" value="{{ v }}">
+        </div>
+        {% endfor %}
+    </div>
+    <!-- <div class="container bg-black"></div> -->
+</section>
+{% endblock %}
