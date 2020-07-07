@@ -17,7 +17,11 @@ def my_account(request):
 
 def render_login_page(request):
     """return the render page for login"""
-    return render(request, "user/login.html")
+    context = {
+        'login': 'Connexion',
+        'url_image': '/static/user/assets/img/wheat-field-2554358_1920.jpg'
+    }
+    return render(request, "user/login.html", context)
 
 
 def loger(request):
