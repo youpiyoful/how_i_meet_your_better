@@ -20,6 +20,11 @@ def render_login_page(request):
     return render(request, "user/login.html")
 
 
+def loger(request):
+    """call login function with mail + password"""
+    pass
+
+
 def logout(request):
     """call the metodh logout and redirect on home page"""
     return render(request, "business/index.html")
@@ -30,7 +35,7 @@ def render_register_page(request):
     return render(request, "user/register.html")
 
 
-def register(request):
+def registration(request):
     """record a new user"""
     # render(request, 'coucou')
     pass
