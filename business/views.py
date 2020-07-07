@@ -69,8 +69,7 @@ def detail_food(request, food):
     """display the page detail of food in params"""
     # TODO se servir de food pour retrouver les infos concernant
     # l'aliment dans la base et les rendre à l'aide du contexte
-    context = {'food_detail':
-        {
+    context = {'food_detail': {
             'name': 'nutella',
             'nutriscore': 'e',
             'link_open_food_fact': 'https://fr.openfoodfacts.org/produit/3017620421006/nutella-ferrero',
