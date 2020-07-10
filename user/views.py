@@ -36,7 +36,11 @@ def logout(request):
 
 def render_register_page(request):
     """return the register page"""
-    return render(request, "user/register.html")
+    context = {
+        'register': 'Inscription',
+        'url_image': '/static/user/assets/img/wheat-field-2554358_1920.jpg'
+    }
+    return render(request, "user/register.html", context)
 
 
 def registration(request):
