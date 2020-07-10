@@ -1,4 +1,7 @@
 {% extends 'himyb/base.html' %}
+{% block header %}
+{% include 'business/header.html' with form=True var=register url_image=url_image %}
+{% endblock %}
 {% block content %}
 {% include 'user/form.html' with register=True h5='Inscrivez-vous' mail='Adresse mail' confirm='Confirmation du mot de passe' password='Mot de passe' password_help='Ne partagez jamais votre mot de passe' btn='Inscription' %}
 {% endblock %}
