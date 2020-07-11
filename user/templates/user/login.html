@@ -3,5 +3,6 @@
 {% include 'business/header.html' with var=login url_image=url_image %}
 {% endblock %}
 {% block content %}
+{% load static %}
 {% include 'user/form.html' with h5='Connectez-vous' mail='Adresse mail' password='Mot de passe' password_help='Ne partagez jamais votre mot de passe' btn='Connexion' only %}
 {% endblock %}
