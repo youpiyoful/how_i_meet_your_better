@@ -1,9 +1,15 @@
 {% extends 'himyb/base.html' %}
 {% load static %}
 
+
 {% block header %}
 <header class="masthead">
     <div class="container h-100">
+        {% if register_is_ok %}
+        <div id="success-account-creation-container">
+            <p class="alert alert-secondary text-center w-75 m-auto">{{ register_is_ok }}</p>
+        </div>
+        {% endif %}
         <div class="row h-100 align-items-center justify-content-center text-center">
             <div class="col-lg-10 align-self-end">
                 <h1 class="text-uppercase text-white font-weight-bold">
@@ -86,7 +92,8 @@
             <div class="col-lg-8 text-center">
                 <h2 class="mt-0">Contactez-nous !</h2>
                 <hr class="divider-light my-4" />
-                <p class="text-white-50 mb-5">Laissez nous un petit message, nous nous ferons un plaisir de vous répondre.</p>
+                <p class="text-white-50 mb-5">Laissez nous un petit message, nous nous ferons un plaisir de vous
+                    répondre.</p>
             </div>
         </div>
         <div class="row">
