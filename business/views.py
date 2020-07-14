@@ -1,13 +1,22 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+# from user.views import 
 
 # from django.template import loader
 
 
 # Create your views here.
-def index(request):
+def index(request, success=True):
     """return the home template of our app"""
-    return render(request, "business/index.html")
+    # if request.args.get('context'):
+    #     context = {'success_is_ok': request.args.get('context')}
+    #     return render(request, 'business/index.html', context)
+    context = {}
+    if success is not True:
+        context = {'register_is_ok': 'Félicitation vous êtes désormais \
+        inscrit sur notre site'}
+
+    return render(request, "business/index.html", context)
 
 
 def results(request):
@@ -72,6 +81,10 @@ def detail_food(request, food):
     context = {'food_detail': {
             'name': 'nutella',
             'nutriscore': 'e',
+            "level_gras": "high",
+            "level_sugar": "low",
+            "level_sel": "moderate",
+            "level_satur_gras": "high",
             'link_open_food_fact': 'https://fr.openfoodfacts.org/produit/3017620421006/nutella-ferrero',
             'category': 'pâte à tartiner',
             'nutri_per_100g': 'de la merde',
