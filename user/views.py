@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 
 
 # Create your views here.
@@ -48,6 +49,10 @@ def registration(request):
     """record a new user"""
     # render(request, 'coucou')
     print('coucou')
-    context = {'register_is_ok': 'Félicitation vous êtes désormais \
-                inscrit sur notre site'}
-    return render(request, "business/index.html", context)
+    # context = {'register_is_ok': 'Félicitation vous êtes désormais \
+    # inscrit sur notre site'}
+    # context = 'Félicitation vous êtes désormais inscrit sur notre site'
+    # return redirect(reverse('index', args=[context]))
+    # return render(request, "business/index.html", context)
+    success = 'success'
+    return redirect('index', success=success)
