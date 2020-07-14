@@ -38,7 +38,8 @@ def render_register_page(request):
     """return the register page"""
     context = {
         'register': 'Inscription',
-        'url_image': '/static/user/assets/img/wheat-field-2554358_1920.jpg'
+        'url_image': '/static/user/assets/img/wheat-field-2554358_1920.jpg',
+        'url_to_submit': 'http://127.0.0.1:8000/my-account/registration'
     }
     return render(request, "user/register.html", context)
 
@@ -46,4 +47,7 @@ def render_register_page(request):
 def registration(request):
     """record a new user"""
     # render(request, 'coucou')
-    pass
+    print('coucou')
+    context = {'register_is_ok': 'Félicitation vous êtes désormais \
+                inscrit sur notre site'}
+    return render(request, "business/index.html", context)
