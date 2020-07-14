@@ -3,7 +3,7 @@
         <h5 class="text-center">
             {{ h5 }}
         </h5>
-        <form class="mt-5" method="{{ method }}" action="{{ action }}" onsubmit>
+        <form class="mt-5" method="{{ method }}" action="{% url action %}" onsubmit>
             {% if register %}
             <div class="form-group">
                 <label for="firstname">Prénom</label>
