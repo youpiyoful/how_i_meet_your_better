@@ -10249,3 +10249,12 @@ section#food-results p.font-weight-bold.text-center {
   background-color: black;
   min-height: 100px;
 }
+
+/* alert from register */
+#success-account-creation-container {
+  position: absolute;
+  top: 15vh;
+  left: 10vw;
+  right: 10vw;
+  z-index: 99;
+}
