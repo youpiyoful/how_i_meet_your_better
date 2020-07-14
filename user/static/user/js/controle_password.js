@@ -17,13 +17,7 @@ const checkPasswordConfirmation = () => {
         setTimeout(() => {newAlert.removeChild(message)}, 5000)
         // password.appendChild(newAlert)
     }
-    console.log('caca')
 }
-
-console.log('coucou')
-// inputSubmit.addEventListener('click', () => {
-//     checkPasswordConfirmation()
-// })
 
 passwordConfirmation.addEventListener('blur', (event) => { checkPasswordConfirmation() })
 
