@@ -12,5 +12,5 @@ urlpatterns = [
             views.render_register_page,
             name="render_register_page"
         ),
-    path("regitration", views.registration, name="registration"),
+    path("registration", views.registration, name="registration"),
 ]
