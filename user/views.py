@@ -49,6 +49,15 @@ def register(request):
         password_confirmation = request.POST.get('password_confirmation')
         print(firstname, lastname, email, password, password_confirmation)
 
+    # user = User.objects.filter(email=email)
+    # if not user.exists():
+    #     # If a user is not registered, create a new one
+    #     user = User.objects.creat(
+    #         email=email,
+    #         name=firstname + lastname,
+    #         password=password
+    #     )
+    #     return redirect(request, 'user/thanks.html', context={'message': 'merci'})
     return render(request, "user/register.html", context)
 
 
