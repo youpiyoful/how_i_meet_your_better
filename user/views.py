@@ -25,19 +25,20 @@ def login(request):
         password = request.POST.get('password')
         print(email, password)
         # create a form instance and populate it with data from the request:
-        form = RegistrationForm(request.POST)
+        form = BaseForm(request.POST)
 
         if form.is_valid():
             print("form is valid")
 
     else:
         form = BaseForm()
-        
+
     context = {
         'login': 'Connexion',
         'url_image': '/static/user/assets/img/wheat-field-2554358_1920.jpg',
         'form': form
     }
+    print(form)
     return render(request, "user/login.html", context)
 
 
