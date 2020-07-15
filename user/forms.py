@@ -7,6 +7,7 @@ class RegistrationForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
+                'name': 'firstname',
                 'id': 'firstname',
                 'aria-describedby': 'inputFirstname'
             }
@@ -17,13 +18,30 @@ class RegistrationForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
+                'name': 'lastname',
                 'id': 'lastname',
                 'aria-describedby': 'inputLastname'
             }
         )
     )
-    email = forms.EmailField()
-    password = forms.CharField(max_length=32, widget=forms.PasswordInput())
+    email = forms.EmailField(
+        widget=forms.EmailInput(
+            attrs={
+                'name': 'email',
+                'class': 'form-control',
+                'id': 'inputEmail',
+                'aria-describedby': 'inputEmail'
+            }
+        )
+    )
+
+    password_field = forms.CharField(max_length=32, widget=forms.PasswordInput(
+        attrs={
+            'name': 'password',
+            'class': 'form-control',
+            'id': 'inputPassword1'
+        }
+    ))
 
 # TODO faire le form pour la connexion
 
