@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render  # , redirect
 # from django.urls import reverse
+from .forms import RegistrationForm
 
 
 # Create your views here.
@@ -37,10 +38,6 @@ def logout(request):
 
 def register(request):
     """return the register page"""
-    context = {
-        'register': 'Inscription',
-        'url_image': '/static/user/assets/img/wheat-field-2554358_1920.jpg',
-    }
     if request.method == "POST":
         firstname = request.POST.get('firstname')
         lastname = request.POST.get('lastname')
@@ -48,16 +45,28 @@ def register(request):
         password = request.POST.get('password')
         password_confirmation = request.POST.get('password_confirmation')
         print(firstname, lastname, email, password, password_confirmation)
+        # create a form instance and populate it with data from the request:
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            print("form is valid")
 
-    # user = User.objects.filter(email=email)
-    # if not user.exists():
-    #     # If a user is not registered, create a new one
-    #     user = User.objects.creat(
-    #         email=email,
-    #         name=firstname + lastname,
-    #         password=password
-    #     )
-    #     return redirect(request, 'user/thanks.html', context={'message': 'merci'})
+        # user = User.objects.filter(email=email)
+        # if not user.exists():
+        #     # If a user is not registered, create a new one
+        #     user = User.objects.creat(
+        #         email=email,
+        #         name=firstname + lastname,
+        #         password=password
+        #     )
+        #     return redirect(request, 'user/thanks.html', context={'message': 'merci'})
+    else:
+        form = RegistrationForm()
+
+    context = {
+        'register': 'Inscription',
+        'url_image': '/static/user/assets/img/wheat-field-2554358_1920.jpg',
+        'form': form
+    }
     return render(request, "user/register.html", context)
 
 
