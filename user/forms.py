@@ -4,6 +4,7 @@ from django import forms
 class BaseForm(forms.Form):
     """modele form for connection"""
     email = forms.EmailField(
+        label='Prénom',
         widget=forms.EmailInput(
             attrs={
                 'name': 'email',
@@ -47,24 +48,6 @@ class RegistrationForm(BaseForm):
             }
         )
     )
-    # email = forms.EmailField(
-    #     widget=forms.EmailInput(
-    #         attrs={
-    #             'name': 'email',
-    #             'class': 'form-control',
-    #             'id': 'inputEmail1',
-    #             'aria-describedby': 'inputEmail'
-    #         }
-    #     )
-    # )
-
-    # password_field = forms.CharField(max_length=32, widget=forms.PasswordInput(
-    #     attrs={
-    #         'name': 'password',
-    #         'class': 'form-control',
-    #         'id': 'inputPassword1'
-    #     }
-    # ))
 
 
 # TODO faire le form pour la connexion
