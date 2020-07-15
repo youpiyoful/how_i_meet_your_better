@@ -1,6 +1,6 @@
 from django.shortcuts import render  # , redirect
 # from django.urls import reverse
-from .forms import RegistrationForm
+from .forms import RegistrationForm, BaseForm
 
 
 # Create your views here.
@@ -17,18 +17,33 @@ def my_account(request):
     return render(request, "user/account.html", context)
 
 
-def render_login_page(request):
+def login(request):
     """return the render page for login"""
+
+    if request.method == "POST":
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        print(email, password)
+        # create a form instance and populate it with data from the request:
+        form = RegistrationForm(request.POST)
+
+        if form.is_valid():
+            print("form is valid")
+
+    else:
+        form = BaseForm()
+        
     context = {
         'login': 'Connexion',
-        'url_image': '/static/user/assets/img/wheat-field-2554358_1920.jpg'
+        'url_image': '/static/user/assets/img/wheat-field-2554358_1920.jpg',
+        'form': form
     }
     return render(request, "user/login.html", context)
 
 
-def loger(request):
-    """call login function with mail + password"""
-    pass
+# def loger(request):
+#     """call login function with mail + password"""
+#     pass
 
 
 def logout(request):
