@@ -43,7 +43,12 @@ def register(request):
     }
     if request.method == "POST":
         firstname = request.POST.get('firstname')
-        print(firstname)
+        lastname = request.POST.get('lastname')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        password_confirmation = request.POST.get('password_confirmation')
+        print(firstname, lastname, email, password, password_confirmation)
+
     return render(request, "user/register.html", context)
 
 
