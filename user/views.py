@@ -40,7 +40,6 @@ def render_register_page(request):
     context = {
         'register': 'Inscription',
         'url_image': '/static/user/assets/img/wheat-field-2554358_1920.jpg',
-        'url_to_submit': 'http://127.0.0.1:8000/my-account/registration'
     }
     return render(request, "user/register.html", context)
 
