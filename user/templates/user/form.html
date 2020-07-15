@@ -9,6 +9,7 @@
             <div class="form-group">
                 <label for="firstname">Prénom</label>
                 {{ form.firstname }}
+                <!-- <input type="text" name="firstname" class="form-control" id="firstname" aria-describedby="inputFirstname"> -->
             </div>
             <div class="form-group">
                 <label for="lastname">Nom</label>
@@ -17,11 +18,13 @@
             {% endif %}
             <div class="form-group">
                 <label for="inputEmail1">{{ mail }}</label>
-                <input type="email" name="email" class="form-control" id="inputEmail1" aria-describedby="inputEmail">
+                {{ form.email }}
+                <!-- <input type="email" name="email" class="form-control" id="inputEmail1" aria-describedby="inputEmail"> -->
             </div>
             <div class="form-group">
                 <label for="inputPassword1">{{ password }}</label>
-                <input type="password" name="password" class="form-control" id="inputPassword1" value="" />
+                <!-- <input type="password" name="password" class="form-control" id="inputPassword1" value="" /> -->
+                {{ form.password_field }}
                 <small id="passwordlHelp" class="form-text text-muted">{{ password_help }}</small>
                 <div class="row" id="alert"></div>
             </div>
