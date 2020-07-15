@@ -35,19 +35,22 @@ def logout(request):
     return render(request, "business/index.html")
 
 
-def render_register_page(request):
+def register(request):
     """return the register page"""
     context = {
         'register': 'Inscription',
         'url_image': '/static/user/assets/img/wheat-field-2554358_1920.jpg',
     }
+    if request.method == "POST":
+        firstname = request.POST.get('firstname')
+        print(firstname)
     return render(request, "user/register.html", context)
 
 
-def registration(request):
-    """record a new user"""
-    # context = {'register_is_ok': 'Félicitation vous êtes désormais inscrit sur notre site'}
-    # context = 'Félicitation vous êtes désormais inscrit sur notre site'
-    # return render(request, "business/index.html", context)
-    success = 'success'
-    return redirect('index', success=success)
+# def registration(request):
+#     """record a new user"""
+#     # context = {'register_is_ok': 'Félicitation vous êtes désormais inscrit sur notre site'}
+#     # context = 'Félicitation vous êtes désormais inscrit sur notre site'
+#     # return render(request, "business/index.html", context)
+#     success = 'success'
+#     return redirect('index', success=success)
