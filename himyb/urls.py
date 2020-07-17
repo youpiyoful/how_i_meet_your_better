@@ -18,7 +18,6 @@ from django.contrib import admin
 from django.urls import include, path
 from business import views
 
-app_name = 'himyb'
 urlpatterns = [
     path('<success>', views.index, name='index'),
     path('', views.index, name='index'),
