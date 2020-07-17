@@ -4,7 +4,7 @@
 {% endblock %}
 {% block content %}
 {% load static %}
-{% include 'user/form.html' with method='post' action='user:register' form=form register=True h5='Inscrivez-vous' mail='Adresse mail' confirm='Confirmation du mot de passe' password='Mot de passe' password_help='Ne partagez jamais votre mot de passe' btn='Inscription' %}
+{% include 'user/form.html' with method='post' csrf_token=csrf_token action='user:register' form=form register=True h5='Inscrivez-vous' mail='Adresse mail' confirm='Confirmation du mot de passe' password='Mot de passe' password_help='Ne partagez jamais votre mot de passe' btn='Inscription' %}
 <script src="{% static 'user/js/controle_password.js' %}"></script>
 {% endblock %}
 
