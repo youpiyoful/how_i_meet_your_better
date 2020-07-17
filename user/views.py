@@ -25,11 +25,12 @@ def authentication(request):
 
     if request.method == "POST":
         email = request.POST.get('email')
-        password = request.POST.get('password')
+        password = request.POST.get('password_field')
+        print(password)
         # create a form instance and populate it with data from the request:²
         # form = BaseForm(request.POST)
         print(email, password)
-        user = authenticate(request, username=email, password=password)
+        user = authenticate(username=email, password=password)
         print('USER : ', user)
         if user is not None:
             print('USER CONNECTED')
@@ -64,7 +65,7 @@ def register(request):
         firstname = request.POST.get('firstname')
         lastname = request.POST.get('lastname')
         email = request.POST.get('email')
-        password = request.POST.get('password')
+        password = request.POST.get('password_field')
         password_confirmation = request.POST.get('password_confirmation')
         # create a form instance and populate it with data from the request:
         form = RegistrationForm(request.POST)
