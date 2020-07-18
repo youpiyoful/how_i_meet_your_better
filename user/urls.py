@@ -13,5 +13,6 @@ urlpatterns = [
             views.register,
             name="register"
         ),
+    path("legal-mention", views.legal_mention, name="legal_mention"),
     # path("registration", views.registration, name="registration"),
 ]

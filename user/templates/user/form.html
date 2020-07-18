@@ -31,6 +31,11 @@
                 <label for="inputPassword2">{{ confirm }}</label>
                 <input type="password" name="password_confirmation" class="form-control" id="inputPassword2" value="" />
             </div>
+            <div>
+                <input type="checkbox" id="legal-mention-accepted" name="legal-mention-accepted"
+                       checked>
+                <label for="legal-mention-accepted" class="small">Veuillez acceptez les <a href="{% url 'user:legal_mention' %}">mentions légales</a></label>
+            </div>
             {% endif %}
             <div class="row mt-5 pb-5">
                 <button type="submit" id='submit-form' class="btn btn-primary m-auto">{{ btn }}</button>

@@ -95,6 +95,10 @@ def register(request):
     return render(request, "user/register.html", context)
 
 
+def legal_mention(request):
+    """render the html of legal mention"""
+    return render(request, "user/legal_mention.html")
+
 # def registration(request):
 #     """record a new user"""
 #     # context = {'register_is_ok': 'Félicitation vous êtes désormais inscrit sur notre site'}
