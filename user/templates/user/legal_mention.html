@@ -1,7 +1,10 @@
 {% extends 'himyb/base.html' %}
+{% load static %}
+{% block header %}
+{% include 'business/header.html' with var='Mentions légales' url_image='user/assets/img/notice.jpg' %}
+{% endblock %}
 {% block content %}
 <div class="m-auto legal-mention">
-    <h1>Mentions légales</h1>
     </br>
     Merci de lire avec attention les différentes modalités d’utilisation du présent site avant d’y parcourir ses
     pages. En vous connectant sur ce site, vous acceptez sans réserves les présentes modalités. Aussi, conformément
