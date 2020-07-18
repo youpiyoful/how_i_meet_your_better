@@ -49,6 +49,7 @@ def authentication(request):
 
 def logout_view(request):
     """call the metodh logout and redirect on home page"""
+    logout(request)
     return render(request, "business/index.html")
 
 
