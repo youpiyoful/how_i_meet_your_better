@@ -10245,6 +10245,21 @@ section#food-results p.font-weight-bold.text-center {
   /* min-height: 100px; */
 }
 
+.legal-mention{
+  width: 50%;
+  padding-top: 4em;
+}
+
+@media screen and (max-width: 768px){
+  .legal-mention{
+    width: 80%;
+  }
+  .form .main {
+    min-width: 80%;
+    box-shadow: inherit;
+    padding: 0;
+  }
+}
 .bg-black {
   background-color: black;
   min-height: 100px;
