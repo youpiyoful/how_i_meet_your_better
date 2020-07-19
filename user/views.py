@@ -40,7 +40,7 @@ def authentication(request):
     form = BaseForm()
     context = {
         'login': 'Connexion',
-        'url_image': '/static/user/assets/img/wheat-field-2554358_1920.jpg',
+        'url_image': 'user/assets/img/wheat-field-2554358_1920.jpg',
         'form': form
     }
     print(form)
@@ -58,7 +58,7 @@ def register(request):
     form = RegistrationForm()
     context = {
         'register': 'Inscription',
-        'url_image': '/static/user/assets/img/wheat-field-2554358_1920.jpg',
+        'url_image': 'user/assets/img/wheat-field-2554358_1920.jpg',
         'form': form
     }
 
