@@ -10,12 +10,16 @@ class Product(models.Model):
     image_url = models.URLField(
         verbose_name="Url de l'image du produit",
         null=True)
-    product_url = models.URLField(verbose_name="Url du produit", unique=True)
+    product_url = models.URLField(
+        verbose_name="Url du produit",
+        unique=True,
+        null=False,
+        default="aucune url trouvé")
     fat = models.IntegerField()
     saturated_fat = models.IntegerField()
     sugars = models.IntegerField()
     salt = models.IntegerField()
-    openfoodfacts_link = models.CharField(max_length=100)
+    # openfoodfacts_link = models.CharField(max_length=100)
     # TODO dans openfoodfacts on trouve ces informations à ce chemin
     # nutriments.get('salt'), nutriments.get('sugars') etc...
 
@@ -29,7 +33,7 @@ class Product(models.Model):
 
 class Category(models.Model):
     """
-    Category of product : name
+    Category of product : name, url_category
     """
     category_name = models.CharField(max_length=100)
     products = models.ManyToManyField(Product, related_name='categories')
