@@ -2,15 +2,17 @@ from django.urls import path
 
 from . import views
 
+app_name = 'user'
 urlpatterns = [
     path("account", views.my_account, name="my_account"),
-    path("login", views.render_login_page, name="render_login_page"),
-    path("loger", views.loger, name="loger"),
-    path("logout", views.logout, name="logout"),
+    path("login", views.authentication, name="login"),
+    # path("loger", views.loger, name="loger"),
+    path("logout", views.logout_view, name="logout"),
     path(
             "register",
-            views.render_register_page,
-            name="render_register_page"
+            views.register,
+            name="register"
         ),
-    path("registration", views.registration, name="registration"),
+    path("legal-mention", views.legal_mention, name="legal_mention"),
+    # path("registration", views.registration, name="registration"),
 ]

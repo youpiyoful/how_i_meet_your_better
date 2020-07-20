@@ -50,13 +50,15 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="#contact">
-                            {# {% if request.user.is_authenticated: %} #}
-                            <!-- <i class="fas fa-sign-out-alt"></i> -->
-                            {# {% else %} #}
-                            <i class="fas fa-sign-in-alt fa-2x"></i>
-                            {# {% endif %} #}
+                        {% if request.user.is_authenticated %}
+                        <a class="nav-link js-scroll-trigger" href="{% url 'user:logout' %}">
+                            <i class="fas fa-sign-out-alt fa-2x"></i>
                         </a>
+                        {% else %}
+                        <a class="nav-link js-scroll-trigger" href="{% url 'user:login' %}">
+                            <i class="fas fa-sign-in-alt fa-2x"></i>
+                        </a>
+                        {% endif %}
                     </li>
                 </ul>
             </div>
@@ -76,7 +78,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-2"></div>
-                <a href="https/mention_legales" class="small text-center text-muted col-md-4 m-auto">Mentions
+                <a href="{% url 'user:legal_mention' %}" class="small text-center text-muted col-md-4 m-auto">Mentions
                     légales</a>
                 <a href="http://127.0.0.1:8000/#contact"
                     class="small text-center text-muted col-md-4 m-auto">Contact</a>

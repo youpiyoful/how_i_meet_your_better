@@ -3,36 +3,44 @@
         <h5 class="text-center">
             {{ h5 }}
         </h5>
-        <form class="mt-5" method="{{ method }}" action="{{ action }}" onsubmit>
+        <form class="mt-5" method="{{ method }}" action="{% url action %}">
+            {% csrf_token %}
             {% if register %}
             <div class="form-group">
                 <label for="firstname">Prénom</label>
-                <input type="text" class="form-control" id="firstname" aria-describedby="inputFirstname">
+                {{ form.firstname }}
+                <!-- <input type="text" name="firstname" class="form-control" id="firstname" aria-describedby="inputFirstname"> -->
             </div>
             <div class="form-group">
                 <label for="lastname">Nom</label>
-                <input type="text" class="form-control" id="lastname" aria-describedby="inputLastname">
+                {{ form.lastname }}
             </div>
             {% endif %}
             <div class="form-group">
                 <label for="inputEmail1">{{ mail }}</label>
-                <input type="email" class="form-control" id="inputEmail1" aria-describedby="inputEmail">
+                {{ form.email }}
             </div>
             <div class="form-group">
                 <label for="inputPassword1">{{ password }}</label>
-                <input type="password" class="form-control" id="inputPassword1" value="" />
+                {{ form.password_field }}
                 <small id="passwordlHelp" class="form-text text-muted">{{ password_help }}</small>
                 <div class="row" id="alert"></div>
             </div>
             {% if register %}
             <div class="form-group">
                 <label for="inputPassword2">{{ confirm }}</label>
-                <input type="password" class="form-control" id="inputPassword2" value="" />
+                <input type="password" name="password_confirmation" class="form-control" id="inputPassword2" value="" />
+            </div>
+            <div>
+                <input type="checkbox" id="legal-mention-accepted" name="legal-mention-accepted"
+                       checked>
+                <label for="legal-mention-accepted" class="small">Veuillez acceptez les <a href="{% url 'user:legal_mention' %}">mentions légales</a></label>
             </div>
             {% endif %}
             <div class="row mt-5 pb-5">
                 <button type="submit" id='submit-form' class="btn btn-primary m-auto">{{ btn }}</button>
             </div>
+            <div class="text-center"><a href="{% url link %}" class="text-muted h6">{{ text }}</a></div>
         </form>
     </div>
 </section>
