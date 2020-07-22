@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from .forms import RegistrationForm, BaseForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -74,23 +74,23 @@ def register(request):
         if form.is_valid():
             print("form is valid")
 
-        user = User.objects.filter(email=email)
-        
-        if not user.exists():
-            # If a user is not registered, create a new one
-            user = User.objects.create_user(
-                username=email,
-                first_name=firstname,
-                last_name=lastname,
-                email=email,
-                password=password
-            )
-            return redirect('user:login')
+            user = User.objects.filter(email=email)
+            
+            if not user.exists():
+                # If a user is not registered, create a new one
+                user = User.objects.create_user(
+                    username=email,
+                    first_name=firstname,
+                    last_name=lastname,
+                    email=email,
+                    password=password
+                )
+                return redirect('user:login')
 
-        else:
-            context.update({'message': 'votre compte existe déja'})
-            # TODO add the message to the register form
-            return render(request, "user/register.html", context)
+            else:
+                context.update({'message': 'votre compte existe déja'})
+                # TODO add the message to the register form
+                return render(request, "user/register.html", context)
 
     return render(request, "user/register.html", context)
 
