@@ -33,7 +33,7 @@ class PurBeurreUser(models.Model):
         username = self.user.first_name + ' ' + self.user.last_name
         return f"Compte de {username}"
 
-    @property
-    def full_name(self):
-        "returns the person's full name."
-        return '%s %s' % (self.first_name, self.last_name)
+    # @property
+    # def full_name(self):
+    #     "returns the person's full name."
+    #     return '%s %s' % (self.first_name, self.last_name)
