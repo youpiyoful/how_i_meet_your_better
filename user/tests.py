@@ -1,15 +1,18 @@
+"""
+Test for the user app
+"""
 from django.contrib.auth.models import User
 from django.test import TestCase
 
 
 # region TESTS OF VIEW
 class LogInTests(TestCase):
-    
+
     def setUp(self):
         self.credentials = {
-            'username': 'yoanfornari@gmail.com',
-            'password': '123'}
-        
+            'email': 'yoanfornari@gmail.com',
+            'password_field': '123'}
+
         self.register = {
             'first_name': 'yoan',
             'last_name': 'Fornari',
@@ -23,21 +26,21 @@ class LogInTests(TestCase):
         # send login data
         response = self.client.post('/my-account/login', self.credentials, follow=True)
         # should be logged in now
-        self.assertTrue(response.context['user'].is_active)
+        self.assertTrue(response.context['user'].is_authenticated)
 
 
-class RegisterTests(TestCase):
-    """
-    test the register view
-    """
-    pass
+# class RegisterTests(TestCase):
+#     """
+#     test the register view
+#     """
+#     pass
 
 
-class LogoutTests(TestCase):
-    """
-    test the logout view
-    """
-    pass
+# class LogoutTests(TestCase):
+#     """
+#     test the logout view
+#     """
+#     pass
 
 # class SimpleTest(TestCase):
 #     def setUp(self):
@@ -90,46 +93,46 @@ class LogoutTests(TestCase):
 
 
 # region TESTS OF MODELS
-class FavoriteTests(TestCase):
-    """
-    test of favorite model
-    """
-    pass
+# class FavoriteTests(TestCase):
+#     """
+#     test of favorite model
+#     """
+#     pass
 
 
-class PurBeurreUser(TestCase):
-    """
-    test of purBeurreUser user extends model
-    """
-    pass
+# class PurBeurreUser(TestCase):
+#     """
+#     test of purBeurreUser user extends model
+#     """
+#     pass
 # endregion
 
 
 # region TEST OF CLASS
-class OpenFoodFactsTests(TestCase):
-    """
-    test all the method of openFoodFact object
-    """
-    pass
+# class OpenFoodFactsTests(TestCase):
+#     """
+#     test all the method of openFoodFact object
+#     """
+#     pass
 
-    def test_retrieve_category_is_ok():
-        """
-        this test is for the recuperation of data from open food fact api
-        """
-        pass
+#     def test_retrieve_category_is_ok():
+#         """
+#         this test is for the recuperation of data from open food fact api
+#         """
+#         pass
 
-    def insert_data_in_the_db_test(self):
-        """
-        this test verify when the insertion of data from openfoodfact in
-        our bd is excuted correctly
-        """
-        pass
+#     def insert_data_in_the_db_test(self):
+#         """
+#         this test verify when the insertion of data from openfoodfact in
+#         our bd is excuted correctly
+#         """
+#         pass
 
-    def test_retrieve_category_encounter_a_problem(self):
-        """
-        test the behavior of retrieve_category function when
-        the api don't return the attempted data
-        """
-        pass
+#     def test_retrieve_category_encounter_a_problem(self):
+#         """
+#         test the behavior of retrieve_category function when
+#         the api don't return the attempted data
+#         """
+#         pass
     
 # endregion
