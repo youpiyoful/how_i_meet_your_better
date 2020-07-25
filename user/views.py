@@ -67,7 +67,7 @@ def register(request):
         lastname = request.POST.get('lastname')
         email = request.POST.get('email')
         password = request.POST.get('password_field')
-        password_confirmation = request.POST.get('password_confirmation')
+        # password_confirmation = request.POST.get('password_confirmation')
         # create a form instance and populate it with data from the request:
         form = RegistrationForm(request.POST)
         
@@ -91,7 +91,11 @@ def register(request):
                 context.update({'message': 'votre compte existe déja'})
                 # TODO add the message to the register form
                 return render(request, "user/register.html", context)
-
+        else:
+            print("form is not valid")
+            print(form)
+            context.update({'form': form})
+    print(context)
     return render(request, "user/register.html", context)
 
 
