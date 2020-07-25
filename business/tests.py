@@ -2,7 +2,7 @@
 Test for the business app
 """
 from django.test import TestCase
-from models import Product, Category
+from .models import Product, Category
 
 
 # region TESTS OF VIEW
