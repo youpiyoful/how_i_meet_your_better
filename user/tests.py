@@ -3,6 +3,8 @@ Test for the user app
 """
 from django.contrib.auth.models import User
 from django.test import TestCase
+# from django import forms
+# from .forms import RegistrationForm
 
 
 # region TESTS OF VIEW
@@ -27,14 +29,51 @@ class LogInTests(TestCase):
         response = self.client.post('/my-account/login', self.credentials, follow=True)
         # should be logged in now
         self.assertTrue(response.context['user'].is_authenticated)
+        self.assertRedirects(response, '/', status_code=302, target_status_code=200, fetch_redirect_response=True)
+        assert (self.client.session['_auth_user_id'])
 
 
-# class RegisterTests(TestCase):
-#     """
-#     test the register view
-#     """
-#     pass
+class RegisterTests(TestCase):
+    """
+    test the register view
+    """
+    def setUp(self):
+        """
+        init the setup of the test for register
+        """
+        # self.form = RegistrationForm()
+        pass
 
+    def test_register_is_ok(self):
+        """
+        a post request for register account
+        """
+        response = self.client.post('/my-account/register', {
+            'firstname': 'yoan', 
+            'lastname': 'Fornari', 
+            'email': 'yoanfornari@gmail.com',
+            'password_field': '123',
+            'password_confirmation': '123'},
+            follow=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertRedirects(response, '/my-account/login', status_code=302, target_status_code=200, fetch_redirect_response=True)
+
+    def test_register_when_form_is_not_valid(self):
+        """
+        Test the behavior when user send a form than is not valid
+        """
+        response = self.client.post('/my-account/register', {
+            'firstname': 'yoan', 
+            'lastname': 'Fornari', 
+            'email': 'coucou@com',
+            'password_field': '123',
+            'password_confirmation': '123'
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(response, 'form', 'email', 'Entrez une adresse mail valide')
+        # self.assertFieldOutput(self.form.form.email, {'a@a.com': 'a@a.com'}, {'aaa': ['Enter a valid email address.']})
+        # self.assertFormError()
 
 # class LogoutTests(TestCase):
 #     """
@@ -74,21 +113,6 @@ class LogInTests(TestCase):
 #     #     self.assertEqual(response.status_code, 200)
 #     #     # self.assertEqual(response.get('username'), 'yoan@gmail.com')
 
-
-#     def test_register_is_ok(self):
-#         """
-#         a post request for register account
-#         """
-#         response = self.client.post('/my-account/register', {
-#             'firstname': 'yoan', 
-#             'lastname': 'Fornari', 
-#             'email': 'yoanfornari@gmail.com',
-#             'password_field': '123',
-#             'password_confirmation': '123'},
-#             follow=True)
-
-#         self.assertEqual(response.status_code, 200)
-#         self.assertRedirects(response, '/my-account/login', status_code=302, target_status_code=200, fetch_redirect_response=True)
 # endregion
 
 
