@@ -99,22 +99,21 @@ class RegisterTests(TestCase):
         self.assertTrue(response.context['form'].is_valid)
         self.assertRedirects(response, '/my-account/login', status_code=302, target_status_code=200, fetch_redirect_response=True)
 
-    # def test_register_when_form_is_not_valid(self):
-    #     """
-    #     Test the behavior when user send a form than is not valid
-    #     """
-    #     response = self.client.post('/my-account/register', {
-    #         'firstname': 'yoan',
-    #         'lastname': 'Fornari',
-    #         'email': 'notOk',
-    #         'password_field': '123',
-    #         'password_confirmation': '123'
-    #     })
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertTrue(response.context['form'].is_valid)  # should be false
-    #     # self.assertFormError(response, 'form', 'email', ['Entrez une adresse mail valide'])
-    #     # self.assertFieldOutput(self.form.form.email, {'a@a.com': 'a@a.com'}, {'aaa': ['Enter a valid email address.']})
-    #     # self.assertFormError()
+    def test_register_when_form_is_not_valid(self):
+        """
+        Test the behavior when user send a form than is not valid
+        """
+        response = self.client.post('/my-account/register', {
+            'firstname': 'yoan',
+            'lastname': 'Fornari',
+            'email': 'notOk',
+            'password_field': '123',
+            'password_confirmation': '123'
+        })
+
+        # self.assertFormError(response, 'form', 'email', ['Entrez une adresse mail valide'])
+        self.assertContains(response, 'Entrez une adresse mail valide', status_code=200, html=True)
+        # self.assertFieldOutput(self.form.form.email, {'a@a.com': 'a@a.com'}, {'aaa': ['Enter a valid email address.']})
 
     def test_account_already_exist(self):
         """
