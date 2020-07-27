@@ -5,10 +5,10 @@
         </h5>
         <form class="mt-5" method="{{ method }}" action="{% url action %}">
             {% csrf_token %}
-            {% if register %}
             {% if message %}
             <div class="alert alert-primary">{{ message }}</div>
             {% endif %}
+            {% if register %}
             <div class="form-group">
                 <label for="firstname">Prénom</label>
                 {{ form.firstname }}
