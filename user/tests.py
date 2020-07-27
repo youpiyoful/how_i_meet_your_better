@@ -24,13 +24,46 @@ class LogInTests(TestCase):
         }
         User.objects.create_user(**self.register)
 
-    def test_login(self):
+    def test_authentication(self):
         # send login data
         response = self.client.post('/my-account/login', self.credentials, follow=True)
         # should be logged in now
         self.assertTrue(response.context['user'].is_authenticated)
         self.assertRedirects(response, '/', status_code=302, target_status_code=200, fetch_redirect_response=True)
         assert (self.client.session['_auth_user_id'])
+
+    def test_authentication_error(self):
+        """
+        test the behavior of login function when
+        the error exist
+        """
+        response = self.client.post(
+            '/my-account/login',
+            {
+                'username': 'test',
+                'password': 'test',
+                'connect': 'true'
+            },
+            follow=True
+        )
+        self.assertRaises(
+            KeyError, lambda: self.client.session['_auth_user_id']
+        )
+        self.assertFalse(response.context['user'].is_authenticated)
+        # TODO : vérifier le contenu
+
+    def test_user_is_none(self):
+        """
+        test the behavior when user is none
+        """
+        response = self.client.post(
+            '/my-account/login',
+            {
+                'username': 'inconnu',
+                'password': 'secret'
+            }
+        )
+        self.assertTrue(response.context['message'] == 'Utilisateur inconnu')
 
 
 class RegisterTests(TestCase):
@@ -42,7 +75,8 @@ class RegisterTests(TestCase):
         init the setup of the test for register
         """
         # self.form = RegistrationForm()
-        pass
+        from .forms import RegistrationForm
+        form = RegistrationForm()
 
     def test_register_is_ok(self):
         """
@@ -71,15 +105,22 @@ class RegisterTests(TestCase):
             'password_confirmation': '123'
         })
         self.assertEqual(response.status_code, 200)
-        self.assertFormError(response, 'form', 'email', 'Entrez une adresse mail valide')
+        self.assertFormError(response, 'form', 'email', ['Entrez une adresse mail valide'])
         # self.assertFieldOutput(self.form.form.email, {'a@a.com': 'a@a.com'}, {'aaa': ['Enter a valid email address.']})
         # self.assertFormError()
 
-# class LogoutTests(TestCase):
-#     """
-#     test the logout view
-#     """
-#     pass
+
+class LogoutTests(TestCase):
+    """
+    test the logout view
+    """
+    
+    def test_logout(self):
+        """
+        test when logout work
+        """
+        response = self.client.get('/my-account/logout', follow=True)
+        self.assertFalse(response.context['user'].is_authenticated)
 
 # class SimpleTest(TestCase):
 #     def setUp(self):
