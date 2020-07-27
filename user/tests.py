@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 # from django import forms
 # from .forms import RegistrationForm
+from .models import Favorite, PurBeurreUser
+from business.models import Product
 
 
 # region TESTS OF VIEW
@@ -178,18 +180,31 @@ class LogoutTests(TestCase):
 
 
 # region TESTS OF MODELS
-# class FavoriteTests(TestCase):
-#     """
-#     test of favorite model
-#     """
-#     pass
+class FavoriteTests(TestCase):
+    """
+    test of favorite model
+    """
+    def test_the_str_return_of_favorite_model(self):
+        """
+        test than favorite model return substitut + product
+        """
+        substitute = Product(product_name="nocciolata")
+        product = Product(product_name="nutella")
+        favorite = Favorite(substitute=substitute, product=product)
+        self.assertEqual(str(favorite), "Substitut : nocciolata / Produit : nutella")
 
 
-# class PurBeurreUser(TestCase):
-#     """
-#     test of purBeurreUser user extends model
-#     """
-#     pass
+class PurBeurreUserTest(TestCase):
+    """
+    test of purBeurreUser user extends model
+    """
+    def test_than_extend_of_user_default_model_return_username(self):
+        """
+        test than PureBeurreUser model return firstname + lastname as username
+        """
+        default_user = User(first_name="Yoan", last_name="Fornari")
+        user = PurBeurreUser(user=default_user)
+        self.assertEqual(str(user), "Compte de Yoan Fornari")
 # endregion
 
 
