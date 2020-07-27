@@ -53,7 +53,7 @@ def authentication(request):
 
 
 def logout_view(request):
-    """call the metodh logout and redirect on home page"""
+    """call the metod logout and redirect on home page"""
     logout(request)
     return render(request, "business/index.html")
 
@@ -75,7 +75,7 @@ def register(request):
         # password_confirmation = request.POST.get('password_confirmation')
         # create a form instance and populate it with data from the request:
         form = RegistrationForm(request.POST)
-
+        # print('*******************************', form.is_valid())
         if form.is_valid():
             print("form is valid")
 
