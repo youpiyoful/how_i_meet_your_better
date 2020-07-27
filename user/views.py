@@ -22,28 +22,33 @@ def my_account(request):
 # @csrf_protect
 def authentication(request):
     """return the render page for login"""
+    form = BaseForm()
+    context = {
+        'login': 'Connexion',
+        'url_image': 'user/assets/img/wheat-field-2554358_1920.jpg',
+        'form': form,
+    }
 
     if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('password_field')
         print(password)
-        # create a form instance and populate it with data from the request:²
+        # create a form instance and populate it with data from the request:
         # form = BaseForm(request.POST)
-        print(email, password)
         user = authenticate(username=email, password=password)
         print('USER : ', user)
+
         if user is not None:
-            print('USER CONNECTED')
+            print('user connected')
             login(request, user)
             return redirect('index')
 
-    form = BaseForm()
-    context = {
-        'login': 'Connexion',
-        'url_image': 'user/assets/img/wheat-field-2554358_1920.jpg',
-        'form': form
-    }
-    print(form)
+        else:
+            print('utilisateur inconnu')
+            context['message'] = 'Utilisateur inconnu'
+
+    print('CONTEXT : ', context)
+    print('FORM : ', form)
     return render(request, "user/login.html", context)
 
 
@@ -95,6 +100,10 @@ def register(request):
             print("form is not valid")
             print(form)
             context.update({'form': form})
+            # context.add({'errors': form.errors})
+            print('ERROR :', form.errors)
+            print('CONTEXT :', context['form'].errors)
+
     print(context)
     return render(request, "user/register.html", context)
 
