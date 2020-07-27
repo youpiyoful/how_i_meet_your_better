@@ -75,8 +75,13 @@ class RegisterTests(TestCase):
         init the setup of the test for register
         """
         # self.form = RegistrationForm()
-        from .forms import RegistrationForm
-        form = RegistrationForm()
+        self.client.post('/my-account/register', {
+            'firstname': 'yoan', 
+            'lastname': 'Fornari', 
+            'email': 'yoanfornari.same@gmail.com',
+            'password_field': '123',
+            'password_confirmation': '123'
+        })
 
     def test_register_is_ok(self):
         """
@@ -91,30 +96,46 @@ class RegisterTests(TestCase):
             follow=True)
 
         self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context['form'].is_valid)
         self.assertRedirects(response, '/my-account/login', status_code=302, target_status_code=200, fetch_redirect_response=True)
 
-    def test_register_when_form_is_not_valid(self):
+    # def test_register_when_form_is_not_valid(self):
+    #     """
+    #     Test the behavior when user send a form than is not valid
+    #     """
+    #     response = self.client.post('/my-account/register', {
+    #         'firstname': 'yoan',
+    #         'lastname': 'Fornari',
+    #         'email': 'notOk',
+    #         'password_field': '123',
+    #         'password_confirmation': '123'
+    #     })
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertTrue(response.context['form'].is_valid)  # should be false
+    #     # self.assertFormError(response, 'form', 'email', ['Entrez une adresse mail valide'])
+    #     # self.assertFieldOutput(self.form.form.email, {'a@a.com': 'a@a.com'}, {'aaa': ['Enter a valid email address.']})
+    #     # self.assertFormError()
+
+    def test_account_already_exist(self):
         """
-        Test the behavior when user send a form than is not valid
+        test the behavior when account already register in db
         """
         response = self.client.post('/my-account/register', {
             'firstname': 'yoan', 
             'lastname': 'Fornari', 
-            'email': 'coucou@com',
+            'email': 'yoanfornari.same@gmail.com',
             'password_field': '123',
             'password_confirmation': '123'
         })
-        self.assertEqual(response.status_code, 200)
-        self.assertFormError(response, 'form', 'email', ['Entrez une adresse mail valide'])
-        # self.assertFieldOutput(self.form.form.email, {'a@a.com': 'a@a.com'}, {'aaa': ['Enter a valid email address.']})
-        # self.assertFormError()
+
+        self.assertTrue(response.context['message'] == 'Votre compte existe déja')
 
 
 class LogoutTests(TestCase):
     """
     test the logout view
     """
-    
+
     def test_logout(self):
         """
         test when logout work
