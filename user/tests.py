@@ -3,6 +3,7 @@ Test for the user app
 """
 from django.contrib.auth.models import User
 from django.test import TestCase
+from django.shortcuts import reverse
 # from django import forms
 # from .forms import RegistrationForm
 from .models import Favorite, PurBeurreUser
@@ -67,6 +68,17 @@ class LogInTests(TestCase):
         )
         self.assertTrue(response.context['message'] == 'Utilisateur inconnu')
 
+    def test_render_template_login(self):
+        """
+        test than get request return the correct template
+        login.html with the correct context
+        """
+        response = self.client.get(reverse('user:login'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['login'], 'Connexion')
+        self.assertEqual(response.context['url_image'], 'user/assets/img/wheat-field-2554358_1920.jpg')
+        self.assertContains(response, 'DOCTYPE', status_code=200)
+
 
 class RegisterTests(TestCase):
     """
@@ -130,6 +142,17 @@ class RegisterTests(TestCase):
         })
 
         self.assertTrue(response.context['message'] == 'Votre compte existe déja')
+
+    def test_render_template_register(self):
+        """
+        test than get request return the template
+        register.html with the correct context
+        """
+        response = self.client.get(reverse('user:register'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['register'], 'Inscription')
+        self.assertEqual(response.context['url_image'], 'user/assets/img/wheat-field-2554358_1920.jpg')
+        self.assertContains(response, 'DOCTYPE', status_code=200)
 
 
 class LogoutTests(TestCase):
@@ -196,11 +219,12 @@ class FavoriteTests(TestCase):
 
 class PurBeurreUserTest(TestCase):
     """
-    test of purBeurreUser user extends model
+    test of purBeurreUser user extends model an
     """
     def test_than_extend_of_user_default_model_return_username(self):
         """
-        test than PureBeurreUser model return firstname + lastname as username
+        test than PureBeurreUser model return
+        firstname + lastname as username
         """
         default_user = User(first_name="Yoan", last_name="Fornari")
         user = PurBeurreUser(user=default_user)
