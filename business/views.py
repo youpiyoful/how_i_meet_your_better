@@ -1,7 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_list_or_404, reverse, get_object_or_404
 from django.http import HttpResponse
-# from user.views import 
-
+from .models import Product
 # from django.template import loader
 
 
@@ -19,15 +18,19 @@ def index(request, success=True):
     return render(request, "business/index.html", context)
 
 
-def results(request):
+def results(request, product_name):
     """return the results of substitutions product"""
     # TODO se servir du nom de l'aliment à substituer pour retrouver les
     # informations sur les autres aliments
-    context = {
-        "active_results": "active",
-        "food_to_substitute": "nutella par exemple",
-        "url_image": "https://static.openfoodfacts.org/images/products/301/762/042/1006/front_fr.176.400.jpg",
-        "foods_substitute": [
+    print('PRODUCT NAME : ', product_name)
+
+    # TODO : think to delete the condition it's because data don't exist yet
+    if product_name == 'empty':
+        list_of_foods_substitute = get_list_or_404(Product)
+        print('list_of_foods_substitute : ', list_of_foods_substitute)
+
+    if product_name:
+        list_of_foods_substitute = [
             {
                 "nutriscore": "A",
                 "name": "nutella",
@@ -64,9 +67,17 @@ def results(request):
                 "category": "soda",
                 "url_image": "business/assets/img/portfolio/thumbnails/2.jpg",
             },
-        ],
-    }
-    return render(request, "business/results.html", context)
+        ]
+        context = {
+            "active_results": "active",
+            "food_to_substitute": product_name,
+            "url_image": "https://static.openfoodfacts.org/images/products/301/762/042/1006/front_fr.176.400.jpg",
+            "foods_substitute": list_of_foods_substitute
+        }
+        return render(request, "business/results.html", context)
+
+    print('product_name is empty')
+    return redirect('index')
 
 
 def display_name(request, name):
