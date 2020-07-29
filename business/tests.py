@@ -3,6 +3,7 @@ Test for the business app
 """
 from django.test import TestCase
 from .models import Product, Category
+from django.shortcuts import reverse
 
 
 # region TESTS OF VIEW
@@ -10,14 +11,57 @@ class IndexTests(TestCase):
     """
     test index view
     """
-    pass
+    def test_index_render_the_well_template(self):
+        """
+        test than '/' url return the index.html template
+        and the correct context
+        """
+        response = self.client.get(reverse('index'))
+        self.assertEqual(response.status_code, 200)
+        # find text contain for each block of code
+        self.assertContains(response, 'Du gras, oui, mais de la qualité !', status_code=200)
+        self.assertContains(response, 'Colette et Remy', status_code=200)
+        self.assertContains(response, 'Contactez-nous !', status_code=200)
 
 
 class ResultsTests(TestCase):
     """
     test the view results()
     """
-    pass
+
+    def setUp(self):
+        """
+        init the response for get request
+        """
+        self.response = self.client.get(reverse('business:results', kwargs={'product_name': 'nutella'}))
+
+    def test_than_results_return_the_correct_context(self):
+        """
+        test than context contain all the data request
+        by the user and render the correct template
+        """
+        self.assertEqual(self.response.status_code, 200)
+        self.assertIn('nutriscore', self.response.context['foods_substitute'][0])
+        self.assertIn('name', self.response.context['foods_substitute'][0])
+        self.assertIn('category', self.response.context['foods_substitute'][0])
+        self.assertIn('url_image', self.response.context['foods_substitute'][0])
+
+    def test_the_list_of_food_substitute_contain_(self):
+        """
+        test than list of food substitute contain
+        6 elements of food substitute
+        """
+        self.assertEqual(type(self.response.context['foods_substitute']), list)
+        self.assertEqual(len(self.response.context['foods_substitute']), 6)
+
+    def test_results_when_list_is_not_return(self):
+        """
+        when the list is not return the function
+        provides an http404 exception
+        """
+        response = self.client.get(reverse('business:results', kwargs={'product_name': 'empty'}))
+        self.assertEqual(response.status_code, 404)
+        self.assertContains(response, '404 error', status_code=404)
 
 
 class DetailFoodTests(TestCase):
