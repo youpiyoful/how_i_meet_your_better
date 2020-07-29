@@ -39,13 +39,13 @@
                             class="js-scroll-trigger form-control">
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="{% url 'user:account' %}">
+                        <a class="nav-link js-scroll-trigger" href="{% url 'user:my_account' %}">
                             <i class="far fa-user fa-2x"></i>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger {{ active_results }}"
-                            href="{% url 'business:results' %}">
+                            href="{% url 'business:results' 'nutella' %}">
                             <i class="fas fa-carrot fa-2x"></i>
                         </a>
                     </li>
