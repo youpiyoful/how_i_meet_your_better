@@ -28,7 +28,7 @@
     <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
         <div class="container">
             <img class="col-md-1 logo" src="{% static 'business/assets/img/logo_pur_beurre.png' %}" alt="logo biscuit">
-            <a class="navbar-brand js-scroll-trigger {{ active_home }}" href="http://127.0.0.1:8000/">Pur
+            <a class="navbar-brand js-scroll-trigger {{ active_home }}" href="{% url 'index' %}">Pur
                 Beurre</a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -39,13 +39,13 @@
                             class="js-scroll-trigger form-control">
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="http://127.0.0.1:8000/my-account/account">
+                        <a class="nav-link js-scroll-trigger" href="{% url 'user:account' %}">
                             <i class="far fa-user fa-2x"></i>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger {{ active_results }}"
-                            href="http://127.0.0.1:8000/himyb/results">
+                            href="{% url 'business:results' %}">
                             <i class="fas fa-carrot fa-2x"></i>
                         </a>
                     </li>
