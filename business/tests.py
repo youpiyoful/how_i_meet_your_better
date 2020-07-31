@@ -3,7 +3,7 @@ Test for the business app
 """
 from django.test import TestCase
 from .models import Product, Category
-from django.shortcuts import reverse
+from django.shortcuts import reverse, get_object_or_404
 
 
 # region TESTS OF VIEW
@@ -59,16 +59,43 @@ class ResultsTests(TestCase):
         when the list is not return the function
         provides an http404 exception
         """
-        response = self.client.get(reverse('business:results', kwargs={'product_name': 'empty'}))
+        response = self.client.get('/himyb/results/empty')
         self.assertEqual(response.status_code, 404)
-        self.assertContains(response, '404 error', status_code=404)
+        self.assertContains(response, 'Not Found', status_code=404)
 
 
 class DetailFoodTests(TestCase):
     """
     test the view detail_food()
     """
-    pass
+    # def setUp(self):
+    #     """
+    #     create a product
+    #     """
+    #     Product(product_name="nutella")
+
+    def test_detail_food_is_ok(self):
+        """
+        test than detail_food return the page detail food
+        with element about substitute choose by the user
+        """
+        response = self.client.get(reverse('business:detail_food', kwargs={'food': 'nutella'}))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'name', status_code=200)
+        self.assertContains(response, 'nutriscore', status_code=200)
+
+
+# class PageNotFound(TestCase):
+#     """
+#     test the personalize view 404 page not found
+#     """
+#     def test_render_page_not_found_is_ok(self):
+#         """
+#         test than view page not found render the well template
+#         """
+#         response = get_object_or_404(Product, product_name='coucou')
+#         self.assertContains(response, '404 error', status_code=404)
+
 # endregion
 
 
@@ -99,4 +126,11 @@ class CategoryModelTests(TestCase):
 
 
 # region TEST OF CLASSES
+class TestOpenFoodFacts(TestCase):
+    """
+    test all the method of class openFoodFacts
+    than use the api openfood fact and populate the db
+    """
+    def test_than_
+
 # endregion
