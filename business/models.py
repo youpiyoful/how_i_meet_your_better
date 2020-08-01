@@ -5,7 +5,7 @@ class Product(models.Model):
     """
     Product of categories : name, nutriscore, image...
     """
-    product_name = models.CharField(max_length=100, unique=True)
+    product_name = models.CharField(max_length=300, unique=True)
     nutriscore = models.CharField(max_length=1, null=False)
     image_url = models.URLField(
         verbose_name="Url de l'image du produit",
@@ -35,9 +35,12 @@ class Category(models.Model):
     """
     Category of product : name, url_category
     """
-    category_name = models.CharField(max_length=100)
+    category_name = models.CharField(max_length=300)
     products = models.ManyToManyField(Product, related_name='categories')
-    url_category = models.CharField(max_length=150, null=True)
+    url_category = models.URLField(
+        verbose_name="Url de la categorie",
+        unique=True,
+        null=False)
 
     def __str__(self):
         return self.category_name
