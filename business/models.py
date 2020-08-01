@@ -40,7 +40,8 @@ class Category(models.Model):
     url_category = models.URLField(
         verbose_name="Url de la categorie",
         unique=True,
-        null=False)
+        null=False,
+        max_length=300)
 
     def __str__(self):
         return self.category_name
