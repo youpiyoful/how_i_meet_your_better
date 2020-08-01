@@ -108,33 +108,6 @@ class OpenFoodFact:
                     }
                     list_of_food_by_category.append(new_food)
 
-                    # try:
-                    #     product = Product.objects.get(
-                    #         product_name=food.get('product_name'),
-                    #         # nutriscore=food.get('nutriscore_grade'),
-                    #         # fat=food.get('nutriments').get('fat', 0),
-                    #         # saturated_fat=food.get('nutriments').get('saturated_fat', 0),
-                    #         # sugars=food.get('nutriments').get('sugars', 0),
-                    #         # salt=food.get('nutriments').get('salt', 0),
-                    #         # image_url=food.get('image_url'),
-                    #         # product_url=food.get('url')
-                    #     )
-                    #     current_category.products.add(product)
-
-                    # except Product.DoesNotExist:
-                    #     product = Product.objects.create(
-                    #         product_name=food.get('product_name'),
-                    #         nutriscore=food.get('nutriscore_grade'),
-                    #         fat=food.get('nutriments').get('fat', 0),
-                    #         saturated_fat=food.get('nutriments').get('saturated_fat', 0),
-                    #         sugars=food.get('nutriments').get('sugars', 0),
-                    #         salt=food.get('nutriments').get('salt', 0),
-                    #         image_url=food.get('image_url'),
-                    #         product_url=food.get('url')
-                    #     )
-
-                    # Get or create ne peut pas marché car les données comportent des erreurs et ne sont pas
-                    # unique ce qui provoque des problèmes d'intégrités au niveau des champs unique
                     product, created = Product.objects.get_or_create(
                         product_name=food.get('product_name'),
                         defaults={
@@ -147,14 +120,6 @@ class OpenFoodFact:
                             'product_url': food.get('url')
                         }
                     )
-                        #                     nutriscore=food.get('nutriscore_grade'),
-                        # fat=food.get('nutriments').get('fat', 0),
-                        # saturated_fat=food.get('nutriments').get('saturated_fat', 0),
-                        # sugars=food.get('nutriments').get('sugars', 0),
-                        # salt=food.get('nutriments').get('salt', 0),
-                        # image_url=food.get('image_url'),
-                        # product_url=food.get('url')
-                        # TODO : pour chaque produit faire la liaison avec la catégorie courrante
                     current_category.products.add(product)
 
             print('size_of_list_of_food_by_category : ', len(list_of_food_by_category))
