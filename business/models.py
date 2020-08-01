@@ -15,10 +15,10 @@ class Product(models.Model):
         unique=True,
         null=False,
         default="aucune url trouvé")
-    fat = models.IntegerField()
-    saturated_fat = models.IntegerField()
-    sugars = models.IntegerField()
-    salt = models.IntegerField()
+    fat = models.DecimalField(max_digits=12, decimal_places=8)
+    saturated_fat = models.DecimalField(max_digits=12, decimal_places=8)
+    sugars = models.DecimalField(max_digits=12, decimal_places=8)
+    salt = models.DecimalField(max_digits=12, decimal_places=8)
     # openfoodfacts_link = models.CharField(max_length=100)
     # TODO dans openfoodfacts on trouve ces informations à ce chemin
     # nutriments.get('salt'), nutriments.get('sugars') etc...
