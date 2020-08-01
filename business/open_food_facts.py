@@ -80,10 +80,10 @@ class OpenFoodFact:
                 print('product_name : ', food.get("product_name"))
                 print('nutriscore : ', food.get("nutriscore_grade"))
                 print('url : ', food.get("url"))
-                print('fat : ', food.get('nutriments').get("fat"))
-                print('saturated_fat : ', food.get('nutriments').get("saturated_fat"))
-                print('sugars : ', food.get('nutriments').get("sugars"))
-                print('salt : ', food.get('nutriments').get("salt"))
+                print('fat : ', food.get('nutriments').get("fat", 0))
+                print('saturated_fat : ', food.get('nutriments').get("saturated_fat", 0))
+                print('sugars : ', food.get('nutriments').get("sugars", 0))
+                print('salt : ', food.get('nutriments').get("salt", 0))
                 print('image_url : ', food.get("image_url"))
                 print('===============================================')
                 if (
@@ -107,18 +107,56 @@ class OpenFoodFact:
                         # "id_category": id_category,
                     }
                     list_of_food_by_category.append(new_food)
-                    product = Product.objects.create(
+
+                    # try:
+                    #     product = Product.objects.get(
+                    #         product_name=food.get('product_name'),
+                    #         # nutriscore=food.get('nutriscore_grade'),
+                    #         # fat=food.get('nutriments').get('fat', 0),
+                    #         # saturated_fat=food.get('nutriments').get('saturated_fat', 0),
+                    #         # sugars=food.get('nutriments').get('sugars', 0),
+                    #         # salt=food.get('nutriments').get('salt', 0),
+                    #         # image_url=food.get('image_url'),
+                    #         # product_url=food.get('url')
+                    #     )
+                    #     current_category.products.add(product)
+
+                    # except Product.DoesNotExist:
+                    #     product = Product.objects.create(
+                    #         product_name=food.get('product_name'),
+                    #         nutriscore=food.get('nutriscore_grade'),
+                    #         fat=food.get('nutriments').get('fat', 0),
+                    #         saturated_fat=food.get('nutriments').get('saturated_fat', 0),
+                    #         sugars=food.get('nutriments').get('sugars', 0),
+                    #         salt=food.get('nutriments').get('salt', 0),
+                    #         image_url=food.get('image_url'),
+                    #         product_url=food.get('url')
+                    #     )
+
+                    # Get or create ne peut pas marché car les données comportent des erreurs et ne sont pas
+                    # unique ce qui provoque des problèmes d'intégrités au niveau des champs unique
+                    product, created = Product.objects.get_or_create(
                         product_name=food.get('product_name'),
-                        nutriscore=food.get('nutriscore_grade'),
-                        fat=food.get('nutriments').get('fat', 0),
-                        saturated_fat=food.get('nutriments').get('saturated_fat', 0),
-                        sugars=food.get('nutriments').get('sugars', 0),
-                        salt=food.get('nutriments').get('salt', 0),
-                        image_url=food.get('image_url'),
-                        product_url=food.get('url')
+                        defaults={
+                            'nutriscore': food.get('nutriscore_grade'),
+                            'fat': food.get('nutriments').get('fat', 0),
+                            'saturated_fat': food.get('nutriments').get('saturated_fat', 0),
+                            'sugars': food.get('nutriments').get('sugars', 0),
+                            'salt': food.get('nutriments').get('salt', 0),
+                            'image_url': food.get('image_url'),
+                            'product_url': food.get('url')
+                        }
                     )
-                    # TODO : pour chaque produit faire la liaison avec la catégorie courrante
+                        #                     nutriscore=food.get('nutriscore_grade'),
+                        # fat=food.get('nutriments').get('fat', 0),
+                        # saturated_fat=food.get('nutriments').get('saturated_fat', 0),
+                        # sugars=food.get('nutriments').get('sugars', 0),
+                        # salt=food.get('nutriments').get('salt', 0),
+                        # image_url=food.get('image_url'),
+                        # product_url=food.get('url')
+                        # TODO : pour chaque produit faire la liaison avec la catégorie courrante
                     current_category.products.add(product)
+
             print('size_of_list_of_food_by_category : ', len(list_of_food_by_category))
 
             if len(list_of_food) < 20:
