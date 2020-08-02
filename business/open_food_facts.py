@@ -27,26 +27,20 @@ class OpenFoodFact:
         """
         response = requests.get(self.url_categories)
         print("Response : ", response)
-        list_of_category = response.json().get("tags")
-        list_of_new_category = []
+        list_of_category = response.json().get("tags", "data not found")
+        print("list_of_category : ", list_of_category)
+        if list_of_category and response.status_code == 200:
 
-        for category in list_of_category:
-            new_category = {
-                "category_name": category.get("name"),
-                "url_category": category.get("url"),
-            }
-
-            try:
-                Category.objects.create(
-                    category_name=new_category.get("category_name"),
-                    url_category=new_category.get("url_category"),
+            for category in list_of_category:
+                print("category : ", category)
+                category_db, created = Category.objects.get_or_create(
+                    url_category=category.get("url"),
+                    defaults={'category_name': category.get("name")}
                 )
-            except DatabaseError as dbe:
-                print(f'error {dbe}')
 
-            list_of_new_category.append(new_category)
+            return 201
 
-        return list_of_new_category
+        return 'any data found'
 
     # TODO :
     # 1. pour chaque category enregistré dans la base de donné trouvez les produits
