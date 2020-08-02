@@ -67,13 +67,14 @@ class OpenFoodFact:
         num_page = 1
         while len(list_of_food_by_category) <= self.number_min_food_by_category:
             response = requests.get(current_category.url_category + "/" + str(num_page) + ".json")
+            print('RESPONSE FOR FOOD : ', response)
             list_of_food = response.json().get("products")
             print("list of food : ", list_of_food)
             num_page += 1
             print("number of page : ", num_page)
             print('coucou')
 
-            if len(list_of_food) == 0:
+            if list_of_food is None:
                 break
 
             for food in list_of_food:
@@ -91,23 +92,11 @@ class OpenFoodFact:
                     food.get("product_name")
                     and food.get("nutriscore_grade")
                     and food.get("url")
-                    # and food.get('nutriments').get("fat", 0)
-                    # and food.get('nutriments').get("saturated_fat", 0)
-                    # and food.get('nutriments').get("sugars", 0)
-                    # and food.get('nutriments').get("salt", 0)
                     and food.get("image_url")
                     # and id_category
                 ):
                     print('condition')
-                    new_food = {
-                        "product_name": food.get("product_name"),
-                        "nutriscore": food.get("nutriscore_grade"),
-                        "stores_tags": food.get("stores_tags"),
-                        "url": food.get("url"),
-                        "nutrition_grades": food.get("nutriscore_score"),
-                        # "id_category": id_category,
-                    }
-                    list_of_food_by_category.append(new_food)
+                    list_of_food_by_category.append(food.get("product_name"))
 
                     product, created = Product.objects.get_or_create(
                         product_name=food.get('product_name'),
@@ -127,6 +116,9 @@ class OpenFoodFact:
 
             if len(list_of_food) < 20:
                 break
+
+        if list_of_food_by_category == []:
+            return 'any food contain in this category'
 
         return list_of_food_by_category
 
