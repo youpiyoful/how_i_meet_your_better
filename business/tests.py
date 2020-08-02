@@ -4,7 +4,9 @@ Test for the business app
 from django.test import TestCase
 from .models import Product, Category
 from django.shortcuts import reverse, get_object_or_404
-
+from business import open_food_facts
+from unittest.mock import MagicMock
+import requests
 
 # region TESTS OF VIEW
 class IndexTests(TestCase):
@@ -126,11 +128,74 @@ class CategoryModelTests(TestCase):
 
 
 # region TEST OF CLASSES
+# region mock class
+class MockResponseToApi:
+    """
+    mock the response of api open food fact
+    for category
+    """
+    def __init__(self, status_code, data_not_found=None):
+        self.status_code = status_code
+        self.data_not_found = data_not_found
+
+    def json(self):
+        """
+        response of api open food fact
+        """
+        if self.data_not_found:
+            json_response = {
+                "tags": [
+                    {}
+                ]
+            }
+
+        elif self.status_code == 200:
+            json_response = {
+                "tags": [
+                    {
+                        "url": "https://fake_url.com",
+                        "name": "faux produit de test"
+                    }
+                ]
+            }
+
+        elif self.satus_code in (500, 403, 404):
+            return f'error {self.status_code}'
+
+        return json_response
+# endregion
+
+
 class TestOpenFoodFacts(TestCase):
     """
     test all the method of class openFoodFacts
     than use the api openfood fact and populate the db
     """
-    def test_than_
+    def setUp(self):
+        """
+        instanciate the obj
+        """
+        self.open_food_fact = open_food_facts.OpenFoodFact()
+
+    def test_than_retrieve_all_category_from_open_food_fact_is_ok(self):
+        """
+        test than function record the category in the db
+        and return status 201
+        """
+
+        open_food_facts.requests.get = MagicMock(return_value=MockResponseToApi(200))
+        result = self.open_food_fact.retrieve_all_category_name_from_open_food_facts_api()
+        cat = Category.objects.all().values()[0].get('url_category')
+        self.assertNumQueries(1)
+        self.assertEqual(result, 201)
+        self.assertEqual(cat, 'https://fake_url.com')
+
+    def test_retrieve_all_category_when_api_return_any_data(self):
+        """
+        test than function return 'any data found' when the api
+        open food fact return nothing
+        """
+
+
 
 # endregion
