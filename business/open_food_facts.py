@@ -29,7 +29,7 @@ class OpenFoodFact:
         print("Response : ", response)
 
         if response.status_code == 200:
-            list_of_category = response.json().get("tags", 'any data')
+            list_of_category = response.json().get("tags", "any data")
             print("list_of_category : ", list_of_category)
 
             if list_of_category:
@@ -38,16 +38,15 @@ class OpenFoodFact:
                     print("category : ", category)
                     category_db, created = Category.objects.get_or_create(
                         url_category=category.get("url"),
-                        defaults={'category_name': category.get("name")}
+                        defaults={"category_name": category.get("name")},
                     )
 
                 return 201
 
             else:
-                return 'any data found'
+                return "any data found"
 
         return response.error, response.status_code
-
 
     # TODO :
     # 1. pour chaque category enregistré dans la base de donné trouvez les produits
@@ -66,28 +65,32 @@ class OpenFoodFact:
         list_of_food_by_category = []
         num_page = 1
         while len(list_of_food_by_category) <= self.number_min_food_by_category:
-            response = requests.get(current_category.url_category + "/" + str(num_page) + ".json")
-            print('RESPONSE FOR FOOD : ', response)
+            response = requests.get(
+                current_category.url_category + "/" + str(num_page) + ".json"
+            )
+            print("RESPONSE FOR FOOD : ", response)
             list_of_food = response.json().get("products")
             print("list of food : ", list_of_food)
             num_page += 1
             print("number of page : ", num_page)
-            print('coucou')
+            print("coucou")
 
             if list_of_food is None:
                 break
 
             for food in list_of_food:
-                print('===============================================')
-                print('product_name : ', food.get("product_name"))
-                print('nutriscore : ', food.get("nutriscore_grade"))
-                print('url : ', food.get("url"))
-                print('fat : ', food.get('nutriments').get("fat", 0))
-                print('saturated_fat : ', food.get('nutriments').get("saturated_fat", 0))
-                print('sugars : ', food.get('nutriments').get("sugars", 0))
-                print('salt : ', food.get('nutriments').get("salt", 0))
-                print('image_url : ', food.get("image_url"))
-                print('===============================================')
+                print("===============================================")
+                print("product_name : ", food.get("product_name"))
+                print("nutriscore : ", food.get("nutriscore_grade"))
+                print("url : ", food.get("url"))
+                print("fat : ", food.get("nutriments").get("fat", 0))
+                print(
+                    "saturated_fat : ", food.get("nutriments").get("saturated_fat", 0)
+                )
+                print("sugars : ", food.get("nutriments").get("sugars", 0))
+                print("salt : ", food.get("nutriments").get("salt", 0))
+                print("image_url : ", food.get("image_url"))
+                print("===============================================")
                 if (
                     food.get("product_name")
                     and food.get("nutriscore_grade")
@@ -95,30 +98,32 @@ class OpenFoodFact:
                     and food.get("image_url")
                     # and id_category
                 ):
-                    print('condition')
+                    print("condition")
                     list_of_food_by_category.append(food.get("product_name"))
 
                     product, created = Product.objects.get_or_create(
-                        product_name=food.get('product_name'),
+                        product_name=food.get("product_name"),
                         defaults={
-                            'nutriscore': food.get('nutriscore_grade'),
-                            'fat': food.get('nutriments').get('fat', 0),
-                            'saturated_fat': food.get('nutriments').get('saturated_fat', 0),
-                            'sugars': food.get('nutriments').get('sugars', 0),
-                            'salt': food.get('nutriments').get('salt', 0),
-                            'image_url': food.get('image_url'),
-                            'product_url': food.get('url')
-                        }
+                            "nutriscore": food.get("nutriscore_grade"),
+                            "fat": food.get("nutriments").get("fat", 0),
+                            "saturated_fat": food.get("nutriments").get(
+                                "saturated_fat", 0
+                            ),
+                            "sugars": food.get("nutriments").get("sugars", 0),
+                            "salt": food.get("nutriments").get("salt", 0),
+                            "image_url": food.get("image_url"),
+                            "product_url": food.get("url"),
+                        },
                     )
                     current_category.products.add(product)
 
-            print('size_of_list_of_food_by_category : ', len(list_of_food_by_category))
+            print("size_of_list_of_food_by_category : ", len(list_of_food_by_category))
 
             if len(list_of_food) < 20:
                 break
 
         if list_of_food_by_category == []:
-            return 'any food contain in this category'
+            return "any food contain in this category"
 
         return list_of_food_by_category
 
