@@ -138,18 +138,19 @@ class MockResponseToApi:
         self.status_code = status_code
         self.data_not_found = data_not_found
 
+        if status_code in (500, 404, 403):
+            self.error = 'the server encounter an internal error'
+
     def json(self):
         """
         response of api open food fact
         """
         if self.data_not_found:
             json_response = {
-                "tags": [
-                    {}
-                ]
+                "tags": []
             }
 
-        elif self.status_code == 200:
+        else:
             json_response = {
                 "tags": [
                     {
@@ -158,9 +159,6 @@ class MockResponseToApi:
                     }
                 ]
             }
-
-        elif self.satus_code in (500, 403, 404):
-            return f'error {self.status_code}'
 
         return json_response
 # endregion
@@ -195,7 +193,17 @@ class TestOpenFoodFacts(TestCase):
         test than function return 'any data found' when the api
         open food fact return nothing
         """
+        open_food_facts.requests.get = MagicMock(return_value=MockResponseToApi(200, True))
+        result = self.open_food_fact.retrieve_all_category_name_from_open_food_facts_api()
+        self.assertEqual(result, 'any data found')
 
-
+    def test_api_return_wrong_status(self):
+        """
+        test than function return an error message with the 
+        status code if api return an error
+        """
+        open_food_facts.requests.get = MagicMock(return_value=MockResponseToApi(500))
+        result = self.open_food_fact.retrieve_all_category_name_from_open_food_facts_api()
+        self.assertEqual(result, ('the server encounter an internal error', 500))
 
 # endregion
