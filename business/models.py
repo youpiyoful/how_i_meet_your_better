@@ -41,7 +41,7 @@ class Category(models.Model):
         verbose_name="Url de la categorie",
         unique=True,
         null=False,
-        max_length=300)
+        max_length=600)
 
     def __str__(self):
         return self.category_name
