@@ -36,7 +36,7 @@ class Category(models.Model):
     Category of product : name, url_category
     """
     category_name = models.CharField(max_length=300)
-    products = models.ManyToManyField(Product, related_name='categories')
+    products = models.ManyToManyField(Product)
     url_category = models.URLField(
         verbose_name="Url de la categorie",
         unique=True,
