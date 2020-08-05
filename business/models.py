@@ -36,7 +36,7 @@ class Category(models.Model):
     Category of product : name, url_category
     """
     category_name = models.CharField(max_length=300)
-    products = models.ManyToManyField(Product)
+    products = models.ManyToManyField(Product, through='CategoriesProducts')
     url_category = models.URLField(
         verbose_name="Url de la categorie",
         unique=True,
@@ -51,7 +51,7 @@ class Category(models.Model):
         ordering = ['category_name']
 
 
-class CategoryProduct(models.Model):
+class CategoriesProducts(models.Model):
     """
     create that table for add the field hyerarchie_score
     that determine if a category is more or less precise.
@@ -61,3 +61,7 @@ class CategoryProduct(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     hyerarchie_score = models.IntegerField()
+
+    class Meta:
+        db_table = "business_categories_products"
+    
