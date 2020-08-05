@@ -60,8 +60,7 @@ class CategoriesProducts(models.Model):
     """
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    hyerarchie_score = models.IntegerField()
+    hyerarchie_score = models.IntegerField(default=0)
 
     class Meta:
         db_table = "business_categories_products"
-    
