@@ -56,6 +56,27 @@ class OpenFoodFact:
     # 5. écrire un algorithme pour la recherche des substituts qui prend en compte à la fois si le nutriscore est meilleur mais aussi si l'afinity note des catégories se correspondent)
     # list_of_category = Category.objects.all().values()
     # current category is an instance of list_category from the loop
+    def give_a_hyerarchi_score_to_category_of_product(
+        self,
+        food,
+        current_category
+    ):
+        """
+        return a list of category + score for a product
+        """
+        categories = food.get('categories').split(', ')
+        print('categories from give hyerarchie score : ', categories)
+        hyerarchi_score = 1
+        for cat in categories:
+            print('CAT : ', cat)
+
+            if cat.lower() == current_category.category_name.lower():
+                return hyerarchi_score
+
+            hyerarchi_score += 1
+
+        return 0  # 0 == error
+
     def retrieve_food_with_url_category(self, current_category):
         """
         :param url_category:
@@ -90,6 +111,7 @@ class OpenFoodFact:
                 print("sugars : ", food.get("nutriments").get("sugars", 0))
                 print("salt : ", food.get("nutriments").get("salt", 0))
                 print("image_url : ", food.get("image_url"))
+                print("categories : ", food.get("categories"))
                 print("===============================================")
                 if (
                     food.get("product_name")
@@ -115,7 +137,14 @@ class OpenFoodFact:
                             "product_url": food.get("url"),
                         },
                     )
-                    current_category.products.add(product)
+                    hyerarchie_score = self.give_a_hyerarchi_score_to_category_of_product(
+                        food, current_category)
+                    current_category.products.add(
+                        product,
+                        through_defaults={
+                           'hyerarchie_score': hyerarchie_score
+                        }
+                    )
 
             print("size_of_list_of_food_by_category : ", len(list_of_food_by_category))
 
