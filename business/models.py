@@ -49,3 +49,15 @@ class Category(models.Model):
     class Meta:
         verbose_name = "Catégorie"
         ordering = ['category_name']
+
+
+class CategoryProduct(models.Model):
+    """
+    create that table for add the field hyerarchie_score
+    that determine if a category is more or less precise.
+    The lower the score, the more general the category
+    and vice versa.
+    """
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    hyerarchie_score = models.IntegerField()
