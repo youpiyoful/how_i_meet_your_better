@@ -23,7 +23,6 @@ class Food:
         try:
             product = Product.objects.get(product_name=self.food)
             categories = product.category_set.all()
-            # categories = Category.objects.filter(products=product.id)# order_by(category_hyerarchie)
             print('COUCOU PRODUCT : ', categories)
 
         except ObjectDoesNotExist:
@@ -33,11 +32,17 @@ class Food:
         list_of_category = []
 
         for cat in categories:
+            category_hyerarchie = Category.objects.get(
+                id=cat.id
+            ).categoriesproducts_set.all().filter(
+                category_id=cat.id,
+                product_id=product.id
+            )[0].hyerarchie_score
             category = {
                 "category_id": cat.id,
                 "category_name": cat.category_name,
                 "url_category": cat.url_category,
-                "category_hyerarchie": cat.category_hyerarchie
+                "category_hyerarchie": category_hyerarchie
             }
 
             list_of_category.append(category)
@@ -59,7 +64,6 @@ class Food:
 
         print('complete_product : ', complete_product)
         return complete_product
-
 
     def substitute_food_by_foods_with_best_nutriscore(self, complete_product): 
         """
