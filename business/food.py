@@ -60,30 +60,48 @@ class Food:
         print('complete_product : ', complete_product)
         return complete_product
 
+
     def substitute_food_by_foods_with_best_nutriscore(self, complete_product): 
         """
         for a food find many foods than have a best nutriscore
         : return list of substitute
         """
         current_product_id = complete_product.get('product_id')
-        categories = complete_product.get('categories')
+        # categories = complete_product.get('categories')
         nutriscore_of_current_product = complete_product.get(
             'product').get('nutriscore')
 
+        # Retrieve categories of product choice by the user
+        # order by hyerarchie_categorie.
         list_of_cat_order_by_hyerarchie_score = Product.objects.get(
             id=current_product_id
         ).categoriesproducts_set.all().order_by(
             'hyerarchie_score')
+        # Retrieve the unique more precise category in the list.
         more_precise_cat = list_of_cat_order_by_hyerarchie_score[
             len(list_of_cat_order_by_hyerarchie_score):][0].id
-        list_of_substitute = Category.objects.get(
-            id=less_precise_cat
+
+        # The list of substitutes in the same category with a
+        # better nutriscore emerges.
+        queryset_list_of_substitute = Category.objects.get(
+            id=more_precise_cat
         ).products.all().filter(
             nutriscore__lte=nutriscore_of_current_product
-        ).exclude(id=current_product_id)
-        substitute = Product.objects.get(
-            id=complete_product.get('product_id')
-        ).categoriesproducts_set.all()
+        ).exclude(id=current_product_id).order_by('nutriscore')
+
+        list_of_substitute = [
+            substitute for substitute in queryset_list_of_substitute
+        ]
+
+        if len(list_of_substitute) > 6:
+            # return the 6 best substitute in the list
+            return list_of_substitute[:6]
+
+        if list_of_substitute:
+            return list_of_substitute
+
+        return 'any substitute found'
+
         # 1. sélectionner la catégorie du produit choisie par l' utilisateur possédant 
         # le hierarchie_score le plus petit et donc la catégorie du produit la plus général
         # sauvegarder également la liste de tout les catégories du produit source.
