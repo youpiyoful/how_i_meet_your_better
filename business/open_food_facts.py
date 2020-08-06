@@ -73,7 +73,8 @@ class OpenFoodFact:
             if cat.lower() == current_category.category_name.lower():
                 return hyerarchi_score
 
-            hyerarchi_score += 1
+            if cat:  # check than category is not empty 
+                hyerarchi_score += 1
 
         return 0  # 0 == error
 
