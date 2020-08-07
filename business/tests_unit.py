@@ -205,6 +205,7 @@ class TestFood(TestCase):
         range_int = [i for i in range(11)]
         range_letter = [i for i in string.ascii_letters][:4]
         self.product = Product.objects.create(
+            id=12,
             product_name="invention",
             image_url="https://nutella.jpg",
             product_url="https://nutella.com",
@@ -212,34 +213,67 @@ class TestFood(TestCase):
             sugars=2.3366,
             saturated_fat=0.555,
             salt=10.234,
-            nutriscore="d",
+            nutriscore="e",
+        )
+
+        self.best_product_ever = Product.objects.create(
+            id=13,
+            product_name="best product ever",
+            image_url="https://best_product.jpg",
+            product_url="https://best_product.com",
+            fat=1.5,
+            sugars=2.3366,
+            saturated_fat=0.555,
+            salt=10.234,
+            nutriscore="a",
         )
 
         self.category = Category.objects.create(
-            category_name="petit dej", url_category="https://petit_dej_au_lit.com"
+            id=1,
+            category_name="petit dej",
+            url_category="https://petit_dej_au_lit.com"
         )
         self.category2 = Category.objects.create(
-            category_name="petit dej2", url_category="https://petit_dej_au_lit.com2"
+            id=2,
+            category_name="petit dej2",
+            url_category="https://petit_dej_au_lit.com2"
         )
         self.category3 = Category.objects.create(
-            category_name="petit dej3", url_category="https://petit_dej_au_lit3.com"
+            id=3,
+            category_name="petit dej3",
+            url_category="https://petit_dej_au_lit3.com"
         )
         self.category4 = Category.objects.create(
-            category_name="petit dej4", url_category="https://petit_dej_au_lit4.com"
+            id=4,
+            category_name="petit dej4",
+            url_category="https://petit_dej_au_lit4.com"
         )
         self.category5 = Category.objects.create(
-            category_name="petit dej5", url_category="https://petit_dej_au_lit5.com"
+            id=5,
+            category_name="petit dej5",
+            url_category="https://petit_dej_au_lit5.com"
         )
-        self.category.products.add(self.product)
-        self.category2.products.add(self.product)
-        self.category3.products.add(self.product)
-        self.category4.products.add(self.product)
-        self.category5.products.add(self.product)
+        self.category.products.add(self.product, through_defaults={
+            'hyerarchie_score': 5
+        })
+        self.category2.products.add(self.product, through_defaults={
+            'hyerarchie_score': 2
+        })
+        self.category3.products.add(self.product, through_defaults={
+            'hyerarchie_score': 3
+        })
+        self.category4.products.add(self.product, through_defaults={
+            'hyerarchie_score': 1
+        })
+        self.category5.products.add(self.product, through_defaults={
+            'hyerarchie_score': 4
+        })
         self.food = food.Food("invention")
         i = 0
 
         while i < 10:
             product = Product.objects.create(
+                id=i,
                 product_name=f"invention{i}",
                 image_url=f"https://nutella{i}.jpg",
                 product_url=f"https://nutella{i}.com",
@@ -250,10 +284,16 @@ class TestFood(TestCase):
                 nutriscore=random.choice(range_letter),
             )
             if product.nutriscore > "c":
-                self.category.products.add(product)
-                self.category2.products.add(product)
+                self.category.products.add(product, through_defaults={
+                    'hyerarchie_score': 5
+                })
+                self.category2.products.add(product, through_defaults={
+                    'hyerarchie_score': 2
+                })
 
-            self.category3.products.add(product)
+            self.category3.products.add(product, through_defaults={
+                'hyerarchie_score': 3
+            })
             i += 1
 
     def test_than_class_research_food_data_by_name_is_ok(self):
@@ -281,21 +321,31 @@ class TestFood(TestCase):
         result = food.Food("nothing").search_food_and_categories_by_product_name()
         self.assertEqual(result, "product not found")
 
-    # def test_substitute_food_by_food_with_best_nutriscore_is_ok(self):
-    #     """
-    #     test than function return a list of food with the same
-    #     category and a best nutriscore
-    #     """
-    #     complete_product = self.food.search_food_and_categories_by_product_name()
-    #     nutriscore_of_complete_product = complete_product.get('product').get('nutriscore')
-    #     result = self.food.substitute_food_by_foods_with_best_nutriscore(
-    #         complete_product
-    #     )
-    #     self.assertEqual(type(result), list)
-    #     self.assertTrue(len(result) <= 6)
-    #     for substitute in result:
-    #         nutriscore = substitute.get('product').get('nutriscore')
-    #         self.assertTrue(nutriscore < nutriscore_of_complete_product)
+    def test_substitute_food_by_food_with_best_nutriscore_is_ok(self):
+        """
+        test than function return a list of food with the same
+        category and a best nutriscore
+        """
+        complete_product = self.food.search_food_and_categories_by_product_name()
+        nutriscore_of_complete_product = complete_product.get('product').get('nutriscore')
+        result = self.food.substitute_food_by_foods_with_best_nutriscore(
+            complete_product
+        )
+        self.assertEqual(type(result), list)
+        self.assertTrue(len(result) <= 6)
+        for substitute in result:
+            self.assertTrue(substitute.nutriscore <= nutriscore_of_complete_product)
 
+    def test_substitute_food_by_food_with_best_nutriscore_wrong(self):
+        """
+        test the function when any best food is find
+        """
+        complete_best_product = food.Food(
+            self.best_product_ever
+        ).search_food_and_categories_by_product_name()
+        result = self.food.substitute_food_by_foods_with_best_nutriscore(
+            complete_best_product
+        )
+        self.assertEqual(result, 'this product have the best nutriscore')
 
 # endregion
