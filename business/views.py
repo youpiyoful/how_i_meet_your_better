@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_list_or_404, reverse, get_object_or_404
 from django.http import HttpResponse
 from .models import Product
+from django.template import RequestContext
+
 # from django.template import loader
 
 
@@ -18,6 +20,13 @@ def index(request, success=True):
     return render(request, "business/index.html", context)
 
 
+# def page_not_found_view(request, exception=None):
+#     """
+#     display an unic page 404
+#     """
+#     return render(request, 'business/404.html')
+
+
 def results(request, product_name):
     """return the results of substitutions product"""
     # TODO se servir du nom de l'aliment à substituer pour retrouver les
@@ -26,8 +35,8 @@ def results(request, product_name):
 
     # TODO : think to delete the condition it's because data don't exist yet
     if product_name == 'empty':
-        list_of_foods_substitute = get_list_or_404(Product)
-        print('list_of_foods_substitute : ', list_of_foods_substitute)
+        list_of_foods_substitute = get_list_or_404(Product, product_name=product_name)
+        # print('list_of_foods_substitute : ', list_of_foods_substitute)
 
     if product_name:
         list_of_foods_substitute = [
@@ -80,16 +89,13 @@ def results(request, product_name):
     return redirect('index')
 
 
-def display_name(request, name):
-    """display the name past in params"""
-    return HttpResponse("mon nom est %s" % name)
-
-
 def detail_food(request, food):
     """display the page detail of food in params"""
     # TODO se servir de food pour retrouver les infos concernant
     # l'aliment dans la base et les rendre à l'aide du contexte
-    context = {'food_detail': {
+    print('FOOD : ', food)
+    # food_detail = get_object_or_404(Product, product_name=food)
+    food_detail = {
             'name': 'nutella',
             'nutriscore': 'e',
             "level_gras": "high",
@@ -100,6 +106,9 @@ def detail_food(request, food):
             'category': 'pâte à tartiner',
             'nutri_per_100g': 'de la merde',
             'url_image': '"https://static.openfoodfacts.org/images/products/301/762/042/1006/front_fr.176.400.jpg'
-        }
+    }
+
+    context = {
+        'food_detail': food_detail
     }
     return render(request, 'business/food.html', context)
