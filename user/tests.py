@@ -167,6 +167,17 @@ class LogoutTests(TestCase):
         response = self.client.get('/my-account/logout', follow=True)
         self.assertFalse(response.context['user'].is_authenticated)
 
+
+class FavoriteRecordTests(TestCase):
+    """
+    test the record_favorite_substitute function
+    """
+    def test_record_favorite_substitute_is_correctly_record(self):
+        """
+        test than function retrieve correctly the data and record
+        the substitute and his product in favorite table
+        """
+        pass
 # class SimpleTest(TestCase):
 #     def setUp(self):
 #         """
