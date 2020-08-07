@@ -78,6 +78,7 @@ def register(request):
         # print('*******************************', form.is_valid())
         if form.is_valid():
             print("form is valid")
+            # TODO : voir pour remplacer par get_or_create
 
             user = User.objects.filter(email=email)
 
@@ -111,6 +112,16 @@ def register(request):
 def legal_mention(request):
     """render the html of legal mention"""
     return render(request, "user/legal_mention.html")
+
+
+def record_favorite_substitue(request):
+    """
+    this view get a substitute and his product
+    and record the choice in the favorite table
+    """
+    request.POST.get('product_name')
+    request.POST.get('substitute_name')
+     
 
 # def registration(request):
 #     """record a new user"""
