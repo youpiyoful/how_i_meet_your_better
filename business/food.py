@@ -4,6 +4,8 @@ like search a food substitute
 """
 from .models import Category, Product
 from django.core.exceptions import ObjectDoesNotExist
+import string # TODO : créer une liste alphabétique pour recherché chaque produit en parcourant les nutriscores du bien au moins bien jusqu'a trouvé au minimum 6 éléments
+# ou avoir fini la liste alphabétique sans rien trouver...
 
 
 class Food:
@@ -70,10 +72,14 @@ class Food:
         for a food find many foods than have a best nutriscore
         : return list of substitute
         """
-        current_product_id = complete_product.get('product_id')
-        # categories = complete_product.get('categories')
+        print('=============================================')
+        current_product_id = complete_product.get('product').get('product_id')
+        print('current_product_id : ', current_product_id)
         nutriscore_of_current_product = complete_product.get(
             'product').get('nutriscore')
+        print(
+            'nutriscore_of_current_product : ', nutriscore_of_current_product
+        )
 
         # Retrieve categories of product choice by the user
         # order by hyerarchie_categorie.
@@ -81,30 +87,63 @@ class Food:
             id=current_product_id
         ).categoriesproducts_set.all().order_by(
             'hyerarchie_score')
+        print(
+            'list_of_cat_order_by_hyerarchie_score : ',
+            list_of_cat_order_by_hyerarchie_score
+        )
         # Retrieve the unique more precise category in the list.
-        more_precise_cat = list_of_cat_order_by_hyerarchie_score[
-            len(list_of_cat_order_by_hyerarchie_score):][0].id
+        if list_of_cat_order_by_hyerarchie_score:
 
-        # The list of substitutes in the same category with a
-        # better nutriscore emerges.
-        queryset_list_of_substitute = Category.objects.get(
-            id=more_precise_cat
-        ).products.all().filter(
-            nutriscore__lte=nutriscore_of_current_product
-        ).exclude(id=current_product_id).order_by('nutriscore')
+            if len(list_of_cat_order_by_hyerarchie_score) > 1:
+                more_precise_cat = list_of_cat_order_by_hyerarchie_score[
+                    len(list_of_cat_order_by_hyerarchie_score)-1:
+                ][0].category_id
 
-        list_of_substitute = [
-            substitute for substitute in queryset_list_of_substitute
-        ]
+            else:
+                more_precise_cat = list_of_cat_order_by_hyerarchie_score[
+                    0
+                ].category_id
 
-        if len(list_of_substitute) > 6:
-            # return the 6 best substitute in the list
-            return list_of_substitute[:6]
+            print('more_precise_cat : ', more_precise_cat)
+            # The list of substitutes in the same category with a
+            # better nutriscore emerges.
+            print('product test : ', Product.objects.all()[0].id)
+            print(
+                'category not match : ',
+                Category.objects.get(id=more_precise_cat))
+            queryset_list_of_substitute = Category.objects.get(
+                id=more_precise_cat
+            ).products.all().filter(
+                nutriscore__lte=nutriscore_of_current_product
+            ).exclude(id=current_product_id).order_by('nutriscore')
+            print('queryset_list_of_substitute : ', queryset_list_of_substitute)
 
-        if list_of_substitute:
-            return list_of_substitute
+            list_of_substitute = [
+                substitute for substitute in queryset_list_of_substitute
+            ]
+            print('list_of_substitute : ', list_of_substitute)
+            print('nutriscore of current product : ', nutriscore_of_current_product)
 
-        return 'any substitute found'
+            if len(list_of_substitute) > 6:
+                # return the 6 best substitute in the list
+                return list_of_substitute[:6]
+
+            if list_of_substitute:
+                return list_of_substitute
+
+            # if list_of_subsitute is None:
+
+            #     for letter in string_letter.ascii[:]:
+            #         pass
+
+        return 'this product have the best nutriscore'
+
+        def record_a_favorite_substitute(self):
+            """
+            This function take a substitute and his product
+            and record him in favorite table
+            """
+            pass
 
         # 1. sélectionner la catégorie du produit choisie par l' utilisateur possédant 
         # le hierarchie_score le plus petit et donc la catégorie du produit la plus général
