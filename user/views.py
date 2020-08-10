@@ -131,10 +131,10 @@ def record_favorite_substitue(request):
         current_user = request.user
         print('current_user : ', current_user)
         # return 'nothing'
-        return 'coucou'
-        # return redirect('user:my_account')
+        # return 'coucou'
+        return redirect('user:my_account')
 
-    return 'not authenticated'
+    return redirect('business:results')
 
 
 # def registration(request):
