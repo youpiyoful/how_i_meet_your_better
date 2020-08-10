@@ -3,6 +3,7 @@ from .forms import RegistrationForm, BaseForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import Favorite, PurBeurreUser
+from business.models import Product, Category
 # from django.views.decorators.csrf import csrf_protect, csrf_exempt
 
 
@@ -118,23 +119,36 @@ def legal_mention(request):
     return render(request, "user/legal_mention.html")
 
 
-def record_favorite_substitue(request):
+def record_favorite_substitute(request):
     """
     this view get a substitute and his product
     and record the choice in the favorite table
     """
+    product_name = request.POST.get('product_name')
     product_id = request.POST.get('product_id')
     substitute_id = request.POST.get('substitute_id')
     print('product and substitute :', product_id, substitute_id)
+    product = Product.objects.get(id=product_id)
+    substitute = Product.objects.get(id=substitute_id)
 
     if request.user.is_authenticated:
         current_user = request.user
+        user = User.objects.get(id=current_user.id)
+        print('Instance of current_user : ', user)
         print('current_user : ', current_user)
-        # return 'nothing'
-        # return 'coucou'
+        print('current_user ID : ', current_user.id)
+        favorite, created = Favorite.objects.get_or_create(
+            product=product,
+            substitute=substitute
+        )
+        print("favorite object : ", favorite)
+        print("favorite object got created : ", created)
+        user_and_favorite_link = PurBeurreUser.objects.create(
+            user=user).favorites.add(favorite)
+        print('user and favorite link : ', user_and_favorite_link)
         return redirect('user:my_account')
 
-    return redirect('business:results')
+    return redirect('business:results', product_name=product_name)
 
 
 # def registration(request):
