@@ -2,21 +2,25 @@ from django.shortcuts import render, redirect
 from .forms import RegistrationForm, BaseForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from .models import Favorite, PurBeurreUser
 # from django.views.decorators.csrf import csrf_protect, csrf_exempt
 
 
 # Create your views here.
 def my_account(request):
     """render the account of user"""
-    context = {
-        "user": {
-            "name": "Yoan Fornari",
-            "email": "yoanfornari@gmail.com",
-            "age": "28",
-            "adresse": "45 cours du parc 21 000, Dijon",
+    if request.user.is_authenticated:
+        context = {
+            "user": {
+                "name": request.user.first_name,
+                "email": request.user.email,
+                "age": "28",
+                "adresse": "45 cours du parc 21 000, Dijon",
+            }
         }
-    }
-    return render(request, "user/account.html", context)
+        return render(request, "user/account.html", context)
+    else:
+        return redirect('index')
 
 
 # @csrf_protect
@@ -119,9 +123,19 @@ def record_favorite_substitue(request):
     this view get a substitute and his product
     and record the choice in the favorite table
     """
-    request.POST.get('product_name')
-    request.POST.get('substitute_name')
-     
+    product_id = request.POST.get('product_id')
+    substitute_id = request.POST.get('substitute_id')
+    print('product and substitute :', product_id, substitute_id)
+
+    if request.user.is_authenticated:
+        current_user = request.user
+        print('current_user : ', current_user)
+        # return 'nothing'
+        return 'coucou'
+        # return redirect('user:my_account')
+
+    return 'not authenticated'
+
 
 # def registration(request):
 #     """record a new user"""
