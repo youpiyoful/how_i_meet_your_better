@@ -185,6 +185,7 @@ class FavoriteRecordTests(TestCase):
         )
         self.product_id = 15
         self.substitute_id = 16
+        self.product_name = 'nutella'
 
     # def test_record_favorite_substitute_is_correctly_record(self):
     #     """
@@ -210,9 +211,10 @@ class FavoriteRecordTests(TestCase):
         test than function redirect in the same page (page results) when
         user want record a substitute but is not logged
         """
-        response = self.client.post('/my-account/record_favorite/', {
+        response = self.client.post('/my-account/record_favorite', {
             'product_id': self.product_id,
-            'substitute_id': self.substitute_id
+            'substitute_id': self.substitute_id,
+            'product_name': self.product_name,
         })
         self.assertEqual(response.status_code, 302)
 
