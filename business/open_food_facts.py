@@ -22,7 +22,8 @@ class OpenFoodFact:
 
     def retrieve_all_category_name_from_open_food_facts_api(self):
         """
-        This function return a list of category's name of food from open food fact api
+        This function return a list of category's
+        name of food from open food fact api
         :return list_of_new_category of food:
         """
         response = requests.get(self.url_categories)
