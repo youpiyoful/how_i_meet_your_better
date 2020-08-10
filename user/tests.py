@@ -183,26 +183,39 @@ class FavoriteRecordTests(TestCase):
             last_name="fornari",
             email="gabin@gmail.com"
         )
+        self.product_id = 15
+        self.substitute_id = 16
 
-    def test_record_favorite_substitute_is_correctly_record(self):
-        """
-        test than function retrieve correctly the data and record
-        the substitute and his product in favorite table
-        """
-        c = Client()
-        c.login(username='gabin@gmail.com', password='1234')
-        product_id = 15
-        substitute_id = 16
+    # def test_record_favorite_substitute_is_correctly_record(self):
+    #     """
+    #     test than function retrieve correctly the data and record
+    #     the substitute and his product in favorite table
+    #     """
+    #     c = Client()
+    #     c.login(username='gabin@gmail.com', password='1234')
 
-        # response = c.post(reverse('user:record_favorite', kwargs={
-        #     'product_id': product_id,
-        #     'substitute_id': substitute_id
-        # }))
-        response = c.post('/my-account/record_favorite', {
-            'product_id': product_id,
-            'substitute_id': substitute_id
+    #     # response = c.post(reverse('user:record_favorite', kwargs={
+    #     #     'product_id': product_id,
+    #     #     'substitute_id': substitute_id
+    #     # }))
+    #     response = c.post('/my-account/record_favorite', {
+    #         'product_id': self.product_id,
+    #         'substitute_id': self.substitute_id
+    #     })
+    #     print("HEEEEEEEOOOOOOOOOO : ", response.content)
+    #     self.assertContains(response, "yoan", status_code=302)
+
+    def test_record_favorite_substitute_when_user_is_not_authenticated(self):
+        """
+        test than function redirect in the same page (page results) when
+        user want record a substitute but is not logged
+        """
+        response = self.client.post('/my-account/record_favorite/', {
+            'product_id': self.product_id,
+            'substitute_id': self.substitute_id
         })
-        self.assertConatins(response, self.user.first_name, status_code=302)
+        self.assertEqual(response.status_code, 302)
+
 # class SimpleTest(TestCase):
 #     def setUp(self):
 #         """
