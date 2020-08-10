@@ -183,28 +183,49 @@ class FavoriteRecordTests(TestCase):
             last_name="fornari",
             email="gabin@gmail.com"
         )
-        self.product_id = 15
-        self.substitute_id = 16
-        self.product_name = 'nutella'
+        self.product = Product.objects.create(
+            id=15,
+            product_name="invention",
+            image_url="https://nutella.jpg",
+            product_url="https://nutella.com",
+            fat=1.5,
+            sugars=2.3366,
+            saturated_fat=0.555,
+            salt=10.234,
+            nutriscore="e",
+        )
+        self.substitute = Product.objects.create(
+            id=16,
+            product_name="substitute",
+            image_url="https://nutella_sub.jpg",
+            product_url="https://nutella_sub.com",
+            fat=1.5,
+            sugars=2.3366,
+            saturated_fat=0.555,
+            salt=10.234,
+            nutriscore="a",
+        )
 
-    # def test_record_favorite_substitute_is_correctly_record(self):
-    #     """
-    #     test than function retrieve correctly the data and record
-    #     the substitute and his product in favorite table
-    #     """
-    #     c = Client()
-    #     c.login(username='gabin@gmail.com', password='1234')
+    def test_record_favorite_substitute_is_correctly_record(self):
+        """
+        test than function retrieve correctly the data and record
+        the substitute and his product in favorite table
+        """
+        c = Client()
+        c.login(username='gabin@gmail.com', password='1234')
 
-    #     # response = c.post(reverse('user:record_favorite', kwargs={
-    #     #     'product_id': product_id,
-    #     #     'substitute_id': substitute_id
-    #     # }))
-    #     response = c.post('/my-account/record_favorite', {
-    #         'product_id': self.product_id,
-    #         'substitute_id': self.substitute_id
-    #     })
-    #     print("HEEEEEEEOOOOOOOOOO : ", response.content)
-    #     self.assertContains(response, "yoan", status_code=302)
+        # response = c.post(reverse('user:record_favorite', kwargs={
+        #     'product_id': product_id,
+        #     'substitute_id': substitute_id
+        # }))
+        response = c.post('/my-account/record_favorite', {
+            'product_id': self.product.id,
+            'substitute_id': self.substitute.id,
+            'product_name': self.product.product_name,
+        })
+        print("HEEEEEEEOOOOOOOOOO : ", response.content)
+        # self.assertContains(response, "yoan", status_code=302)
+        # self.assertEqual(response.status_code, 302)
 
     def test_record_favorite_substitute_when_user_is_not_authenticated(self):
         """
@@ -212,43 +233,23 @@ class FavoriteRecordTests(TestCase):
         user want record a substitute but is not logged
         """
         response = self.client.post('/my-account/record_favorite', {
-            'product_id': self.product_id,
-            'substitute_id': self.substitute_id,
-            'product_name': self.product_name,
+            'product_id': self.product.id,
+            'substitute_id': self.substitute.id,
+            'product_name': self.product.product_name,
+        }, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'nutella', status_code=200)
+
+    def test_record_favorite_substitute_redirection(self):
+        """
+        test than the status_code = 302 for the redirection
+        """
+        response = self.client.post('/my-account/record_favorite', {
+            'product_id': self.product.id,
+            'substitute_id': self.substitute.id,
+            'product_name': self.product.product_name,
         })
         self.assertEqual(response.status_code, 302)
-
-# class SimpleTest(TestCase):
-#     def setUp(self):
-#         """
-#         test needs a client
-#         """
-#         self.client = Client()
-#         User.objects.create_user(
-#             username='yoan@gmail.com',
-#             first_name='yoan',
-#             last_name='Fornari',
-#             email='yoan@gmail.com',
-#             password='123'
-#         )
-#         pass
-
-#     def test_mon_q(self):
-#         """
-#         test mon uc
-#         """
-#         user = User.objects.get(email='yoan@gmail.com')
-#         self.assertEqual(user.first_name, 'yoan')
-
-#     # def test_login_is_ok(self):
-#     #     """
-#     #     a post request for login
-#     #     """
-#     #     response = self.client.post('/my-account/login', {'username': 'yoan@gmail.com', 'password': '123'})
-
-#     #     # check that the response is 200 OK.
-#     #     self.assertEqual(response.status_code, 200)
-#     #     # self.assertEqual(response.get('username'), 'yoan@gmail.com')
 
 # endregion
 
