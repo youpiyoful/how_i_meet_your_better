@@ -213,19 +213,12 @@ class FavoriteRecordTests(TestCase):
         """
         c = Client()
         c.login(username='gabin@gmail.com', password='1234')
-
-        # response = c.post(reverse('user:record_favorite', kwargs={
-        #     'product_id': product_id,
-        #     'substitute_id': substitute_id
-        # }))
         response = c.post('/my-account/record_favorite', {
             'product_id': self.product.id,
             'substitute_id': self.substitute.id,
             'product_name': self.product.product_name,
-        })
-        print("HEEEEEEEOOOOOOOOOO : ", response.content)
-        # self.assertContains(response, "yoan", status_code=302)
-        # self.assertEqual(response.status_code, 302)
+        }, follow=True)
+        self.assertContains(response, "gabin", status_code=200)
 
     def test_record_favorite_substitute_when_user_is_not_authenticated(self):
         """
