@@ -16,6 +16,6 @@ urlpatterns = [
     path("legal-mention", views.legal_mention, name="legal_mention"),
     path(
         "record_favorite",
-        views.record_favorite_substitue,
+        views.record_favorite_substitute,
         name="record_favorite"),
 ]
