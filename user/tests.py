@@ -2,7 +2,7 @@
 Test for the user app
 """
 from django.contrib.auth.models import User
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.shortcuts import reverse
 # from django import forms
 # from .forms import RegistrationForm
@@ -15,14 +15,14 @@ class LogInTests(TestCase):
 
     def setUp(self):
         self.credentials = {
-            'email': 'yoanfornari@gmail.com',
+            'email': 'gabin@gmail.com',
             'password_field': '123'}
 
         self.register = {
-            'first_name': 'yoan',
-            'last_name': 'Fornari',
-            'username': 'yoanfornari@gmail.com',
-            'email': 'yoanfornari@gmail.com',
+            'first_name': 'gabin',
+            'last_name': 'fornari',
+            'username': 'gabin@gmail.com',
+            'email': 'gabin@gmail.com',
             'password': '123',
         }
         User.objects.create_user(**self.register)
@@ -90,8 +90,8 @@ class RegisterTests(TestCase):
         """
         # self.form = RegistrationForm()
         self.client.post('/my-account/register', {
-            'firstname': 'yoan', 
-            'lastname': 'Fornari', 
+            'firstname': 'yoan',
+            'lastname': 'Fornari',
             'email': 'yoanfornari.same@gmail.com',
             'password_field': '123',
             'password_confirmation': '123'
@@ -102,8 +102,8 @@ class RegisterTests(TestCase):
         a post request for register account
         """
         response = self.client.post('/my-account/register', {
-            'firstname': 'yoan', 
-            'lastname': 'Fornari', 
+            'firstname': 'yoan',
+            'lastname': 'Fornari',
             'email': 'yoanfornari@gmail.com',
             'password_field': '123',
             'password_confirmation': '123'},
@@ -134,8 +134,8 @@ class RegisterTests(TestCase):
         test the behavior when account already register in db
         """
         response = self.client.post('/my-account/register', {
-            'firstname': 'yoan', 
-            'lastname': 'Fornari', 
+            'firstname': 'yoan',
+            'lastname': 'Fornari',
             'email': 'yoanfornari.same@gmail.com',
             'password_field': '123',
             'password_confirmation': '123'
@@ -172,12 +172,37 @@ class FavoriteRecordTests(TestCase):
     """
     test the record_favorite_substitute function
     """
+    def setUp(self):
+        """
+        create a fake user
+        """
+        self.user = User.objects.create_user(
+            password="1234",
+            username="gabin@gmail.com",
+            first_name="gabin",
+            last_name="fornari",
+            email="gabin@gmail.com"
+        )
+
     def test_record_favorite_substitute_is_correctly_record(self):
         """
         test than function retrieve correctly the data and record
         the substitute and his product in favorite table
         """
-        pass
+        c = Client()
+        c.login(username='gabin@gmail.com', password='1234')
+        product_id = 15
+        substitute_id = 16
+
+        # response = c.post(reverse('user:record_favorite', kwargs={
+        #     'product_id': product_id,
+        #     'substitute_id': substitute_id
+        # }))
+        response = c.post('/my-account/record_favorite', {
+            'product_id': product_id,
+            'substitute_id': substitute_id
+        })
+        self.assertConatins(response, self.user.first_name, status_code=302)
 # class SimpleTest(TestCase):
 #     def setUp(self):
 #         """
