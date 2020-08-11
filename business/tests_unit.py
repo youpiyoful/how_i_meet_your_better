@@ -2,6 +2,7 @@ from django.test import TestCase
 from .models import Product, Category
 from business import open_food_facts, food
 from unittest.mock import MagicMock
+from decimal import *
 import random
 import string
 
@@ -334,7 +335,7 @@ class TestFood(TestCase):
         self.assertEqual(type(result), list)
         self.assertTrue(len(result) <= 6)
         for substitute in result:
-            self.assertTrue(substitute.nutriscore <= nutriscore_of_complete_product)
+            self.assertTrue(substitute.get('nutriscore') <= nutriscore_of_complete_product)
 
     def test_substitute_food_by_food_with_best_nutriscore_wrong(self):
         """
