@@ -19,7 +19,7 @@ from django.urls import include, path
 from business import views
 
 urlpatterns = [
-    path('<success>', views.index, name='index'),
+    path('<message>', views.index, name='index'),
     path('', views.index, name='index'),
     path('himyb/', include('business.urls')),
     path('my-account/', include('user.urls')),
