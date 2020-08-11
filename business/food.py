@@ -4,6 +4,7 @@ like search a food substitute
 """
 from .models import Category, Product
 from django.core.exceptions import ObjectDoesNotExist
+from decimal import Decimal
 import string # TODO : créer une liste alphabétique pour recherché chaque produit en parcourant les nutriscores du bien au moins bien jusqu'a trouvé au minimum 6 éléments
 # ou avoir fini la liste alphabétique sans rien trouver...
 
@@ -67,12 +68,13 @@ class Food:
         print('complete_product : ', complete_product)
         return complete_product
 
-    def substitute_food_by_foods_with_best_nutriscore(self, complete_product): 
+    def substitute_food_by_foods_with_best_nutriscore(self, complete_product):
         """
         for a food find many foods than have a best nutriscore
         : return list of substitute
         """
         print('=============================================')
+        print('complete_product : ', complete_product)
         current_product_id = complete_product.get('product').get('product_id')
         print('current_product_id : ', current_product_id)
         nutriscore_of_current_product = complete_product.get(
@@ -115,7 +117,10 @@ class Food:
                 id=more_precise_cat
             ).products.all().filter(
                 nutriscore__lte=nutriscore_of_current_product
-            ).exclude(id=current_product_id).order_by('nutriscore')
+            ).exclude(id=current_product_id).order_by(
+                'nutriscore'
+            ).all().values()  # TODO : peut retourner des objets au lieu des valeurs
+            # chaque objet peut ensuite être requêté
             print('queryset_list_of_substitute : ', queryset_list_of_substitute)
 
             list_of_substitute = [
