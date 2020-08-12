@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from .forms import RegistrationForm, BaseForm
+from django.utils.http import urlencode
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import Favorite, PurBeurreUser
@@ -21,7 +22,7 @@ def my_account(request):
         }
         return render(request, "user/account.html", context)
     else:
-        return redirect('index')
+        return redirect('index', message='Veuillez vous connectez !')
 
 
 # @csrf_protect
@@ -46,7 +47,7 @@ def authentication(request):
         if user is not None:
             print('user connected')
             login(request, user)
-            return redirect('index')
+            return redirect('index', message='Vous vous êtes connecté avec succès !')
 
         else:
             print('utilisateur inconnu')
@@ -60,7 +61,7 @@ def authentication(request):
 def logout_view(request):
     """call the metod logout and redirect on home page"""
     logout(request)
-    return render(request, "business/index.html")
+    return redirect('index', message="Vous êtes bien déconnecté !")
 
 
 def register(request):
@@ -148,7 +149,11 @@ def record_favorite_substitute(request):
         print('user and favorite link : ', user_and_favorite_link)
         return redirect('user:my_account')
 
-    return redirect('business:results', product_name=product_name)
+    base_url = reverse('business:results')
+    query_string = urlencode({'product_name': product_name})
+    url = '{}?{}'.format(base_url, query_string)
+    return redirect(url)
+    # TODO : ajouter un message pour dire qu'il faut être connecté pour pouvoir sauvegarder un aliment.
 
 
 # def registration(request):
