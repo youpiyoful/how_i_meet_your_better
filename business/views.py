@@ -64,8 +64,11 @@ def results(request):
             complete_product_and_its_categories
         )
         print('list_of_foods_substitute : ', list_of_foods_substitute)
+
         if list_of_foods_substitute == 'this product have the best nutriscore':
-            return redirect('index')
+            print('this product have the best nutriscore')
+            return redirect('index', message="Ce produit ne possède aucun substitut de meilleur qualité")
+
         context = {
             "active_results": "active",
             "food_to_substitute": product_name,
