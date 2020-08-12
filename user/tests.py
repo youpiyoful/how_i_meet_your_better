@@ -7,7 +7,7 @@ from django.shortcuts import reverse
 # from django import forms
 # from .forms import RegistrationForm
 from .models import Favorite, PurBeurreUser
-from business.models import Product
+from business.models import Product, Category
 
 
 # region TESTS OF VIEW
@@ -32,7 +32,12 @@ class LogInTests(TestCase):
         response = self.client.post('/my-account/login', self.credentials, follow=True)
         # should be logged in now
         self.assertTrue(response.context['user'].is_authenticated)
-        self.assertRedirects(response, '/', status_code=302, target_status_code=200, fetch_redirect_response=True)
+        self.assertRedirects(
+            response,
+            '/Vous%20vous%20%C3%AAtes%20connect%C3%A9%20avec%20succ%C3%A8s%20!',
+            status_code=302,
+            target_status_code=200,
+            fetch_redirect_response=True)
         assert (self.client.session['_auth_user_id'])
 
     def test_authentication_error(self):
@@ -192,7 +197,7 @@ class FavoriteRecordTests(TestCase):
             sugars=2.3366,
             saturated_fat=0.555,
             salt=10.234,
-            nutriscore="e",
+            nutriscore="z",
         )
         self.substitute = Product.objects.create(
             id=16,
@@ -205,6 +210,15 @@ class FavoriteRecordTests(TestCase):
             salt=10.234,
             nutriscore="a",
         )
+
+        commune_cat = Category.objects.create(
+            id=5,
+            category_name="commune_cat",
+            url_category="https://fake_url.com"
+        )
+
+        commune_cat.products.add(self.product)
+        commune_cat.products.add(self.substitute)    
 
     def test_record_favorite_substitute_is_correctly_record(self):
         """
@@ -230,8 +244,9 @@ class FavoriteRecordTests(TestCase):
             'substitute_id': self.substitute.id,
             'product_name': self.product.product_name,
         }, follow=True)
+        print("response content : ", response.content)
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'nutella', status_code=200)
+        self.assertContains(response, 'invention', status_code=200)
 
     def test_record_favorite_substitute_redirection(self):
         """

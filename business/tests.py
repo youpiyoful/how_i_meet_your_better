@@ -7,6 +7,7 @@ from django.shortcuts import reverse, get_object_or_404
 from decimal import *
 import random
 import string
+from django.utils.http import urlencode
 
 
 # region TESTS OF VIEW
@@ -105,6 +106,21 @@ class ResultsTests(TestCase):
         self.category5.products.add(self.product, through_defaults={
             'hyerarchie_score': 4
         })
+        self.category.products.add(self.best_product_ever, through_defaults={
+            'hyerarchie_score': 5
+        })
+        self.category2.products.add(self.best_product_ever, through_defaults={
+            'hyerarchie_score': 2
+        })
+        self.category3.products.add(self.best_product_ever, through_defaults={
+            'hyerarchie_score': 3
+        })
+        self.category4.products.add(self.best_product_ever, through_defaults={
+            'hyerarchie_score': 1
+        })
+        self.category5.products.add(self.best_product_ever, through_defaults={
+            'hyerarchie_score': 4
+        })
         # self.food = food.Food("invention")
         i = 0
 
@@ -132,9 +148,11 @@ class ResultsTests(TestCase):
                 'hyerarchie_score': 3
             })
             i += 1
-
+        query_string = urlencode({"product_name": "nutella"})
+        base_url = reverse("business:results")
+        self.url = f'{base_url}?{query_string}'
         self.response = self.client.get(
-            reverse("business:results", kwargs={"product_name": "nutella"})
+            self.url
         )
 
     def test_than_results_return_the_correct_context(self):
@@ -142,17 +160,19 @@ class ResultsTests(TestCase):
         test than context contain all the data request
         by the user and render the correct template
         """
+
         response = self.client.get(
-            reverse("business:results", kwargs={"product_name": "nutella"}),
+            self.url,
             follow=True
         )
-        print('context : ', response.context['foods_substitute'][0])
+        print('context : ', response.context[0])
         self.assertEqual(response.status_code, 200)
-        for foods_substitute in response.context['foods_substitute']:
-            self.assertIn("nutriscore", foods_substitute)
-            self.assertIn("product_name", foods_substitute)
-            # self.assertIn("category", foods_substitute)
-            self.assertIn("image_url", foods_substitute)
+        for elt in response.context:
+            self.assertIn("origin_food_nutriscore", elt)
+            self.assertIn("food_to_substitute", elt)
+            self.assertIn("commune_category", elt)
+            self.assertIn("url_image", elt)
+            self.assertIn("foods_substitute", elt)
 
     def test_the_list_of_food_substitute_contain_(self):
         """
@@ -162,6 +182,11 @@ class ResultsTests(TestCase):
         print('self.context ======= ', self.response.context)
         self.assertEqual(type(self.response.context["foods_substitute"]), list)
         self.assertTrue(len(self.response.context["foods_substitute"]) <= 6)
+        print("manon la pute : ", self.response.context["foods_substitute"])
+        substitute = self.response.context["foods_substitute"][0]
+        self.assertIn("nutriscore", substitute)
+        self.assertIn("product_name", substitute)
+        # self.assertIn("")
 
     # def test_results_when_list_is_not_return(self):
     #     """
