@@ -10,22 +10,22 @@ from .models import Product, Category, CategoriesProducts
 from django.template import RequestContext
 from decimal import *
 from .food import Food
+from .form import SearchFoodForm
 
 # from django.template import loader
 
 
 # Create your views here.
-def index(request, success=True):
+def index(request, message=False):
     """return the home template of our app"""
     # if request.args.get('context'):
     #     context = {'success_is_ok': request.args.get('context')}
     #     return render(request, 'business/index.html', context)
-    context = {}
-    if success is not True:
-        context = {
-            "register_is_ok": "Félicitation vous êtes désormais \
-            inscrit sur notre site"
-        }
+    form = SearchFoodForm()
+    context = {'form': form}
+
+    if message is not False:
+        context['message'] = message
 
     return render(request, "business/index.html", context)
 
@@ -37,13 +37,13 @@ def index(request, success=True):
 #     return render(request, 'business/404.html')
 
 
-def results(request, product_name):
+def results(request):
     """return the results of substitutions product"""
     # TODO se servir du nom de l'aliment à substituer pour retrouver les
     # informations sur les autres aliments
-    print("PRODUCT NAME : ", product_name)
 
-    # TODO : think to delete the condition it's because data don't exist yet
+    product_name = request.GET.get('product_name')
+    print("PRODUCT NAME : ", product_name)
 
     if product_name:
         food = Food(product_name)
@@ -52,10 +52,12 @@ def results(request, product_name):
 
         if complete_product_and_its_categories == 'product not found':
             print('product not found')
-            return redirect('index')
+            return redirect('index', message='Aucun produit ou catégorie associée trouvé')
             # TODO : message='aucune catégories ou produit trouvé'
             # créer un message en args pour pouvoir mettre des alertes
             # aux utilisateurs ! 
+        # categories = complete_product_and_its_categories.categories
+        # if len(categories) > 1:
 
         print("complete product and its categories : ", complete_product_and_its_categories)
         list_of_foods_substitute = food.substitute_food_by_foods_with_best_nutriscore(
@@ -64,54 +66,18 @@ def results(request, product_name):
         print('list_of_foods_substitute : ', list_of_foods_substitute)
         if list_of_foods_substitute == 'this product have the best nutriscore':
             return redirect('index')
-        # list_of_foods_substitute = [
-        #     {
-        #         "nutriscore": "A",
-        #         "name": "nutella",
-        #         "category": "pâte à tartiner",
-        #         "url_image": "https://static.openfoodfacts.org/images/products/301/762/042/1006/front_fr.176.400.jpg",
-        #     },
-        #     {
-        #         "nutriscore": "B",
-        #         "name": "coca",
-        #         "category": "soda",
-        #         "url_image": "business/assets/img/portfolio/thumbnails/2.jpg",
-        #     },
-        #     {
-        #         "nutriscore": "B",
-        #         "name": "coca",
-        #         "category": "soda",
-        #         "url_image": "business/assets/img/portfolio/thumbnails/2.jpg",
-        #     },
-        #     {
-        #         "nutriscore": "B",
-        #         "name": "coca",
-        #         "category": "soda",
-        #         "url_image": "business/assets/img/portfolio/thumbnails/2.jpg",
-        #     },
-        #     {
-        #         "nutriscore": "B",
-        #         "name": "coca",
-        #         "category": "soda",
-        #         "url_image": "business/assets/img/portfolio/thumbnails/2.jpg",
-        #     },
-        #     {
-        #         "nutriscore": "B",
-        #         "name": "coca",
-        #         "category": "soda",
-        #         "url_image": "business/assets/img/portfolio/thumbnails/2.jpg",
-        #     },
-        # ]
         context = {
             "active_results": "active",
             "food_to_substitute": product_name,
-            "url_image": "https://static.openfoodfacts.org/images/products/301/762/042/1006/front_fr.176.400.jpg",
+            "origin_food_nutriscore": complete_product_and_its_categories.get('product').get('nutriscore'),
+            "commune_category": 'a faire',
+            "url_image": complete_product_and_its_categories.get('product').get('image_url'),
             "foods_substitute": list_of_foods_substitute,
         }
         return render(request, "business/results.html", context)
 
     print("product_name is empty")
-    return redirect("index")
+    return redirect("index", message="Le nom du produit ne doit pas être vide")
 
 
 def detail_food(request, food):
