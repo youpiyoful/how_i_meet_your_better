@@ -11,6 +11,11 @@
                 <h1 class="text-uppercase text-white font-weight-bold">
                     {{ food_to_substitute }}
                 </h1>
+                <div class="align-self-end">
+                    <h2 class="text-white">
+                        Nutriscore : <span class="text-uppercase">{{ origin_food_nutriscore }}</span>
+                    </h2>
+                </div>
             </div>
         </div>
     </div>
@@ -32,11 +37,11 @@
                     <p class="nutriscore">{{ food.nutriscore }}</p>
                 </div>
                 <a class="food-results-box" href="{% static food.url_image %}">
-                    <div class="band img-container" style="background: url({% static food.url_image %});"></div>
+                    <div class="band img-container" style="background: url({{ food.image_url }});"></div>
                     <!-- <div class="band img-container" style="background: url({{ food.url_image }});"></div> -->
                     <div class="food-results-box-caption">
-                        <div class="project-category text-white-50">{{ food.category }}</div>
-                        <div class="project-name">{{ food.name }}</div>
+                        <div class="project-category text-white-50">{{ commune_category }}</div>
+                        <div class="project-name">{{ food.product_name }}</div>
                     </div>
                 </a>
 
