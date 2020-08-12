@@ -60,7 +60,7 @@ def results(request):
         # if len(categories) > 1:
 
         print("complete product and its categories : ", complete_product_and_its_categories)
-        list_of_foods_substitute = food.substitute_food_by_foods_with_best_nutriscore(
+        list_of_foods_substitute, commune_category = food.substitute_food_by_foods_with_best_nutriscore(
             complete_product_and_its_categories
         )
         print('list_of_foods_substitute : ', list_of_foods_substitute)
@@ -73,7 +73,7 @@ def results(request):
             "active_results": "active",
             "food_to_substitute": product_name,
             "origin_food_nutriscore": complete_product_and_its_categories.get('product').get('nutriscore'),
-            "commune_category": 'a faire',
+            "commune_category": commune_category,
             "url_image": complete_product_and_its_categories.get('product').get('image_url'),
             "foods_substitute": list_of_foods_substitute,
         }

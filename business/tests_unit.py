@@ -329,7 +329,7 @@ class TestFood(TestCase):
         """
         complete_product = self.food.search_food_and_categories_by_product_name()
         nutriscore_of_complete_product = complete_product.get('product').get('nutriscore')
-        result = self.food.substitute_food_by_foods_with_best_nutriscore(
+        result, commune_category = self.food.substitute_food_by_foods_with_best_nutriscore(
             complete_product
         )
         self.assertEqual(type(result), list)

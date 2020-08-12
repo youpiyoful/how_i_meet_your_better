@@ -131,10 +131,10 @@ class Food:
 
             if len(list_of_substitute) > 6:
                 # return the 6 best substitute in the list
-                return list_of_substitute[:6]
+                return list_of_substitute[:6], Category.objects.get(id=more_precise_cat).category_name
 
             if list_of_substitute:
-                return list_of_substitute
+                return list_of_substitute, Category.objects.get(id=more_precise_cat).category_name
 
             # if list_of_subsitute is None:
 
