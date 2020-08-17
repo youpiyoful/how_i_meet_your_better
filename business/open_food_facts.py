@@ -30,7 +30,7 @@ class OpenFoodFact:
         print("Response : ", response)
 
         if response.status_code == 200:
-            list_of_category = response.json().get("tags", "any data")
+            list_of_category = response.json().get("tags")
             print("list_of_category : ", list_of_category)
 
             if list_of_category:

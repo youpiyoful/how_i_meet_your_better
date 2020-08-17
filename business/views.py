@@ -83,24 +83,31 @@ def results(request):
     return redirect("index", message="Le nom du produit ne doit pas être vide")
 
 
-def detail_food(request, food):
+def detail_food(request):
     """display the page detail of food in params"""
     # TODO se servir de food pour retrouver les infos concernant
     # l'aliment dans la base et les rendre à l'aide du contexte
+    food = request.GET.get('food')
+    product = Product.objects.get(product_name=food)
+    categories = product.category_set.all().values('category_name')
     print("FOOD : ", food)
+    print('PRODUCT : ', product)
 
     # food_detail = get_object_or_404(Product, product_name=food)
     food_detail = {
-        "name": "nutella",
-        "nutriscore": "e",
+        "name": product.product_name,
+        "nutriscore": product.nutriscore,
         "level_gras": "high",
+        "fat": round(product.fat, 2),
         "level_sugar": "low",
+        "sugar": round(product.sugars, 2),
         "level_sel": "moderate",
+        "salt": round(product.salt, 2),
         "level_satur_gras": "high",
-        "link_open_food_fact": "https://fr.openfoodfacts.org/produit/3017620421006/nutella-ferrero",
-        "category": "pâte à tartiner",
-        "nutri_per_100g": "de la merde",
-        "url_image": '"https://static.openfoodfacts.org/images/products/301/762/042/1006/front_fr.176.400.jpg',
+        "saturated_fat": round(product.saturated_fat, 2),
+        "link_open_food_fact": product.product_url,
+        "category": categories,
+        "url_image": product.image_url
     }
 
     context = {"food_detail": food_detail}
