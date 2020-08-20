@@ -31,7 +31,7 @@ class IndexTests(TestCase):
         self.assertContains(response, "Contactez-nous !", status_code=200)
 
 
-class ResultsTests(TestCase):
+class ResultsTestsAndDetailTests(TestCase):
     """
     test the view results()
     """
@@ -151,6 +151,7 @@ class ResultsTests(TestCase):
         query_string = urlencode({"product_name": "nutella"})
         base_url = reverse("business:results")
         self.url = f'{base_url}?{query_string}'
+        self.wrong_url = f'{base_url}?{urlencode({"product_name": "not_exist"})}'
         self.response = self.client.get(
             self.url
         )
@@ -177,55 +178,46 @@ class ResultsTests(TestCase):
     def test_the_list_of_food_substitute_contain_(self):
         """
         test than list of food substitute contain
-        6 elements of food substitute
+        6 elements max of food substitute
         """
         print('self.context ======= ', self.response.context)
         self.assertEqual(type(self.response.context["foods_substitute"]), list)
         self.assertTrue(len(self.response.context["foods_substitute"]) <= 6)
-        print("manon la pute : ", self.response.context["foods_substitute"])
         substitute = self.response.context["foods_substitute"][0]
         self.assertIn("nutriscore", substitute)
         self.assertIn("product_name", substitute)
         # self.assertIn("")
 
-    # def test_results_when_list_is_not_return(self):
-    #     """
-    #     when the list is not return the function
-    #     provides an http404 exception
-    #     """
-    #     response = self.client.get("/himyb/results/empty")
-    #     self.assertEqual(response.status_code, 404)
-    #     self.assertContains(response, "Not Found", status_code=404)
+    def test_results_when_list_is_not_return(self):
+        """
+        when the list is not return the function
+        provides an http404 exception
+        """
+        response = self.client.get(self.wrong_url)
+        self.assertEqual(response.status_code, 302)
+        # self.assertEqual(response.status_code, 404)
+        # self.assertContains(response, "Not Found", status_code=404)
 
-    # def test_when_product_name_is_empty(self):
-    #     """
-    #     test than function redirect to the home page
-    #     when the product_name is an empty string
-    #     """
-    #     response = self.client.get(reverse(
-    #         "business:results", kwargs={"product_name": ""}
-    #     ), follow=True)
-    #     self.assertContains(response, "rechercher", 200)
+    def test_when_product_name_is_not_found(self):
+        """
+        test than function redirect to the home page
+        when the product_name is an empty string
+        """
+        response = self.client.get(reverse(
+            "business:results", kwargs={"product_name": ""}
+        ), follow=True)
+        self.assertContains(response, "rechercher", 200)
 
-
-class DetailFoodTests(TestCase):
-    """
-    test the view detail_food()
-    """
-
-    # def setUp(self):
-    #     """
-    #     create a product
-    #     """
-    #     Product(product_name="nutella")
-
+    # Part for detail_food function
     def test_detail_food_is_ok(self):
         """
         test than detail_food return the page detail food
         with element about substitute choose by the user
         """
+        query = urlencode({'food': 'nutella'})
+        url = reverse('business:detail_food')
         response = self.client.get(
-            reverse("business:detail_food", kwargs={"food": "nutella"})
+            f'{url}?{query}'
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "name", status_code=200)
