@@ -10187,8 +10187,8 @@ section#food-results p.font-weight-bold.text-center {
 }
 
 .img-container {
-  width: 478px;
-  height: 256px;
+  width: 100%;
+  height: 30vh;
 }
 
 .pt-results{
@@ -10197,6 +10197,7 @@ section#food-results p.font-weight-bold.text-center {
 
 @media (max-width: 576px) {
   .img-container {
+    width: 100%;
     max-width: 345px;
   }
 }
