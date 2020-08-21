@@ -155,11 +155,3 @@ def record_favorite_substitute(request):
     return redirect(url)
     # TODO : ajouter un message pour dire qu'il faut être connecté pour pouvoir sauvegarder un aliment.
 
-
-# def registration(request):
-#     """record a new user"""
-#     # context = {'register_is_ok': 'Félicitation vous êtes désormais inscrit sur notre site'}
-#     # context = 'Félicitation vous êtes désormais inscrit sur notre site'
-#     # return render(request, "business/index.html", context)
-#     success = 'success'
-#     return redirect('index', success=success)
