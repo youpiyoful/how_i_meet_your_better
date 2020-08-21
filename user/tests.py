@@ -229,7 +229,7 @@ class FavoriteRecordTests(TestCase):
         c.login(username='gabin@gmail.com', password='1234')
         response = c.post('/my-account/record_favorite', {
             'product_id': self.product.id,
-            'substitute_id': self.substitute.id,
+            'substitute_name': self.substitute.product_name,
             'product_name': self.product.product_name,
         }, follow=True)
         self.assertContains(response, "gabin", status_code=200)
@@ -241,7 +241,7 @@ class FavoriteRecordTests(TestCase):
         """
         response = self.client.post('/my-account/record_favorite', {
             'product_id': self.product.id,
-            'substitute_id': self.substitute.id,
+            'substitute_name': self.substitute.product_name,
             'product_name': self.product.product_name,
         }, follow=True)
         print("response content : ", response.content)
@@ -254,7 +254,7 @@ class FavoriteRecordTests(TestCase):
         """
         response = self.client.post('/my-account/record_favorite', {
             'product_id': self.product.id,
-            'substitute_id': self.substitute.id,
+            'substitute_name': self.substitute.product_name,
             'product_name': self.product.product_name,
         })
         self.assertEqual(response.status_code, 302)
