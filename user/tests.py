@@ -228,7 +228,6 @@ class FavoriteRecordTests(TestCase):
         c = Client()
         c.login(username='gabin@gmail.com', password='1234')
         response = c.post('/my-account/record_favorite', {
-            'product_id': self.product.id,
             'substitute_name': self.substitute.product_name,
             'product_name': self.product.product_name,
         }, follow=True)
@@ -240,7 +239,6 @@ class FavoriteRecordTests(TestCase):
         user want record a substitute but is not logged
         """
         response = self.client.post('/my-account/record_favorite', {
-            'product_id': self.product.id,
             'substitute_name': self.substitute.product_name,
             'product_name': self.product.product_name,
         }, follow=True)
@@ -253,7 +251,6 @@ class FavoriteRecordTests(TestCase):
         test than the status_code = 302 for the redirection
         """
         response = self.client.post('/my-account/record_favorite', {
-            'product_id': self.product.id,
             'substitute_name': self.substitute.product_name,
             'product_name': self.product.product_name,
         })
