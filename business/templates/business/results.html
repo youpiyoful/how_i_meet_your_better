@@ -49,7 +49,8 @@
 
                 <div class="m-auto width-fit-content">
                     <form  action="{% url 'user:record_favorite' %}" method="POST" class="form">
-                        <input type="hidden" name="patient_id" value="{{food.id}}" />
+                        <input type="hidden" name="product_name" value="{{ food_to_substitute }}">
+                        <input type="hidden" name="substitute_name" value="{{ food.product_name }}" />
                         
                         {% csrf_token %}
                         <button type="button" class="btn">
