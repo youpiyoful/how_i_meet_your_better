@@ -48,8 +48,15 @@
                 </a>
 
                 <div class="m-auto width-fit-content">
-                    <button type="button" class="btn"><i class="fas fa-save fa-2x text-center"></i></button>
-                    <div class="inline-block">sauvegarder</div>
+                    <form  action="{% url 'user:record_favorite' %}" method="POST" class="form">
+                        <input type="hidden" name="patient_id" value="{{food.id}}" />
+                        
+                        {% csrf_token %}
+                        <button type="button" class="btn">
+                            <i class="fas fa-save fa-2x text-center"></i>
+                        </button>
+                        <div class="inline-block">sauvegarder</div>
+                    </form>
                 </div>
 
             </div>
