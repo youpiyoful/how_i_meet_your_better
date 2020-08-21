@@ -126,10 +126,9 @@ def record_favorite_substitute(request):
     and record the choice in the favorite table
     """
     product_name = request.POST.get('product_name')
-    product_id = request.POST.get('product_id')
     substitute_name = request.POST.get('substitute_name')
-    print('product and substitute :', product_id, substitute_name)
-    product = Product.objects.get(id=product_id)
+    print('product and substitute :', product_name, substitute_name)
+    product = Product.objects.get(product_name=product_name)
     substitute = Product.objects.get(product_name=substitute_name)
     # categories = product.category_set.all().values('category_name')
     if request.user.is_authenticated:
