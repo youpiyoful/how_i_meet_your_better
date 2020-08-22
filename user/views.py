@@ -143,14 +143,49 @@ def record_favorite_substitute(request):
         )
         print("favorite object : ", favorite)
         print("favorite object got created : ", created)
-        user_and_favorite_link = PurBeurreUser.objects.create(
-            user=user).favorites.add(favorite)
-        print('user and favorite link : ', user_and_favorite_link)
+        user, created = PurBeurreUser.objects.get_or_create(
+            user=user)
+        favorite_link = user.favorites.add(favorite)
+        print('user and favorite link : ', favorite_link)
         return redirect('user:my_account')
 
     base_url = reverse('business:results')
-    query_string = urlencode({'product_name': product_name})
+    query_string = urlencode({
+        'product_name': product_name,
+        'message': 'Vous devez être connecté pour enregistrer un produit dans vos favoris'})
+    print('query_string : ', query_string)
     url = '{}?{}'.format(base_url, query_string)
     return redirect(url)
-    # TODO : ajouter un message pour dire qu'il faut être connecté pour pouvoir sauvegarder un aliment.
 
+
+def display_favorite_food(request):
+    """
+    this function render the page with favorite food of user
+    who display a list of link to detail about the favorite 
+    food
+    """
+
+    if request.user.is_authenticated:
+        print('request.user : ', request.user)
+        user = PurBeurreUser.objects.get(user=request.user)
+        list_of_favorites = user.favorites.all().values()
+        print('USER : ', user.id)
+        print('List_of_favorites : ', list_of_favorites)
+        list_of_substitute_and_substituted = []
+        for favorite in list_of_favorites:
+            print('favorite : ', favorite)
+            substitute = Product.objects.get(id=favorite.get('substitute_id'))
+            substituted = Product.objects.get(id=favorite.get('product_id'))
+            substitute_and_substituted = {
+                'substitute_name': substitute.product_name,
+                'substituted_name': substituted.product_name,
+                'link_to_detail_of_substitute': substitute.product_url
+            }
+            list_of_substitute_and_substituted.append(substitute_and_substituted)
+            print('substitute : ', substitute, ' / ', 'substituted : ', substituted)
+        print('list_of_substitute_and_substituted : ', list_of_substitute_and_substituted)
+        context = {
+            "list_of_substitute_and_substituted": list_of_substitute_and_substituted
+        }
+
+        return render(request, 'user/favorite.html', context)
