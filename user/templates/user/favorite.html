@@ -1,1 +1,12 @@
 {% extends 'himyb/base.html' %}
+{% block content %}
+<ul>
+    {% for substitute_and_substituted in list_of_substitute_and_substituted %}
+    <div>
+        <li>Substitut favoris : {{ substitute_and_substituted.substitute_name }}</li>
+        <li>Produit substitué{{ substitute_and_substituted.product_name }}</li>
+        <!-- <li><a href="{% url 'business:detail_food' %}"></a> Détails sur le produit favoris : {{ substitute_and_substituted.link_to_detail_of_substitute }}</li> -->
+    </div>
+    {% endfor %}
+</ul>
+{% endblock %}
