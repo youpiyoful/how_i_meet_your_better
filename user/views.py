@@ -179,13 +179,30 @@ def display_favorite_food(request):
             substitute_and_substituted = {
                 'substitute_name': substitute.product_name,
                 'substituted_name': substituted.product_name,
-                'link_to_detail_of_substitute': substitute.product_url
+                'link_to_detail_of_substitute': substitute.product_url # TODO : inutile ! 
             }
             list_of_substitute_and_substituted.append(substitute_and_substituted)
             print('substitute : ', substitute, ' / ', 'substituted : ', substituted)
         print('list_of_substitute_and_substituted : ', list_of_substitute_and_substituted)
         context = {
-            "list_of_substitute_and_substituted": list_of_substitute_and_substituted
+            "list_of_substitute_and_substituted": list_of_substitute_and_substituted,
+            "counter": Counter()
         }
 
         return render(request, 'user/favorite.html', context)
+
+
+class Counter:
+    count = 0
+
+    def increment(self):
+        self.count += 1
+        return ''
+
+    def decrement(self):
+        self.count -= 1
+        return ''
+
+    def double(self):
+        self.count *= 2
+        return ''
