@@ -8,6 +8,7 @@ from django.shortcuts import reverse
 # from .forms import RegistrationForm
 from .models import Favorite, PurBeurreUser
 from business.models import Product, Category
+from django.test import tag
 
 
 # region TESTS OF VIEW
@@ -255,6 +256,86 @@ class FavoriteRecordTests(TestCase):
             'product_name': self.product.product_name,
         })
         self.assertEqual(response.status_code, 302)
+
+
+@tag('favorite')
+class FavoriteFoodDisplayTests(TestCase):
+    """
+    tests about display_favorite_food endpoint
+    """
+
+    def setUp(self):
+        """
+        init the data with fake favorite products
+        """
+        fake_user = User.objects.create_user(
+            first_name='yoan',
+            last_name='fornari',
+            email='yoanfornari@gmail.com',
+            password=123,
+            username='yoanfornari@gmail.com'
+        )
+        self.c = Client()
+        self.c.login(username='yoanfornari@gmail.com', password=123)
+
+        self.favorite_product = Product.objects.create(
+            id=16,
+            product_name="substitute",
+            image_url="https://sub.jpg",
+            product_url="https://sub.com",
+            fat=1.5,
+            sugars=2.3366,
+            saturated_fat=0.555,
+            salt=10.234,
+            nutriscore="a",
+        )
+        self.replaced_food = Product.objects.create(
+            id=15,
+            product_name="bad food",
+            image_url="https://bad.jpg",
+            product_url="https://bad.com",
+            fat=1.5,
+            sugars=2.3366,
+            saturated_fat=0.555,
+            salt=10.234,
+            nutriscore="z",
+        )
+        substitute_and_substituted = Favorite.objects.create(
+            id=1,
+            product_id=15,
+            substitute_id=16
+        )
+        pur_beur_user = PurBeurreUser.objects.create(user=fake_user)
+        favorite_of_user = pur_beur_user.favorites.add(substitute_and_substituted)
+        self.list_of_favorite = pur_beur_user.favorites.all().values()
+
+        
+    def test_than_favorite_food_exist_and_display_page(self):
+        """
+        test than endpoint render the correct elements 
+        in context when favorite exist
+        """
+        response = self.c.get(reverse('user:favorite_food'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            type(response.context['list_of_substitute_and_substituted']),
+            list
+            )
+        # print('list_of : ', self.list_of_favorite)
+        # for el in self.list_of_favorite:
+        #     print(el.get('id'))
+        self.assertEqual(
+            response.context['list_of_substitute_and_substituted'][0]['substitute_name'],
+            'substitute'
+        )
+        self.assertEqual(
+            response.context['list_of_substitute_and_substituted'][0]['substituted_name'],
+            'bad food'
+        )
+        self.assertEqual(
+            response.context['list_of_substitute_and_substituted'][0]['link_to_detail_of_substitute'],
+            'https://sub.com'
+        )
 
 # endregion
 
