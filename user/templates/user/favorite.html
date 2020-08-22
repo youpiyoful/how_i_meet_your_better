@@ -1,12 +1,58 @@
 {% extends 'himyb/base.html' %}
 {% block content %}
-<ul>
-    {% for substitute_and_substituted in list_of_substitute_and_substituted %}
-    <div>
-        <li>Substitut favoris : {{ substitute_and_substituted.substitute_name }}</li>
-        <li>Produit substitué{{ substitute_and_substituted.product_name }}</li>
-        <!-- <li><a href="{% url 'business:detail_food' %}"></a> Détails sur le produit favoris : {{ substitute_and_substituted.link_to_detail_of_substitute }}</li> -->
-    </div>
-    {% endfor %}
-</ul>
+<table class='table'>
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Substitut favoris</th>
+            <th scope="col">Produit substitué</th>
+            <th scope="col">Détails sur le produit favoris</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for substitute_and_substituted in list_of_substitute_and_substituted %}
+            <tr>
+                {{ counter.increment }}
+                <th scope="row">{{ counter.count }}</th>
+                <td>{{ substitute_and_substituted.substitute_name }}</td>
+                <td>{{ substitute_and_substituted.substituted_name }}</td>
+                <td>
+                    <a href="{% url 'business:detail_food' %}?food={{ substitute_and_substituted.substitute_name }}">
+                        {% url 'business:detail_food' %}?food={{ substitute_and_substituted.substitute_name }}
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<!-- <table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+        </tr>
+    </tbody>
+</table> -->
 {% endblock %}
