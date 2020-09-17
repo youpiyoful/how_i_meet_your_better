@@ -233,6 +233,8 @@ svg {
 
 table {
   border-collapse: collapse;
+  padding-top: 2em;
+  padding-bottom: 2em;
 }
 
 caption {
