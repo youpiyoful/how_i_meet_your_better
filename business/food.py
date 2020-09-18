@@ -2,7 +2,7 @@
 file about class food who deliver method about himyb functionalities
 like search a food substitute
 """
-from .models import Category, Product
+from business.models import Category, Product
 from django.core.exceptions import ObjectDoesNotExist
 from decimal import Decimal
 import string # TODO : créer une liste alphabétique pour recherché chaque produit en parcourant les nutriscores du bien au moins bien jusqu'a trouvé au minimum 6 éléments
