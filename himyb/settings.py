@@ -128,7 +128,7 @@ USE_L10N = True
 USE_TZ = True
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'himyb/static'),
+    # os.path.join(BASE_DIR, 'himyb/static'),
     os.path.join(BASE_DIR, "business/static"),
     os.path.join(BASE_DIR, "user/static")
 ]
