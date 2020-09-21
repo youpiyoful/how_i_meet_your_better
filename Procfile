@@ -1,0 +1,1 @@
+web: gunicorn himyb.wsgi --log-file -
