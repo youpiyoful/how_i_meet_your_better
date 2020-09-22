@@ -1,6 +1,7 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from selenium.webdriver.firefox.webdriver import WebDriver
 from django.shortcuts import reverse
+from selenium.webdriver.firefox.webdriver import WebDriver
+# from selenium.webdriver.support.wait import WebDriverWait
 
 
 class MyBusinessSeleniumTests(StaticLiveServerTestCase):
@@ -9,8 +10,9 @@ class MyBusinessSeleniumTests(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.selenium = WebDriver()
+        cls.selenium = WebDriver(log_path='geckodriver.log')
         cls.selenium.implicitly_wait(10)
+        print('wait 10 sec')
 
     @classmethod
     def tearDownClass(cls):
@@ -18,10 +20,14 @@ class MyBusinessSeleniumTests(StaticLiveServerTestCase):
         super().tearDownClass()
 
     def test_search_food(self):
+        # timeout = 2
         self.selenium.get('%s%s' % (self.live_server_url, reverse('index')))
+        # WebDriverWait(self.selenium, timeout).until(
+        #     lambda driver: driver.find_element_by_tag_name('body'))
         input_search = self.selenium.find_element_by_id('product_name')
         input_search.send_keys('Acras de morue')
         self.selenium.find_element_by_xpath('//button[@value="Chercher"]').click()
+        # input_search.click()
 
 
 ######################################
