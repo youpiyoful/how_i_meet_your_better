@@ -6,7 +6,7 @@ from django.test import TestCase, Client
 from django.shortcuts import reverse
 # from django import forms
 # from .forms import RegistrationForm
-from .models import Favorite, PurBeurreUser
+from user.models import Favorite, PurBeurreUser
 from business.models import Product, Category
 from django.test import tag
 
@@ -173,7 +173,7 @@ class LogoutTests(TestCase):
         response = self.client.get('/my-account/logout', follow=True)
         self.assertFalse(response.context['user'].is_authenticated)
 
-
+@tag('record_favorite')
 class FavoriteRecordTests(TestCase):
     """
     test the record_favorite_substitute function
