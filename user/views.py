@@ -16,9 +16,8 @@ def my_account(request):
             "user": {
                 "name": request.user.first_name,
                 "email": request.user.email,
-                "age": "28",
-                "adresse": "45 cours du parc 21 000, Dijon",
-            }
+            },
+            # 'url_image': 'user/assets/img/wheat-field-2554358_1920.jpg'
         }
         return render(request, "user/account.html", context)
     else:
