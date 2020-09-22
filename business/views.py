@@ -58,7 +58,7 @@ def results(request):
             # aux utilisateurs ! 
         # categories = complete_product_and_its_categories.categories
         # if len(categories) > 1:
-
+        
         print("complete product and its categories : ", complete_product_and_its_categories)
         list_of_foods_substitute, commune_category = food.substitute_food_by_foods_with_best_nutriscore(
             complete_product_and_its_categories

@@ -128,20 +128,20 @@ class Food:
             ]
             print('list_of_substitute : ', list_of_substitute)
             print('nutriscore of current product : ', nutriscore_of_current_product)
-
+            commune_cat = Category.objects.get(id=more_precise_cat).category_name
             if len(list_of_substitute) > 6:
                 # return the 6 best substitute in the list
-                return list_of_substitute[:6], Category.objects.get(id=more_precise_cat).category_name
+                return list_of_substitute[:6], commune_cat
 
             if list_of_substitute:
-                return list_of_substitute, Category.objects.get(id=more_precise_cat).category_name
+                return list_of_substitute, commune_cat
 
             # if list_of_subsitute is None:
 
             #     for letter in string_letter.ascii[:]:
             #         pass
 
-        return 'this product have the best nutriscore'
+        return 'this product have the best nutriscore', commune_cat
 
         def record_a_favorite_substitute(self):
             """
