@@ -1,6 +1,6 @@
 """This file processes data recovery and inserting into tables of our data base"""
 import requests
-from .models import Product, Category
+from business.models import Product, Category
 from django.db import DatabaseError, transaction
 
 

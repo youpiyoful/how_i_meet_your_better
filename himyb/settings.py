@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,11 +24,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'yr7)g+nz)!40@@y7%xie%pxi8&a_9q2i74u$me2nbd*m8e3i21'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False if os.environ.get("ENV", "development") == "production" else True
 
 ALLOWED_HOSTS = [
+    '.herokuapps.com',
     '127.0.0.1',
-    'testserver'
+    'testserver',
 ]
 
 # Application definition
@@ -89,7 +91,7 @@ DATABASES = {
         'NAME': 'himyb',
         'USER': 'youpiyoful',
         'PASSWORD': 12345,
-        'HOST': '127.0.0.1',
+        'HOST': 'localhost',
         'PORT': 5432,
     }
 }
@@ -128,7 +130,7 @@ USE_L10N = True
 USE_TZ = True
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'himyb/static'),
+    # os.path.join(BASE_DIR, 'himyb/static'),
     os.path.join(BASE_DIR, "business/static"),
     os.path.join(BASE_DIR, "user/static")
 ]
@@ -137,7 +139,11 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
+
+if os.environ.get("ENV") == "production":
+    django_heroku.settings(locals())
