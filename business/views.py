@@ -6,11 +6,11 @@ from django.shortcuts import (
     get_object_or_404,
 )
 from django.http import HttpResponse
-from .models import Product, Category, CategoriesProducts
+from business.models import Product, Category, CategoriesProducts
 from django.template import RequestContext
 from decimal import *
-from .food import Food
-from .form import SearchFoodForm
+from business.food import Food
+from business.form import SearchFoodForm
 
 # from django.template import loader
 
