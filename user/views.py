@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, reverse
-from .forms import RegistrationForm, BaseForm
+from user.forms import RegistrationForm, BaseForm
 from django.utils.http import urlencode
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .models import Favorite, PurBeurreUser
+from user.models import Favorite, PurBeurreUser
 from business.models import Product, Category
 # from django.views.decorators.csrf import csrf_protect, csrf_exempt
 
