@@ -5,9 +5,9 @@
 {% block header %}
 <header class="masthead">
     <div class="container h-100">
-        {% if register_is_ok %}
+        {% if message %}
         <div id="success-account-creation-container">
-            <p class="alert alert-secondary text-center w-75 m-auto">{{ register_is_ok }}</p>
+            <p class="alert alert-secondary text-center w-75 m-auto">{{ message }}</p>
         </div>
         {% endif %}
         <div class="row h-100 align-items-center justify-content-center text-center">
@@ -23,13 +23,14 @@
                     que vous consommez tous les jours.
                 </p>
                 <!-- <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Find Out More</a> -->
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control js-scroll-trigger" placeholder="Produit"
-                        aria-describedby="basic-addon3">
-                    <div class="input-group-append">
-                        <button type="submit" class="input-group-text" id="basic-addon3">Chercher</button>
+                <form action="{% url 'business:results' %}" method="get">
+                    <div class="input-group mb-3">
+                        {{ form.product_name }}
+                        <div class="input-group-append">
+                            <button type="submit" class="input-group-text" id="basic-addon3" value='Chercher'>Chercher</button>
+                        </div>
                     </div>
-                </div>
+                </form>
 
             </div>
         </div>

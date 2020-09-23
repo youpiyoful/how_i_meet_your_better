@@ -5,20 +5,26 @@
         </h5>
         <form class="mt-5" method="{{ method }}" action="{% url action %}">
             {% csrf_token %}
+            {% if message %}
+            <div class="alert alert-primary">{{ message }}</div>
+            {% endif %}
             {% if register %}
             <div class="form-group">
                 <label for="firstname">Prénom</label>
                 {{ form.firstname }}
+                <div class="alert-primary">{{ form.firstname.errors }}</div>
                 <!-- <input type="text" name="firstname" class="form-control" id="firstname" aria-describedby="inputFirstname"> -->
             </div>
             <div class="form-group">
                 <label for="lastname">Nom</label>
                 {{ form.lastname }}
+                <div class="alert-primary">{{ form.lastname.errors }}</div>
             </div>
             {% endif %}
             <div class="form-group">
                 <label for="inputEmail1">{{ mail }}</label>
                 {{ form.email }}
+                <div class="alert-primary">{{ form.email.errors }}</div>
             </div>
             <div class="form-group">
                 <label for="inputPassword1">{{ password }}</label>

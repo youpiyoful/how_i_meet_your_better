@@ -1,8 +1,9 @@
 {% extends 'himyb/base.html' %}
+{% load static %}
 
 {% block header %}
 <header
-    style="background: linear-gradient(to bottom, rgba(92, 77, 66, 0.5) 0%, rgba(92, 77, 66, 0.2) 100%), url({{ url_image }});"
+    style="background: linear-gradient(to bottom, rgba(92, 77, 66, 0.5) 0%, rgba(92, 77, 66, 0.2) 100%), url({{ food_detail.url_image }});"
     class="band">
     <div class="container h-50">
         <div class="row h-50 align-items-center justify-content-center text-center">
@@ -33,19 +34,19 @@
                 <div class="row mt-3">
                     <!-- modify "high" in the end of url for change the svg img -->
                     <img src="https://static.openfoodfacts.org/images/misc/{{ food_detail.level_gras }}.svg" alt="pastille de couleur" class="pastille">
-                    <div class="inline-block mt-auto mb-auto m-2">{{ food_detail.nutri_per_100g }}</div>
+                    <div class="inline-block mt-auto mb-auto m-2">{{ food_detail.fat }} g de matières grasses / lipides</div>
                 </div>
                 <div class="row mt-3">
                     <img src="https://static.openfoodfacts.org/images/misc/{{ food_detail.level_sugar }}.svg" alt="pastille de couleur" class="pastille">
-                    <div class="inline-block mt-auto mb-auto m-2">{{ food_detail.nutri_per_100g }}</div>
+                    <div class="inline-block mt-auto mb-auto m-2">{{ food_detail.sugar }} g de sucres </div>
                 </div>
                 <div class="row mt-3">
                     <img src="https://static.openfoodfacts.org/images/misc/{{ food_detail.level_sel }}.svg" alt="pastille de couleur" class="pastille">
-                    <div class="inline-block mt-auto mb-auto m-2">{{ food_detail.nutri_per_100g }}</div>
+                    <div class="inline-block mt-auto mb-auto m-2">{{ food_detail.salt }} g de sel </div>
                 </div>
                 <div class="row mt-3">
                     <img src="https://static.openfoodfacts.org/images/misc/{{ food_detail.level_satur_gras }}.svg" alt="pastille de couleur" class="pastille">
-                    <div class="inline-block mt-auto mb-auto m-2">{{ food_detail.nutri_per_100g }}</div>
+                    <div class="inline-block mt-auto mb-auto m-2">{{ food_detail.saturated_fat }} g d'acides gras saturés</div>
                 </div>
             </div>
         </div>

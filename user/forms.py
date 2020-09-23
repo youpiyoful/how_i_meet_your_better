@@ -4,6 +4,7 @@ from django import forms
 class BaseForm(forms.Form):
     """modele form for connection"""
     email = forms.EmailField(
+        error_messages={'invalid': 'Entrez une adresse mail valide'},
         # label='Email',
         widget=forms.EmailInput(
             attrs={
@@ -24,6 +25,8 @@ class BaseForm(forms.Form):
             }
         )
     )
+    error_css_class = 'error'
+    required_css_class = 'required'
 
 
 class RegistrationForm(BaseForm):

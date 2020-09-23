@@ -4,5 +4,5 @@
 {% endblock %}
 {% block content %}
 {% load static %}
-{% include 'user/form.html' with method='post' csrf_token=csrf_token action='user:login' form=form h5='Connectez-vous' mail='Adresse mail' password='Mot de passe' password_help='Ne partagez jamais votre mot de passe' btn='Connexion' link='user:register' text='Inscrivez-vous gratuitement' only %}
+{% include 'user/form.html' with method='post' message=message csrf_token=csrf_token action='user:login' form=form h5='Connectez-vous' mail='Adresse mail' password='Mot de passe' password_help='Ne partagez jamais votre mot de passe' btn='Connexion' link='user:register' text='Inscrivez-vous gratuitement' only %}
 {% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'himyb/base.html' %}
+{% load static %}
+{% block header %}
+<header
+    style="background: linear-gradient(to bottom, rgba(92, 77, 66, 0.5) 0%, rgba(92, 77, 66, 0.2) 100%), url({% static 'user/assets/img/favorite.jpg' %});"
+    class="band">
+    <div class="container h-50">
+        <div class="row h-50 align-items-center justify-content-center text-center">
+            <div class="col-lg-10 align-self-end">
+                <h1 class="text-uppercase text-white font-weight-bold">
+                    Vos favoris
+                </h1>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+{% block content %}
+<table class='table'>
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Substitut favoris</th>
+            <th scope="col">Produit substitué</th>
+            <th scope="col">Détails sur le produit favoris</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for substitute_and_substituted in list_of_substitute_and_substituted %}
+            <tr>
+                {{ counter.increment }}
+                <th scope="row">{{ counter.count }}</th>
+                <td>{{ substitute_and_substituted.substitute_name }}</td>
+                <td>{{ substitute_and_substituted.substituted_name }}</td>
+                <td>
+                    <a href="{% url 'business:detail_food' %}?food={{ substitute_and_substituted.substitute_name }}">
+                        {% url 'business:detail_food' %}?food={{ substitute_and_substituted.substitute_name }}
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<!-- <table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+        </tr>
+    </tbody>
+</table> -->
+{% endblock %}
