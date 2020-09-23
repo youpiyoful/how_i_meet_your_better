@@ -5,7 +5,7 @@ from selenium.webdriver.firefox.webdriver import WebDriver
 
 
 class MyBusinessSeleniumTests(StaticLiveServerTestCase):
-    # fixtures = ['user-data.json']
+    fixtures = ['all_data.json']
 
     @classmethod
     def setUpClass(cls):
