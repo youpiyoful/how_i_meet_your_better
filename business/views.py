@@ -8,19 +8,13 @@ from django.shortcuts import (
 from django.http import HttpResponse
 from business.models import Product, Category, CategoriesProducts
 from django.template import RequestContext
-from decimal import *
 from business.food import Food
 from business.form import SearchFoodForm
-
-# from django.template import loader
 
 
 # Create your views here.
 def index(request, message=False):
     """return the home template of our app"""
-    # if request.args.get('context'):
-    #     context = {'success_is_ok': request.args.get('context')}
-    #     return render(request, 'business/index.html', context)
     form = SearchFoodForm()
     context = {'form': form}
 
@@ -30,17 +24,9 @@ def index(request, message=False):
     return render(request, "business/index.html", context)
 
 
-# def page_not_found_view(request, exception=None):
-#     """
-#     display an unic page 404
-#     """
-#     return render(request, 'business/404.html')
-
 
 def results(request):
     """return the results of substitutions product"""
-    # TODO se servir du nom de l'aliment à substituer pour retrouver les
-    # informations sur les autres aliments
 
     product_name = request.GET.get('product_name')
     print("PRODUCT NAME : ", product_name)
@@ -53,12 +39,7 @@ def results(request):
         if complete_product_and_its_categories == 'product not found':
             print('product not found')
             return redirect('index', message='Aucun produit ou catégorie associée trouvé')
-            # TODO : message='aucune catégories ou produit trouvé'
-            # créer un message en args pour pouvoir mettre des alertes
-            # aux utilisateurs ! 
-        # categories = complete_product_and_its_categories.categories
-        # if len(categories) > 1:
-        
+
         print("complete product and its categories : ", complete_product_and_its_categories)
         list_of_foods_substitute, commune_category = food.substitute_food_by_foods_with_best_nutriscore(
             complete_product_and_its_categories
@@ -85,15 +66,13 @@ def results(request):
 
 def detail_food(request):
     """display the page detail of food in params"""
-    # TODO se servir de food pour retrouver les infos concernant
-    # l'aliment dans la base et les rendre à l'aide du contexte
+
     food = request.GET.get('food')
     product = Product.objects.get(product_name=food)
     categories = product.category_set.all().values('category_name')
     print("FOOD : ", food)
     print('PRODUCT : ', product)
 
-    # food_detail = get_object_or_404(Product, product_name=food)
     food_detail = {
         "name": product.product_name,
         "nutriscore": product.nutriscore,
