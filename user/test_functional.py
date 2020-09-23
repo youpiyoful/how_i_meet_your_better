@@ -1,9 +1,10 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium.webdriver.firefox.webdriver import WebDriver
+from selenium.webdriver.support.wait import WebDriverWait
 
 
 class MyUserSeleniumTests(StaticLiveServerTestCase):
-    # fixtures = ['user-data.json']
+    fixtures = ['all_data.json']
 
     @classmethod
     def setUpClass(cls):
@@ -17,13 +18,16 @@ class MyUserSeleniumTests(StaticLiveServerTestCase):
         super().tearDownClass()
 
     def test_login(self):
-        self.selenium.get('%s%s' % (self.live_server_url, 'my-account/login'))
-        username_input = self.selenium.find_element_by_name("username")
+        self.selenium.get('%s%s' % (self.live_server_url, '/my-account/login'))
+        username_input = self.selenium.find_element_by_name("email")
 
         username_input.send_keys('gabinfornari@gmail.com')
-        password_input = self.selenium.find_element_by_name("password")
+        password_input = self.selenium.find_element_by_name("password_field")
         password_input.send_keys('123')
-        self.selenium.find_element_by_xpath('//input[@value="Connexion"]').click()
+        # self.selenium.find_element_by_xpath('//input[@value="Connexion"]').click()
+        submit_btn = self.selenium.find_element_by_id('submit-form')
+        submit_btn.click()
+
 
     # def test_create_account(self):
     #     self.selenium.get('%s%s' % (self.live_server_url, 'my-account/register'))
