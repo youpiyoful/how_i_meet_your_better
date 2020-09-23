@@ -36,7 +36,7 @@
                 <div class="nutriscore-container">
                     <p class="nutriscore">{{ food.nutriscore }}</p>
                 </div>
-                <a  href="http://127.0.0.1:8000/himyb/detail-food/?food={{ food.product_name }}">
+                <a  href="{% url 'business:detail_food' %}?food={{ food.product_name }}">
                     <div class="food-results-box">
                         <div class="band img-container" style="background: url({{ food.image_url }});"></div>
                         <!-- <div class="band img-container" style="background: url({{ food.url_image }});"></div> -->
