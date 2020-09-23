@@ -26,20 +26,23 @@
         </tr>
     </thead>
     <tbody>
-        {% for substitute_and_substituted in list_of_substitute_and_substituted %}
-            <tr>
-                {{ counter.increment }}
-                <th scope="row">{{ counter.count }}</th>
-                <td>{{ substitute_and_substituted.substitute_name }}</td>
-                <td>{{ substitute_and_substituted.substituted_name }}</td>
-                <td>
-                    <a href="{% url 'business:detail_food' %}?food={{ substitute_and_substituted.substitute_name }}">
-                        {% url 'business:detail_food' %}?food={{ substitute_and_substituted.substitute_name }}
-                    </a>
-                </td>
-            </tr>
-        {% endfor %}
+        {% if list_of_substitute_and_substituted %}
+            {% for substitute_and_substituted in list_of_substitute_and_substituted %}
+                <tr>
+                    {{ counter.increment }}
+                    <th scope="row">{{ counter.count }}</th>
+                    <td>{{ substitute_and_substituted.substitute_name }}</td>
+                    <td>{{ substitute_and_substituted.substituted_name }}</td>
+                    <td>
+                        <a href="{% url 'business:detail_food' %}?food={{ substitute_and_substituted.substitute_name }}">
+                            {% url 'business:detail_food' %}?food={{ substitute_and_substituted.substitute_name }}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
     </tbody>
+
 </table>
 <!-- <table class="table">
     <thead>
