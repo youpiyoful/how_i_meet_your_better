@@ -148,7 +148,7 @@ def record_favorite_substitute(request):
             user=user)
         favorite_link = user.favorites.add(favorite)
         print('user and favorite link : ', favorite_link)
-        return redirect('user:my_account')
+        return redirect('user:favorite_food')
 
     base_url = reverse('business:results')
     query_string = urlencode({
