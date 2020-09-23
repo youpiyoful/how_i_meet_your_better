@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from user.models import Favorite, PurBeurreUser
 from business.models import Product, Category
-# from django.views.decorators.csrf import csrf_protect, csrf_exempt
 
 
 # Create your views here.
@@ -17,7 +16,6 @@ def my_account(request):
                 "name": request.user.first_name,
                 "email": request.user.email,
             },
-            # 'url_image': 'user/assets/img/wheat-field-2554358_1920.jpg'
         }
         return render(request, "user/account.html", context)
     else:
@@ -39,7 +37,6 @@ def authentication(request):
         password = request.POST.get('password_field')
         print(password)
         # create a form instance and populate it with data from the request:
-        # form = BaseForm(request.POST)
         user = authenticate(username=email, password=password)
         print('USER : ', user)
 
@@ -77,13 +74,11 @@ def register(request):
         lastname = request.POST.get('lastname')
         email = request.POST.get('email')
         password = request.POST.get('password_field')
-        # password_confirmation = request.POST.get('password_confirmation')
         # create a form instance and populate it with data from the request:
         form = RegistrationForm(request.POST)
-        # print('*******************************', form.is_valid())
+
         if form.is_valid():
             print("form is valid")
-            # TODO : voir pour remplacer par get_or_create
 
             user = User.objects.filter(email=email)
 
@@ -102,13 +97,12 @@ def register(request):
 
             else:
                 context.update({'message': 'Votre compte existe déja'})
-                # TODO add the message to the register form
                 return render(request, "user/register.html", context)
+
         else:
             print("form is not valid")
             print(form)
             context.update({'form': form})
-            # context.add({'errors': form.errors})
             print('ERROR :', form.errors)
             print('CONTEXT :', context['form'].errors)
 
@@ -131,7 +125,7 @@ def record_favorite_substitute(request):
     print('product and substitute :', product_name, substitute_name)
     product = Product.objects.get(product_name=product_name)
     substitute = Product.objects.get(product_name=substitute_name)
-    # categories = product.category_set.all().values('category_name')
+
     if request.user.is_authenticated:
         current_user = request.user
         user = User.objects.get(id=current_user.id)
