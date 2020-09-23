@@ -10,7 +10,7 @@ class SearchFoodForm(forms.Form):
             attrs={
                 'type': 'text',
                 'placeholder': 'Produit',
-                'class': 'form-control js-scroll-trigge',
+                'class': 'form-control js-scroll-trigger',
                 'id': 'product_name',
                 'aria-describedby': 'basic-addon3',
             }
