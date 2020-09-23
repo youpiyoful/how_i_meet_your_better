@@ -96,6 +96,8 @@ def register(request):
                     email=email,
                     password=password
                 )
+                user, created = PurBeurreUser.objects.get_or_create(user=user)
+                print(created)
                 return redirect('user:login')
 
             else:
@@ -167,28 +169,38 @@ def display_favorite_food(request):
     if request.user.is_authenticated:
         print('request.user : ', request.user)
         user = PurBeurreUser.objects.get(user=request.user)
-        list_of_favorites = user.favorites.all().values()
-        print('USER : ', user.id)
-        print('List_of_favorites : ', list_of_favorites)
-        list_of_substitute_and_substituted = []
-        for favorite in list_of_favorites:
-            print('favorite : ', favorite)
-            substitute = Product.objects.get(id=favorite.get('substitute_id'))
-            substituted = Product.objects.get(id=favorite.get('product_id'))
-            substitute_and_substituted = {
-                'substitute_name': substitute.product_name,
-                'substituted_name': substituted.product_name,
-                'link_to_detail_of_substitute': substitute.product_url # TODO : inutile ! 
+
+        if user:
+            list_of_favorites = user.favorites.all().values()
+            print('USER : ', user.id)
+            print('List_of_favorites : ', list_of_favorites)
+            list_of_substitute_and_substituted = []
+
+            for favorite in list_of_favorites:
+                print('favorite : ', favorite)
+                substitute = Product.objects.get(id=favorite.get('substitute_id'))
+                substituted = Product.objects.get(id=favorite.get('product_id'))
+                substitute_and_substituted = {
+                    'substitute_name': substitute.product_name,
+                    'substituted_name': substituted.product_name,
+                    'link_to_detail_of_substitute': substitute.product_url # TODO : inutile ! 
+                }
+                list_of_substitute_and_substituted.append(substitute_and_substituted)
+                print('substitute : ', substitute, ' / ', 'substituted : ', substituted)
+            print('list_of_substitute_and_substituted : ', list_of_substitute_and_substituted)
+            context = {
+                "list_of_substitute_and_substituted": list_of_substitute_and_substituted,
+                "counter": Counter()
             }
-            list_of_substitute_and_substituted.append(substitute_and_substituted)
-            print('substitute : ', substitute, ' / ', 'substituted : ', substituted)
-        print('list_of_substitute_and_substituted : ', list_of_substitute_and_substituted)
-        context = {
-            "list_of_substitute_and_substituted": list_of_substitute_and_substituted,
-            "counter": Counter()
-        }
+        
+        else:
+            context = {"any_favorite": "Aucun favoris enregistré pour l'instant"}
 
         return render(request, 'user/favorite.html', context)
+    
+    return redirect('index', message='Veuillez vous connectez !')
+
+
 
 
 class Counter:
