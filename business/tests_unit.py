@@ -347,6 +347,6 @@ class TestFood(TestCase):
         result = self.food.substitute_food_by_foods_with_best_nutriscore(
             complete_best_product
         )
-        self.assertEqual(result, 'this product have the best nutriscore')
+        self.assertEqual(result, ('this product have the best nutriscore', 'category commune'))
 
 # endregion
