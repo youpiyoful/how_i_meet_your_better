@@ -6,17 +6,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('business', '0002_auto_20200720_1533'),
+        ("business", "0002_auto_20200720_1533"),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='product',
-            name='openfoodfacts_link',
-        ),
+        migrations.RemoveField(model_name="product", name="openfoodfacts_link",),
         migrations.AlterField(
-            model_name='product',
-            name='product_url',
-            field=models.URLField(default='aucune url trouvé', unique=True, verbose_name='Url du produit'),
+            model_name="product",
+            name="product_url",
+            field=models.URLField(
+                default="aucune url trouvé", unique=True, verbose_name="Url du produit"
+            ),
         ),
     ]

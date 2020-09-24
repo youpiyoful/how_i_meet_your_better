@@ -6,16 +6,14 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('business', '0012_linkcategoriesproducts'),
+        ("business", "0012_linkcategoriesproducts"),
     ]
 
     operations = [
         migrations.RenameModel(
-            old_name='LinkCategoriesProducts',
-            new_name='CategoriesProducts',
+            old_name="LinkCategoriesProducts", new_name="CategoriesProducts",
         ),
         migrations.AlterModelTable(
-            name='categoriesproducts',
-            table='business_categories_products',
+            name="categoriesproducts", table="business_categories_products",
         ),
     ]
