@@ -136,10 +136,10 @@ def record_favorite_substitute(request):
             product=product,
             substitute=substitute
         )
-        print("favorite object : ", favorite)
-        print("favorite object got created : ", created)
+        print("favorite object and created : ", favorite, '/', created)
         user, created = PurBeurreUser.objects.get_or_create(
             user=user)
+        print('user and created : ', user, '/', created)
         favorite_link = user.favorites.add(favorite)
         print('user and favorite link : ', favorite_link)
         return redirect('user:favorite_food')
