@@ -204,9 +204,13 @@ class ResultsTestsAndDetailTests(TestCase):
         when the product_name is an empty string
         """
         response = self.client.get(reverse(
-            "business:results", kwargs={"product_name": ""}
+            "business:results"
         ), follow=True)
-        self.assertContains(response, "rechercher", 200)
+        print('RESPONSE FROM TEST :', response)
+        self.assertContains(
+            response, 
+            "Le nom du produit ne doit pas être vide",
+            status_code=200)
 
     # Part for detail_food function
     def test_detail_food_is_ok(self):
