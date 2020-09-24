@@ -232,7 +232,7 @@ class FavoriteRecordTests(TestCase):
             'substitute_name': self.substitute.product_name,
             'product_name': self.product.product_name,
         }, follow=True)
-        self.assertContains(response, "gabin", status_code=200)
+        self.assertContains(response, self.substitute.product_name, status_code=200)
 
     def test_record_favorite_substitute_when_user_is_not_authenticated(self):
         """
