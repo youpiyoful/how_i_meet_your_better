@@ -1,10 +1,17 @@
-from django.shortcuts import render, redirect, reverse
-from user.forms import RegistrationForm, BaseForm
+"""file when the endpoint for the app user"""
+from django.shortcuts import reverse
+from django.shortcuts import render
+from django.shortcuts import redirect
 from django.utils.http import urlencode
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
-from user.models import Favorite, PurBeurreUser
-from business.models import Product, Category
+from django.contrib.auth import authenticate
+from django.contrib.auth import login
+from django.contrib.auth import logout
+from user.forms import BaseForm
+from user.forms import RegistrationForm
+from user.models import PurBeurreUser
+from user.models import Favorite
+from business.models import Product
 
 
 # Create your views here.
@@ -15,8 +22,8 @@ def my_account(request):
             "user": {"name": request.user.first_name, "email": request.user.email,},
         }
         return render(request, "user/account.html", context)
-    else:
-        return redirect("index", message="Veuillez vous connectez !")
+
+    return redirect("index", message="Veuillez vous connectez !")
 
 
 # @csrf_protect
@@ -42,9 +49,8 @@ def authentication(request):
             login(request, user)
             return redirect("index", message="Vous vous êtes connecté avec succès !")
 
-        else:
-            print("utilisateur inconnu")
-            context["message"] = "Utilisateur inconnu"
+        print("utilisateur inconnu")
+        context["message"] = "Utilisateur inconnu"
 
     print("CONTEXT : ", context)
     print("FORM : ", form)
@@ -92,16 +98,15 @@ def register(request):
                 print(created)
                 return redirect("user:login")
 
-            else:
-                context.update({"message": "Votre compte existe déja"})
-                return render(request, "user/register.html", context)
+            context.update({"message": "Votre compte existe déja"})
+            return render(request, "user/register.html", context)
 
-        else:
-            print("form is not valid")
-            print(form)
-            context.update({"form": form})
-            print("ERROR :", form.errors)
-            print("CONTEXT :", context["form"].errors)
+
+        print("form is not valid")
+        print(form)
+        context.update({"form": form})
+        print("ERROR :", form.errors)
+        print("CONTEXT :", context["form"].errors)
 
     print(context)
     return render(request, "user/register.html", context)
@@ -154,7 +159,7 @@ def record_favorite_substitute(request):
 def display_favorite_food(request):
     """
     this function render the page with favorite food of user
-    who display a list of link to detail about the favorite 
+    who display a list of link to detail about the favorite
     food
     """
 
@@ -175,7 +180,7 @@ def display_favorite_food(request):
                 substitute_and_substituted = {
                     "substitute_name": substitute.product_name,
                     "substituted_name": substituted.product_name,
-                    "link_to_detail_of_substitute": substitute.product_url,  # TODO : inutile !
+                    "link_to_detail_of_substitute": substitute.product_url,
                 }
                 list_of_substitute_and_substituted.append(substitute_and_substituted)
                 print("substitute : ", substitute, " / ", "substituted : ", substituted)
@@ -197,16 +202,20 @@ def display_favorite_food(request):
 
 
 class Counter:
+    """this class is an helper for line count in the favorite page"""
     count = 0
 
     def increment(self):
+        """increment the number of line"""
         self.count += 1
         return ""
 
     def decrement(self):
+        """decrement the number of line"""
         self.count -= 1
         return ""
 
     def double(self):
+        """double the number of line"""
         self.count *= 2
         return ""
