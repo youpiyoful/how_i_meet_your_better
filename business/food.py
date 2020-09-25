@@ -95,7 +95,8 @@ class Food:
         )
         # Retrieve the unique more precise category in the list.
         if list_of_cat_order_by_hyerarchie_score:
-
+            
+            # choose the category_id of the first element of the list
             if len(list_of_cat_order_by_hyerarchie_score) > 1:
                 more_precise_cat = list_of_cat_order_by_hyerarchie_score[
                     len(list_of_cat_order_by_hyerarchie_score) - 1 :
