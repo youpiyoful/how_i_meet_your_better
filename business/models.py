@@ -1,3 +1,4 @@
+"""this file is the models for the relation mapping"""
 from django.db import models
 
 
@@ -25,6 +26,8 @@ class Product(models.Model):
         return self.product_name
 
     class Meta:
+        """config of table with order by product_name
+        and rename the name"""
         verbose_name = "Produit"
         ordering = ["product_name"]
 
@@ -44,6 +47,10 @@ class Category(models.Model):
         return self.category_name
 
     class Meta:
+        """
+        configure the table with verbose name 
+        and ordering by category_name
+        """
         verbose_name = "Catégorie"
         ordering = ["category_name"]
 
@@ -61,4 +68,5 @@ class CategoriesProducts(models.Model):
     hyerarchie_score = models.IntegerField(default=0)
 
     class Meta:
+        """force the table name"""
         db_table = "business_categories_products"
