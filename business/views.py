@@ -1,13 +1,9 @@
+"""this file contain the endpoint for the business app"""
 from django.shortcuts import (
     render,
-    redirect,
-    get_list_or_404,
-    reverse,
-    get_object_or_404,
+    redirect
 )
-from django.http import HttpResponse
-from business.models import Product, Category, CategoriesProducts
-from django.template import RequestContext
+from business.models import Product
 from business.food import Food
 from business.form import SearchFoodForm
 
