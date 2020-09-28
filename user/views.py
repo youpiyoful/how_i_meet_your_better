@@ -200,7 +200,30 @@ def display_favorite_food(request):
 
     return redirect("index", message="Veuillez vous connectez !")
 
+def change_password(request):
+    """
+    this view offer to change your password with a new password
+    """
+    base_url = reverse('user:my_account')
+    success_message = "votre mot de passe à bien été changé"
+    failure_message = "Nous n'avons pas pu changer votre mot de passe"
 
+    if request.method == "POST" and request.user.is_authenticated:
+        current_user = User.objects.get(username=request.user.username)
+        new_password = request.post.get("new_password")
+        current_user.set_password(new_password)
+        current_user.save()
+        
+        query_string = urlencode({'success_message': success_message})
+        # url = f'{url}?{query_string}'
+        url_success = '{}?{}'.format(base_url, query_string)
+        return redirect(url_success)
+
+    url_failure = '{}?{}'.format(base_url, failure_message)
+    return redirect(url_failure)
+
+
+#region helper
 class Counter:
     """this class is an helper for line count in the favorite page"""
     count = 0
@@ -219,3 +242,4 @@ class Counter:
         """double the number of line"""
         self.count *= 2
         return ""
+#endregion
