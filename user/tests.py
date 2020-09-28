@@ -52,7 +52,6 @@ class LogInTests(TestCase):
         )
         self.assertRaises(KeyError, lambda: self.client.session["_auth_user_id"])
         self.assertFalse(response.context["user"].is_authenticated)
-        # TODO : vérifier le contenu
 
     def test_user_is_none(self):
         """
@@ -367,6 +366,43 @@ class FavoriteFoodDisplayTests(TestCase):
             "https://sub.com",
         )
 
+@tag('new_password')
+class ChangeYourPasswordTests(TestCase):
+    """
+    this class regroup the integration test about
+    the functionality "change_your_password"
+    """
+
+    def setUp(self):
+        """configure the necessary data for the test"""
+        user = User.objects.create_user(
+            first_name="yoan",
+            last_name="fornari",
+            email="yoanfornari@gmail.com",
+            password=123,
+            username="yoanfornari@gmail.com",
+        )
+    
+    def test_change_password_is_ok(self):
+        """ that test control than password is successfully change"""
+        c = Client()
+        c.login(username="yoanfornari@gmail.com", password=123)
+        url = reverse('user:change_password')
+        response = c.post(
+            url,
+            {'new_password': 12345},
+            follow=True)
+        self.assertContains(response, "votre mot de passe à bien été changé", status_code=301)
+
+    def test_fail_to_change_password(self):
+        """
+        that test control than message of failure is send when the password
+        can't be change
+        """
+        c = Client()
+        base_url = reverse('user:change_password')
+        response = c.post(base_url, {"new_password": "fail_to_change"}, follow=True)
+        self.assertContains(response, "Nous n'avons pas pu changer votre mot de passe", status_code=301)
 
 # endregion
 
