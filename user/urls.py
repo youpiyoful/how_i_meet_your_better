@@ -1,6 +1,6 @@
-from django.urls import path
+from django.urls import path, include
 
-from . import views
+from user import views
 
 app_name = "user"
 urlpatterns = [
@@ -11,4 +11,6 @@ urlpatterns = [
     path("legal-mention", views.legal_mention, name="legal_mention"),
     path("record_favorite", views.record_favorite_substitute, name="record_favorite"),
     path("favorite", views.display_favorite_food, name="favorite_food"),
+    # path("reset-password", include('django.contrib.auth.urls')),
+    path("change-your-password", views.change_password, name="change_password")
 ]
