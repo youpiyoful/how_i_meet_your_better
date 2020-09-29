@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'user.apps.UserConfig',
-    'business.apps.BusinessConfig'
+    'business.apps.BusinessConfig',
 ]
 
 MIDDLEWARE = [
@@ -63,7 +63,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'himyb/templates'),
+            # os.path.join(BASE_DIR, 'himyb/templates'),
+            os.path.join(BASE_DIR, 'templates'),
             os.path.join(BASE_DIR, 'business/templates'),
             os.path.join(BASE_DIR, 'user/templates'),
             ],
@@ -119,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr'
 
 TIME_ZONE = 'UTC'
 
@@ -147,3 +148,5 @@ INTERNAL_IPS = [
 
 if os.environ.get("ENV") == "production":
     django_heroku.settings(locals())
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
