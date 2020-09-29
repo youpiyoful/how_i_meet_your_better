@@ -13,7 +13,6 @@
                 <label for="firstname">Prénom</label>
                 {{ form.firstname }}
                 <div class="alert-primary">{{ form.firstname.errors }}</div>
-                <!-- <input type="text" name="firstname" class="form-control" id="firstname" aria-describedby="inputFirstname"> -->
             </div>
             <div class="form-group">
                 <label for="lastname">Nom</label>
@@ -46,7 +45,10 @@
             <div class="row mt-5 pb-5">
                 <button type="submit" id='submit-form' class="btn btn-primary m-auto">{{ btn }}</button>
             </div>
-            <div class="text-center"><a href="{% url link %}" class="text-muted h6">{{ text }}</a></div>
+            <div class='text-center'>
+                <a href="{% url 'password_reset' %}">Réinitialisez votre mot de passe</a>
+            </div>
+            <div class="text-center"><a href="{% url link %}" class="">{{ text }}</a></div><!-- text-muted h6 -->
         </form>
     </div>
 </section>
