@@ -386,13 +386,13 @@ class ChangeYourPasswordTests(TestCase):
     def test_change_password_is_ok(self):
         """ that test control than password is successfully change"""
         c = Client()
-        c.login(username="yoanfornari@gmail.com", password=123)
+        self.client.login(username="yoanfornari@gmail.com", password=123)
         url = reverse('user:change_password')
-        response = c.post(
+        response = self.client.post(
             url,
             {'new_password': 12345},
             follow=True)
-        self.assertContains(response, "votre mot de passe à bien été changé", status_code=301)
+        self.assertContains(response, "votre mot de passe a bien été changé", status_code=200)
 
     def test_fail_to_change_password(self):
         """
@@ -402,8 +402,28 @@ class ChangeYourPasswordTests(TestCase):
         c = Client()
         base_url = reverse('user:change_password')
         response = c.post(base_url, {"new_password": "fail_to_change"}, follow=True)
-        self.assertContains(response, "Nous n'avons pas pu changer votre mot de passe", status_code=301)
+        self.assertContains(response, "Veuillez vous connectez !", status_code=200)
+    
+@tag('reset_your_password')
+class ResetYourPasswordTestst(TestCase):
+    """test around the functionality of reset password"""
+    
+    def setUp(self):
+        """configure the necessary data for the test"""
+        User.objects.create_user(
+            first_name="yoan",
+            last_name="fornari",
+            email="yoanfornari@gmail.com",
+            password=123,
+            username="yoanfornari@gmail.com",
+        )
+    
 
+    def test_reset_password_is_ok(self):
+        """test than the password is changed correctly"""
+        c = Client()
+        response = c.post('/users/password_reset', {"email": "yoanfornari@gmail.com"}, follow=True)
+        self.assertContains(response.content, "Message de réinitialisation du mot de passe envoyé", status_code=200)
 # endregion
 
 

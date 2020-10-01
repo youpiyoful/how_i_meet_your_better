@@ -1,4 +1,5 @@
 from django.urls import path, include
+# from django.views.generic import TemplateView
 
 from user import views
 
@@ -11,6 +12,6 @@ urlpatterns = [
     path("legal-mention", views.legal_mention, name="legal_mention"),
     path("record_favorite", views.record_favorite_substitute, name="record_favorite"),
     path("favorite", views.display_favorite_food, name="favorite_food"),
-    # path("reset-password", include('django.contrib.auth.urls')),
+    # path('reset-your-password'),
     path("change-your-password", views.change_password, name="change_password")
 ]
