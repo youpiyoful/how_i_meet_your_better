@@ -51,14 +51,10 @@ class MySeleniumTests(StaticLiveServerTestCase):
             self.selenium.page_source
         )
         self.assertEqual(len(mail.outbox), 1)
-        self.assertIn(mail.outbox[0].body, "http://localhost:50461/users/reset/")
-        print("coucou : ", mail.outbox[0].body)
+        print("body of mail : ", mail.outbox[0].body)
+        self.assertIn("/users/reset/", mail.outbox[0].body)
 
         # self.selenium.get("%s%s" % (self.live_server_url, ""))
-        
-        
-
-
 
     @classmethod
     def tearDownClass(cls):
