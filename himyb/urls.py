@@ -24,10 +24,12 @@ urlpatterns = [
     path('himyb/', include('business.urls')),
     path('my-account/', include('user.urls')),
     path('admin/', admin.site.urls),
+    path('autocomplete', include('completions.urls', namespace='completions')),
 ]
 
 if settings.DEBUG:
     import debug_toolbar
+
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
