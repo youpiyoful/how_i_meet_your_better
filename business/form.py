@@ -9,11 +9,11 @@ class SearchFoodForm(forms.Form):
     product_name = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "type": "text",
-                "placeholder": "Produit",
-                "class": "form-control js-scroll-trigger",
-                "id": "product_name",
-                "aria-describedby": "basic-addon3",
+                'type': 'text',
+                'placeholder': 'Produit',
+                'class': 'form-control js-scroll-trigger autocomplete',
+                'id': 'product_name',
+                'aria-describedby': 'basic-addon3',
             }
         )
     )

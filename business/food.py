@@ -135,19 +135,3 @@ class Food:
                 return list_of_substitute, commune_cat
 
         return "this product have the best nutriscore", "category commune"
-
-        def record_a_favorite_substitute(self):
-            """
-            This function take a substitute and his product
-            and record him in favorite table
-            """
-            pass
-
-        # 1. sélectionner la catégorie du produit choisie par l' utilisateur possédant
-        # le hierarchie_score le plus petit et donc la catégorie du produit la plus général
-        # sauvegarder également la liste de tout les catégories du produit source.
-        # 2. on veut récupérer tous les produits de cette catégorie.
-        # 3. Pour chaque produit de cette catégorie on veut récupérer ceux qui on au minimum
-        # 3 catégories en commun avec le produit source. Ce qui veut dire que l'on doit connaître les
-        # catégories du produit source. retour à l'étape 1
-        # 4 faire une boucle et comparer les produits un a un avant de les sauvegarder.

@@ -19,16 +19,17 @@ from django.urls import include, path
 from business import views
 
 urlpatterns = [
-    path('<message>', views.index, name='index'),
     path('', views.index, name='index'),
     path('himyb/', include('business.urls')),
     path('my-account/', include('user.urls')),
     path('users/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
+    path('autocomplete', include('completions.urls', namespace='completions')),
 ]
 
 if settings.DEBUG:
     import debug_toolbar
+
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns

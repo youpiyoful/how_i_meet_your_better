@@ -1,21 +1,23 @@
 """this file contain the endpoint for the business app"""
 from django.shortcuts import (
     render,
-    redirect
+    redirect,
+    reverse
 )
 from business.models import Product
 from business.food import Food
 from business.form import SearchFoodForm
+from urllib.parse import urlencode
 
 
 # Create your views here.
-def index(request, message=False):
+def index(request):
     """return the home template of our app"""
     form = SearchFoodForm()
     context = {"form": form}
 
-    if message is not False:
-        context["message"] = message
+    if request.GET.get('message'):
+        context["message"] = request.GET.get('message')
 
     return render(request, "business/index.html", context)
 
@@ -73,7 +75,10 @@ def results(request):
         return render(request, "business/results.html", context)
 
     print("product_name is empty")
-    return redirect("index", message="Le nom du produit ne doit pas être vide")
+    base_url = reverse('index')
+    query_string = urlencode({'message': 'Le nom du produit ne doit pas être vide'})
+    url = f"{base_url}?{query_string}"
+    return redirect(url)
 
 
 def detail_food(request):
