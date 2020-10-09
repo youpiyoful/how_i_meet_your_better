@@ -8,7 +8,7 @@ def get_completions(term):
     model = get_model("COMPLETIONS_MODEL")
     field = getattr(settings, "COMPLETIONS_FIELD")
     if not isinstance(field, str):
-        raise ImproperlyConfigured(f"COMPLETIONS_FIELD must be a string.")
+        raise ImproperlyConfigured(f"{field} must be a string.")
     order = getattr(settings, "COMPLETIONS_ORDER", ['?'])
     if not isinstance(order, list):
         raise ImproperlyConfigured(
