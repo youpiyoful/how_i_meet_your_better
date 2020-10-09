@@ -1,4 +1,5 @@
 from django.apps import apps as django_apps
+from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
 
 
@@ -24,7 +25,7 @@ def get_completions(term):
     )
 
 
-def get_model(self, constant_name):
+def get_model(constant_name):
     """Returns the model specified with constant_name in the settings."""
     model_name = getattr(settings, constant_name)
     try:
