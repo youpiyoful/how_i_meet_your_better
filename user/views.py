@@ -23,7 +23,10 @@ def my_account(request):
         }
         return render(request, "user/account.html", context)
 
-    return redirect("index", message="Veuillez vous connectez !")
+    base_url = reverse('index')
+    query_string = urlencode({'message': 'Veuillez vous connectez !'})
+    url = f"{base_url}?{query_string}"
+    return redirect(url)
 
 
 # @csrf_protect
@@ -47,7 +50,10 @@ def authentication(request):
         if user is not None:
             print("user connected")
             login(request, user)
-            return redirect("index", message="Vous vous êtes connecté avec succès !")
+            base_url = reverse('index')
+            query_string = urlencode({'message': 'Vous vous êtes connecté avec succès !'})
+            url = f"{base_url}?{query_string}"
+            return redirect(url)
 
         print("utilisateur inconnu")
         context["message"] = "Utilisateur inconnu"
@@ -60,7 +66,10 @@ def authentication(request):
 def logout_view(request):
     """call the metod logout and redirect on home page"""
     logout(request)
-    return redirect("index", message="Vous êtes bien déconnecté !")
+    base_url = reverse('index')
+    query_string = urlencode({'message': 'Vous êtes bien déconnecté !'})
+    url = f"{base_url}?{query_string}"
+    return redirect(url)
 
 
 def register(request):
@@ -198,7 +207,10 @@ def display_favorite_food(request):
 
         return render(request, "user/favorite.html", context)
 
-    return redirect("index", message="Veuillez vous connectez !")
+    base_url = reverse('index')
+    query_string = urlencode({'message': 'Veuillez vous connectez !'})
+    url = f"{base_url}?{query_string}"
+    return redirect(url)
 
 
 class Counter:
