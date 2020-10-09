@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 
-from .helpers import get_completions
+from completions.helpers import get_completions
 
 
 def complete(request):
