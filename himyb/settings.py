@@ -154,3 +154,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 COMPLETIONS_MODEL = "business.Product"
 COMPLETIONS_FIELD = "product_name"
+COMPLETIONS_ORDER = ["-nutriscore"]
+COMPLETIONS_METHOD = "icontains"
