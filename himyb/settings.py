@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'user.apps.UserConfig',
-    'business.apps.BusinessConfig'
+    'business.apps.BusinessConfig',
+    'completions.apps.CompletionsConfig',
 ]
 
 MIDDLEWARE = [
@@ -66,7 +67,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'himyb/templates'),
             os.path.join(BASE_DIR, 'business/templates'),
             os.path.join(BASE_DIR, 'user/templates'),
-            ],
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -132,7 +133,7 @@ USE_TZ = True
 STATICFILES_DIRS = [
     # os.path.join(BASE_DIR, 'himyb/static'),
     os.path.join(BASE_DIR, "business/static"),
-    os.path.join(BASE_DIR, "user/static")
+    os.path.join(BASE_DIR, "user/static"),
 ]
 
 # Static files (CSS, JavaScript, Images)
@@ -147,3 +148,7 @@ INTERNAL_IPS = [
 
 if os.environ.get("ENV") == "production":
     django_heroku.settings(locals())
+
+
+COMPLETIONS_MODEL = "business.Product"
+COMPLETIONS_FIELD = "product_name"
