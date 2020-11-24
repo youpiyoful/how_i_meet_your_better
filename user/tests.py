@@ -420,7 +420,7 @@ class ResetYourPasswordTestst(TestCase):
         )
     
 
-    def test_reset_password_is_ok(self):
+    def test_send_reset_password_is_ok(self):
         """test than the password is changed correctly"""
         c = Client()
         response = c.post('/users/password_reset', {"email": "yoanfornari@gmail.com"})
@@ -428,6 +428,12 @@ class ResetYourPasswordTestst(TestCase):
         print("type of => ", type(response.content))
         self.assertEqual(response.status_code, 301)
         self.assertIn(response.content, bytes("Message de réinitialisation du mot de passe envoyé", 'utf-8'))
+    
+    def test_password_success_redirection(self):
+        """test redirect correctly after success of reset password"""
+        c = Client()
+        response = c.post('/users/password_reset', {"email": "yoanfornari@gmail.com"}, follow=True)
+        self.assertEqual(response.status_code, 200)
 # endregion
 
 
