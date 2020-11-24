@@ -21,6 +21,7 @@
         rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="{% static 'business/css/styles.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 
 <body id="page-top">
@@ -29,11 +30,13 @@
         <div id="content-wrap">
             <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
                 <div class="container">
-                    <img class="col-md-1 logo" src="{% static 'business/assets/img/logo_pur_beurre.png' %}" alt="logo biscuit">
+                    <img class="col-md-1 logo" src="{% static 'business/assets/img/logo_pur_beurre.png' %}"
+                        alt="logo biscuit">
                     <a class="navbar-brand js-scroll-trigger {{ active_home }}" href="{% url 'index' %}">Pur
-                        Beurre</a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                        data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                        aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                        Beurre</a><button class="navbar-toggler navbar-toggler-right" type="button"
+                        data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+                        aria-expanded="false" aria-label="Toggle navigation"><span
+                            class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarResponsive">
                         <ul class="navbar-nav ml-auto my-2 my-lg-0">
                             <form action="{% url 'business:results' %}" method="get">
@@ -42,7 +45,7 @@
                                         <input type="text" name="product_name" placeholder="Produit"
                                             class="form-control js-scroll-trigger autocomplete" id="product_name"
                                             aria-describedby="basic-addon3" required="">
-                                    </div>                           
+                                    </div>
                                 </li>
                             </form>
                             <li class="nav-item">
@@ -86,10 +89,10 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-2"></div>
-                    <a href="{% url 'user:legal_mention' %}" class="small text-center text-muted col-md-4 m-auto">Mentions
+                    <a href="{% url 'user:legal_mention' %}"
+                        class="small text-center text-muted col-md-4 m-auto">Mentions
                         légales</a>
-                    <a href="{% url 'index' %}#contact"
-                        class="small text-center text-muted col-md-4 m-auto">Contact</a>
+                    <a href="{% url 'index' %}#contact" class="small text-center text-muted col-md-4 m-auto">Contact</a>
                     <div class="col-md-2"></div>
                 </div>
             </div>
@@ -105,6 +108,8 @@
     <script src="{% static 'business/js/scripts.js' %}"></script>
     <!-- from the home after registration -->
     <script src="{% static 'business/js/alert_registration_success.js' %}"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+        integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
     {% include 'completions/autocomplete.html' %}
 </body>
 

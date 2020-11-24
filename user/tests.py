@@ -52,7 +52,6 @@ class LogInTests(TestCase):
         )
         self.assertRaises(KeyError, lambda: self.client.session["_auth_user_id"])
         self.assertFalse(response.context["user"].is_authenticated)
-        # TODO : vérifier le contenu
 
     def test_user_is_none(self):
         """
@@ -367,7 +366,74 @@ class FavoriteFoodDisplayTests(TestCase):
             "https://sub.com",
         )
 
+@tag('new_password')
+class ChangeYourPasswordTests(TestCase):
+    """
+    this class regroup the integration test about
+    the functionality "change_your_password"
+    """
 
+    def setUp(self):
+        """configure the necessary data for the test"""
+        user = User.objects.create_user(
+            first_name="yoan",
+            last_name="fornari",
+            email="yoanfornari@gmail.com",
+            password=123,
+            username="yoanfornari@gmail.com",
+        )
+    
+    def test_change_password_is_ok(self):
+        """ that test control than password is successfully change"""
+        c = Client()
+        c.login(username="yoanfornari@gmail.com", password=123)
+        url = reverse('user:change_password')
+        response = c.post(
+            url,
+            {'new_password': 12345})
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(response.content, bytes("votre mot de passe a bien été changé", 'utf-8'))
+
+    def test_fail_to_change_password(self):
+        """
+        that test control than message of failure is send when the password
+        can't be change
+        """
+        c = Client()
+        base_url = reverse('user:change_password')
+        response = c.post(base_url, {"new_password": "fail_to_change"}, follow=True)
+        self.assertContains(response, "Veuillez vous connectez !", status_code=200)
+    
+@tag('reset_your_password')
+class ResetYourPasswordTestst(TestCase):
+    """test around the functionality of reset password"""
+    
+    def setUp(self):
+        """configure the necessary data for the test"""
+        User.objects.create_user(
+            first_name="yoan",
+            last_name="fornari",
+            email="yoanfornari@gmail.com",
+            password=123,
+            username="yoanfornari@gmail.com",
+        )
+    
+
+    def test_send_reset_password_is_ok(self):
+        """test than the password is changed correctly"""
+        c = Client()
+        response = c.post('/users/password_reset', {"email": "yoanfornari@gmail.com"})
+        print("response._str_ => ", response)
+        print("type of => ", type(response.content))
+        self.assertEqual(response.status_code, 301)
+        self.assertIn(response.content, bytes("Message de réinitialisation du mot de passe envoyé", 'utf-8'))
+    
+    def test_password_success_redirection(self):
+        """test redirect correctly after success of reset password"""
+        c = Client()
+        response = c.post('/users/password_reset', {"email": "yoanfornari@gmail.com"}, follow=True)
+        self.assertEqual(response.status_code, 200)
 # endregion
 
 

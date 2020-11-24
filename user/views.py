@@ -18,9 +18,21 @@ from business.models import Product
 def my_account(request):
     """render the account of user"""
     if request.user.is_authenticated:
+        print("user is authenticated")
         context = {
             "user": {"name": request.user.first_name, "email": request.user.email,},
         }
+
+        if request.GET.get('success_message'):
+            print('success message on my account')
+            success_message = request.GET.get('success_message')
+            context.update({"message": success_message})
+        
+        # elif request.GET.get('failure_message'):
+        #     print('failure message on my account')
+        #     failure_message = request.GET.get('failure_message')
+        #     context.update({'message': failure_message})
+            
         return render(request, "user/account.html", context)
 
     base_url = reverse('index')
@@ -212,7 +224,33 @@ def display_favorite_food(request):
     url = f"{base_url}?{query_string}"
     return redirect(url)
 
+def change_password(request):
+    """
+    this view offer to change your password with a new password
+    """
+    base_url = reverse('user:my_account')
+    success_message = "votre mot de passe a bien été changé"
+    failure_message = "Nous n'avons pas pu changer votre mot de passe"
 
+    if request.method == "POST" and request.user.is_authenticated:
+        print('i m co from change password')
+        current_user = User.objects.get(username=request.user.username)
+        new_password = request.POST.get("new_password")
+        current_user.set_password(new_password)
+        current_user.save()
+        user = authenticate(username=current_user.email, password=new_password)
+        print("USER : ", user.is_authenticated)
+        print("current user : ", current_user.is_authenticated)
+        query_string = urlencode({'success_message': success_message})
+        # url = f'{url}?{query_string}'
+        url_success = '{}?{}'.format(base_url, query_string)
+        return redirect(url_success)
+
+    url_failure = '{}?{}'.format(base_url, failure_message)
+    return redirect(url_failure)
+
+
+#region helper
 class Counter:
     """this class is an helper for line count in the favorite page"""
     count = 0
@@ -231,3 +269,4 @@ class Counter:
         """double the number of line"""
         self.count *= 2
         return ""
+#endregion

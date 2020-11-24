@@ -37,9 +37,10 @@ def results(request):
 
         if complete_product_and_its_categories == "product not found":
             print("product not found")
-            return redirect(
-                "index", message="Aucun produit ou catégorie associée trouvé"
-            )
+            base_url = reverse('index')
+            query_string = urlencode({'message': 'Aucun produit ou catégorie associée trouvé'})
+            url = f"{base_url}?{query_string}"
+            return redirect(url)
 
         print(
             "complete product and its categories : ",
@@ -55,10 +56,10 @@ def results(request):
 
         if list_of_foods_substitute == "this product have the best nutriscore":
             print("this product have the best nutriscore")
-            return redirect(
-                "index",
-                message="Ce produit ne possède aucun substitut de meilleur qualité",
-            )
+            base_url = reverse('index')
+            query_string = urlencode({'message': 'Ce produit ne possède aucun substitut de meilleur qualité'})
+            url = f"{base_url}?{query_string}"
+            return redirect(url)
 
         context = {
             "active_results": "active",

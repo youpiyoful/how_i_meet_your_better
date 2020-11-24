@@ -8,20 +8,20 @@ def get_completions(term):
     model = get_model("COMPLETIONS_MODEL")
     field = getattr(settings, "COMPLETIONS_FIELD")
     if not isinstance(field, str):
-        raise ImproperlyConfigured(f"COMPLETIONS_FIELD must be a string.")
+        raise ImproperlyConfigured(f"{field} must be a string.")
     order = getattr(settings, "COMPLETIONS_ORDER", ['?'])
     if not isinstance(order, list):
         raise ImproperlyConfigured(
-            f"COMPLETIONS_ORDER must be a list of strings."
+            f"{order} must be a list of strings."
         )
     method = getattr(settings, "COMPLETIONS_METHOD", 'icontains')
     if not isinstance(method, str):
-        raise ImproperlyConfigured(f"COMPLETIONS_ORDER must be a string.")
+        raise ImproperlyConfigured(f"{order} must be a string.")
     kwargs = {f"{field}__{method}": term}
     return list(
         model.objects.filter(**kwargs)
         .order_by(*order)
-        .values_list(field, flat=True)
+        .values_list(field, flat=True)[:15]
     )
 
 
