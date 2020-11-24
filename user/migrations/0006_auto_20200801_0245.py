@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('user', '0005_auto_20200720_2301'),
+        ("user", "0005_auto_20200720_2301"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='purbeurreuser',
-            name='favorites',
-            field=models.ManyToManyField(to='user.Favorite'),
+            model_name="purbeurreuser",
+            name="favorites",
+            field=models.ManyToManyField(to="user.Favorite"),
         ),
     ]

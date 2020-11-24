@@ -6,28 +6,28 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('business', '0004_auto_20200801_0245'),
+        ("business", "0004_auto_20200801_0245"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='product',
-            name='fat',
+            model_name="product",
+            name="fat",
             field=models.DecimalField(decimal_places=8, max_digits=12),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='salt',
+            model_name="product",
+            name="salt",
             field=models.DecimalField(decimal_places=8, max_digits=12),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='saturated_fat',
+            model_name="product",
+            name="saturated_fat",
             field=models.DecimalField(decimal_places=8, max_digits=12),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='sugars',
+            model_name="product",
+            name="sugars",
             field=models.DecimalField(decimal_places=8, max_digits=12),
         ),
     ]

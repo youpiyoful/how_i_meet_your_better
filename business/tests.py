@@ -67,60 +67,58 @@ class ResultsTestsAndDetailTests(TestCase):
         )
 
         self.category = Category.objects.create(
-            id=1,
-            category_name="petit dej",
-            url_category="https://petit_dej_au_lit.com"
+            id=1, category_name="petit dej", url_category="https://petit_dej_au_lit.com"
         )
         self.category2 = Category.objects.create(
             id=2,
             category_name="petit dej2",
-            url_category="https://petit_dej_au_lit.com2"
+            url_category="https://petit_dej_au_lit.com2",
         )
         self.category3 = Category.objects.create(
             id=3,
             category_name="petit dej3",
-            url_category="https://petit_dej_au_lit3.com"
+            url_category="https://petit_dej_au_lit3.com",
         )
         self.category4 = Category.objects.create(
             id=4,
             category_name="petit dej4",
-            url_category="https://petit_dej_au_lit4.com"
+            url_category="https://petit_dej_au_lit4.com",
         )
         self.category5 = Category.objects.create(
             id=5,
             category_name="petit dej5",
-            url_category="https://petit_dej_au_lit5.com"
+            url_category="https://petit_dej_au_lit5.com",
         )
-        self.category.products.add(self.product, through_defaults={
-            'hyerarchie_score': 5
-        })
-        self.category2.products.add(self.product, through_defaults={
-            'hyerarchie_score': 2
-        })
-        self.category3.products.add(self.product, through_defaults={
-            'hyerarchie_score': 3
-        })
-        self.category4.products.add(self.product, through_defaults={
-            'hyerarchie_score': 1
-        })
-        self.category5.products.add(self.product, through_defaults={
-            'hyerarchie_score': 4
-        })
-        self.category.products.add(self.best_product_ever, through_defaults={
-            'hyerarchie_score': 5
-        })
-        self.category2.products.add(self.best_product_ever, through_defaults={
-            'hyerarchie_score': 2
-        })
-        self.category3.products.add(self.best_product_ever, through_defaults={
-            'hyerarchie_score': 3
-        })
-        self.category4.products.add(self.best_product_ever, through_defaults={
-            'hyerarchie_score': 1
-        })
-        self.category5.products.add(self.best_product_ever, through_defaults={
-            'hyerarchie_score': 4
-        })
+        self.category.products.add(
+            self.product, through_defaults={"hyerarchie_score": 5}
+        )
+        self.category2.products.add(
+            self.product, through_defaults={"hyerarchie_score": 2}
+        )
+        self.category3.products.add(
+            self.product, through_defaults={"hyerarchie_score": 3}
+        )
+        self.category4.products.add(
+            self.product, through_defaults={"hyerarchie_score": 1}
+        )
+        self.category5.products.add(
+            self.product, through_defaults={"hyerarchie_score": 4}
+        )
+        self.category.products.add(
+            self.best_product_ever, through_defaults={"hyerarchie_score": 5}
+        )
+        self.category2.products.add(
+            self.best_product_ever, through_defaults={"hyerarchie_score": 2}
+        )
+        self.category3.products.add(
+            self.best_product_ever, through_defaults={"hyerarchie_score": 3}
+        )
+        self.category4.products.add(
+            self.best_product_ever, through_defaults={"hyerarchie_score": 1}
+        )
+        self.category5.products.add(
+            self.best_product_ever, through_defaults={"hyerarchie_score": 4}
+        )
         # self.food = food.Food("invention")
         i = 0
 
@@ -137,24 +135,22 @@ class ResultsTestsAndDetailTests(TestCase):
                 nutriscore=random.choice(range_letter),
             )
             if product.nutriscore > "c":
-                self.category.products.add(product, through_defaults={
-                    'hyerarchie_score': 5
-                })
-                self.category2.products.add(product, through_defaults={
-                    'hyerarchie_score': 2
-                })
+                self.category.products.add(
+                    product, through_defaults={"hyerarchie_score": 5}
+                )
+                self.category2.products.add(
+                    product, through_defaults={"hyerarchie_score": 2}
+                )
 
-            self.category3.products.add(product, through_defaults={
-                'hyerarchie_score': 3
-            })
+            self.category3.products.add(
+                product, through_defaults={"hyerarchie_score": 3}
+            )
             i += 1
         query_string = urlencode({"product_name": "nutella"})
         base_url = reverse("business:results")
-        self.url = f'{base_url}?{query_string}'
+        self.url = f"{base_url}?{query_string}"
         self.wrong_url = f'{base_url}?{urlencode({"product_name": "not_exist"})}'
-        self.response = self.client.get(
-            self.url
-        )
+        self.response = self.client.get(self.url)
 
     def test_than_results_return_the_correct_context(self):
         """
@@ -162,11 +158,8 @@ class ResultsTestsAndDetailTests(TestCase):
         by the user and render the correct template
         """
 
-        response = self.client.get(
-            self.url,
-            follow=True
-        )
-        print('context : ', response.context[0])
+        response = self.client.get(self.url, follow=True)
+        print("context : ", response.context[0])
         self.assertEqual(response.status_code, 200)
         for elt in response.context:
             self.assertIn("origin_food_nutriscore", elt)
@@ -180,7 +173,7 @@ class ResultsTestsAndDetailTests(TestCase):
         test than list of food substitute contain
         6 elements max of food substitute
         """
-        print('self.context ======= ', self.response.context)
+        print("self.context ======= ", self.response.context)
         self.assertEqual(type(self.response.context["foods_substitute"]), list)
         self.assertTrue(len(self.response.context["foods_substitute"]) <= 6)
         substitute = self.response.context["foods_substitute"][0]
@@ -203,10 +196,11 @@ class ResultsTestsAndDetailTests(TestCase):
         test than function redirect to the home page
         when the product_name is an empty string
         """
-        response = self.client.get(reverse(
-            "business:results", kwargs={"product_name": ""}
-        ), follow=True)
-        self.assertContains(response, "rechercher", 200)
+        response = self.client.get(reverse("business:results"), follow=True)
+        print("RESPONSE FROM TEST :", response)
+        self.assertContains(
+            response, "Le nom du produit ne doit pas être vide", status_code=200
+        )
 
     # Part for detail_food function
     def test_detail_food_is_ok(self):
@@ -214,11 +208,9 @@ class ResultsTestsAndDetailTests(TestCase):
         test than detail_food return the page detail food
         with element about substitute choose by the user
         """
-        query = urlencode({'food': 'nutella'})
-        url = reverse('business:detail_food')
-        response = self.client.get(
-            f'{url}?{query}'
-        )
+        query = urlencode({"food": "nutella"})
+        url = reverse("business:detail_food")
+        response = self.client.get(f"{url}?{query}")
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "name", status_code=200)
         self.assertContains(response, "nutriscore", status_code=200)

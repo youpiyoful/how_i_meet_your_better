@@ -57,24 +57,20 @@ class OpenFoodFact:
     # 5. écrire un algorithme pour la recherche des substituts qui prend en compte à la fois si le nutriscore est meilleur mais aussi si l'afinity note des catégories se correspondent)
     # list_of_category = Category.objects.all().values()
     # current category is an instance of list_category from the loop
-    def give_a_hyerarchi_score_to_category_of_product(
-        self,
-        food,
-        current_category
-    ):
+    def give_a_hyerarchi_score_to_category_of_product(self, food, current_category):
         """
         return a list of category + score for a product
         """
-        categories = food.get('categories').split(', ')
-        print('categories from give hyerarchie score : ', categories)
+        categories = food.get("categories").split(", ")
+        print("categories from give hyerarchie score : ", categories)
         hyerarchi_score = 1
         for cat in categories:
-            print('CAT : ', cat)
+            print("CAT : ", cat)
 
             if cat.lower() == current_category.category_name.lower():
                 return hyerarchi_score
 
-            if cat:  # check than category is not empty 
+            if cat:  # check than category is not empty
                 hyerarchi_score += 1
 
         return 0  # 0 == error
@@ -140,12 +136,10 @@ class OpenFoodFact:
                         },
                     )
                     hyerarchie_score = self.give_a_hyerarchi_score_to_category_of_product(
-                        food, current_category)
+                        food, current_category
+                    )
                     current_category.products.add(
-                        product,
-                        through_defaults={
-                           'hyerarchie_score': hyerarchie_score
-                        }
+                        product, through_defaults={"hyerarchie_score": hyerarchie_score}
                     )
 
             print("size_of_list_of_food_by_category : ", len(list_of_food_by_category))

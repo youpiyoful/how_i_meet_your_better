@@ -1,10 +1,17 @@
-from django.shortcuts import render, redirect, reverse
-from user.forms import RegistrationForm, BaseForm
+"""file when the endpoint for the app user"""
+from django.shortcuts import reverse
+from django.shortcuts import render
+from django.shortcuts import redirect
 from django.utils.http import urlencode
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
-from user.models import Favorite, PurBeurreUser
-from business.models import Product, Category
+from django.contrib.auth import authenticate
+from django.contrib.auth import login
+from django.contrib.auth import logout
+from user.forms import BaseForm
+from user.forms import RegistrationForm
+from user.models import PurBeurreUser
+from user.models import Favorite
+from business.models import Product
 
 
 # Create your views here.
@@ -12,14 +19,14 @@ def my_account(request):
     """render the account of user"""
     if request.user.is_authenticated:
         context = {
-            "user": {
-                "name": request.user.first_name,
-                "email": request.user.email,
-            },
+            "user": {"name": request.user.first_name, "email": request.user.email,},
         }
         return render(request, "user/account.html", context)
-    else:
-        return redirect('index', message='Veuillez vous connectez !')
+
+    base_url = reverse('index')
+    query_string = urlencode({'message': 'Veuillez vous connectez !'})
+    url = f"{base_url}?{query_string}"
+    return redirect(url)
 
 
 # @csrf_protect
@@ -27,53 +34,58 @@ def authentication(request):
     """return the render page for login"""
     form = BaseForm()
     context = {
-        'login': 'Connexion',
-        'url_image': 'user/assets/img/wheat-field-2554358_1920.jpg',
-        'form': form,
+        "login": "Connexion",
+        "url_image": "user/assets/img/wheat-field-2554358_1920.jpg",
+        "form": form,
     }
 
     if request.method == "POST":
-        email = request.POST.get('email')
-        password = request.POST.get('password_field')
+        email = request.POST.get("email")
+        password = request.POST.get("password_field")
         print(password)
         # create a form instance and populate it with data from the request:
         user = authenticate(username=email, password=password)
-        print('USER : ', user)
+        print("USER : ", user)
 
         if user is not None:
-            print('user connected')
+            print("user connected")
             login(request, user)
-            return redirect('index', message='Vous vous êtes connecté avec succès !')
+            base_url = reverse('index')
+            query_string = urlencode({'message': 'Vous vous êtes connecté avec succès !'})
+            url = f"{base_url}?{query_string}"
+            return redirect(url)
 
-        else:
-            print('utilisateur inconnu')
-            context['message'] = 'Utilisateur inconnu'
+        print("utilisateur inconnu")
+        context["message"] = "Utilisateur inconnu"
 
-    print('CONTEXT : ', context)
-    print('FORM : ', form)
+    print("CONTEXT : ", context)
+    print("FORM : ", form)
     return render(request, "user/login.html", context)
 
 
 def logout_view(request):
     """call the metod logout and redirect on home page"""
     logout(request)
-    return redirect('index', message="Vous êtes bien déconnecté !")
+    base_url = reverse('index')
+    query_string = urlencode({'message': 'Vous êtes bien déconnecté !'})
+    url = f"{base_url}?{query_string}"
+    return redirect(url)
 
 
 def register(request):
     """return the register page"""
     form = RegistrationForm()
     context = {
-        'register': 'Inscription',
-        'url_image': 'user/assets/img/wheat-field-2554358_1920.jpg',
-        'form': form
+        "register": "Inscription",
+        "url_image": "user/assets/img/wheat-field-2554358_1920.jpg",
+        "form": form,
     }
 
     if request.method == "POST":
-        firstname = request.POST.get('firstname')
-        lastname = request.POST.get('lastname')
-        email = request.POST.get('email')
-        password = request.POST.get('password_field')
+        firstname = request.POST.get("firstname")
+        lastname = request.POST.get("lastname")
+        email = request.POST.get("email")
+        password = request.POST.get("password_field")
         # create a form instance and populate it with data from the request:
         form = RegistrationForm(request.POST)
 
@@ -89,22 +101,21 @@ def register(request):
                     first_name=firstname,
                     last_name=lastname,
                     email=email,
-                    password=password
+                    password=password,
                 )
                 user, created = PurBeurreUser.objects.get_or_create(user=user)
                 print(created)
-                return redirect('user:login')
+                return redirect("user:login")
 
-            else:
-                context.update({'message': 'Votre compte existe déja'})
-                return render(request, "user/register.html", context)
+            context.update({"message": "Votre compte existe déja"})
+            return render(request, "user/register.html", context)
 
-        else:
-            print("form is not valid")
-            print(form)
-            context.update({'form': form})
-            print('ERROR :', form.errors)
-            print('CONTEXT :', context['form'].errors)
+
+        print("form is not valid")
+        print(form)
+        context.update({"form": form})
+        print("ERROR :", form.errors)
+        print("CONTEXT :", context["form"].errors)
 
     print(context)
     return render(request, "user/register.html", context)
@@ -120,94 +131,103 @@ def record_favorite_substitute(request):
     this view get a substitute and his product
     and record the choice in the favorite table
     """
-    product_name = request.POST.get('product_name')
-    substitute_name = request.POST.get('substitute_name')
-    print('product and substitute :', product_name, substitute_name)
+    product_name = request.POST.get("product_name")
+    substitute_name = request.POST.get("substitute_name")
+    print("product and substitute :", product_name, substitute_name)
     product = Product.objects.get(product_name=product_name)
     substitute = Product.objects.get(product_name=substitute_name)
 
     if request.user.is_authenticated:
         current_user = request.user
         user = User.objects.get(id=current_user.id)
-        print('Instance of current_user : ', user)
-        print('current_user : ', current_user)
-        print('current_user ID : ', current_user.id)
+        print("Instance of current_user : ", user)
+        print("current_user : ", current_user)
+        print("current_user ID : ", current_user.id)
         favorite, created = Favorite.objects.get_or_create(
-            product=product,
-            substitute=substitute
+            product=product, substitute=substitute
         )
-        print("favorite object : ", favorite)
-        print("favorite object got created : ", created)
-        user, created = PurBeurreUser.objects.get_or_create(
-            user=user)
+        print("favorite object and created : ", favorite, "/", created)
+        user, created = PurBeurreUser.objects.get_or_create(user=user)
+        print("user and created : ", user, "/", created)
         favorite_link = user.favorites.add(favorite)
-        print('user and favorite link : ', favorite_link)
-        return redirect('user:favorite_food')
+        print("user and favorite link : ", favorite_link)
+        return redirect("user:favorite_food")
 
-    base_url = reverse('business:results')
-    query_string = urlencode({
-        'product_name': product_name,
-        'message': 'Vous devez être connecté pour enregistrer un produit dans vos favoris'})
-    print('query_string : ', query_string)
-    url = '{}?{}'.format(base_url, query_string)
+    base_url = reverse("business:results")
+    query_string = urlencode(
+        {
+            "product_name": product_name,
+            "message": "Vous devez être connecté pour enregistrer un produit dans vos favoris",
+        }
+    )
+    print("query_string : ", query_string)
+    url = "{}?{}".format(base_url, query_string)
     return redirect(url)
 
 
 def display_favorite_food(request):
     """
     this function render the page with favorite food of user
-    who display a list of link to detail about the favorite 
+    who display a list of link to detail about the favorite
     food
     """
 
     if request.user.is_authenticated:
-        print('request.user : ', request.user)
+        print("request.user : ", request.user)
         user = PurBeurreUser.objects.get(user=request.user)
 
         if user:
             list_of_favorites = user.favorites.all().values()
-            print('USER : ', user.id)
-            print('List_of_favorites : ', list_of_favorites)
+            print("USER : ", user.id)
+            print("List_of_favorites : ", list_of_favorites)
             list_of_substitute_and_substituted = []
 
             for favorite in list_of_favorites:
-                print('favorite : ', favorite)
-                substitute = Product.objects.get(id=favorite.get('substitute_id'))
-                substituted = Product.objects.get(id=favorite.get('product_id'))
+                print("favorite : ", favorite)
+                substitute = Product.objects.get(id=favorite.get("substitute_id"))
+                substituted = Product.objects.get(id=favorite.get("product_id"))
                 substitute_and_substituted = {
-                    'substitute_name': substitute.product_name,
-                    'substituted_name': substituted.product_name,
-                    'link_to_detail_of_substitute': substitute.product_url # TODO : inutile ! 
+                    "substitute_name": substitute.product_name,
+                    "substituted_name": substituted.product_name,
+                    "link_to_detail_of_substitute": substitute.product_url,
                 }
                 list_of_substitute_and_substituted.append(substitute_and_substituted)
-                print('substitute : ', substitute, ' / ', 'substituted : ', substituted)
-            print('list_of_substitute_and_substituted : ', list_of_substitute_and_substituted)
+                print("substitute : ", substitute, " / ", "substituted : ", substituted)
+            print(
+                "list_of_substitute_and_substituted : ",
+                list_of_substitute_and_substituted,
+            )
             context = {
                 "list_of_substitute_and_substituted": list_of_substitute_and_substituted,
-                "counter": Counter()
+                "counter": Counter(),
             }
-        
+
         else:
             context = {"any_favorite": "Aucun favoris enregistré pour l'instant"}
 
-        return render(request, 'user/favorite.html', context)
-    
-    return redirect('index', message='Veuillez vous connectez !')
+        return render(request, "user/favorite.html", context)
 
-
+    base_url = reverse('index')
+    query_string = urlencode({'message': 'Veuillez vous connectez !'})
+    url = f"{base_url}?{query_string}"
+    return redirect(url)
 
 
 class Counter:
+    """this class is an helper for line count in the favorite page"""
     count = 0
 
     def increment(self):
+        """increment the number of line"""
         self.count += 1
-        return ''
+        return ""
 
     def decrement(self):
+        """decrement the number of line"""
         self.count -= 1
-        return ''
+        return ""
 
     def double(self):
+        """double the number of line"""
         self.count *= 2
-        return ''
+        return ""

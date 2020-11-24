@@ -74,7 +74,7 @@ class MockResponseToApiForFood:
                             "salt": 0.5,
                         },
                         "image_url": "htts://nutella.jpg",
-                        "categories": "Produits à tartiner, Petit-déjeuners, Produits à tartiner sucrés, Pâtes à tartiner, Pâtes à tartiner au chocolat"
+                        "categories": "Produits à tartiner, Petit-déjeuners, Produits à tartiner sucrés, Pâtes à tartiner, Pâtes à tartiner au chocolat",
                     }
                 ]
             }
@@ -230,45 +230,43 @@ class TestFood(TestCase):
         )
 
         self.category = Category.objects.create(
-            id=1,
-            category_name="petit dej",
-            url_category="https://petit_dej_au_lit.com"
+            id=1, category_name="petit dej", url_category="https://petit_dej_au_lit.com"
         )
         self.category2 = Category.objects.create(
             id=2,
             category_name="petit dej2",
-            url_category="https://petit_dej_au_lit.com2"
+            url_category="https://petit_dej_au_lit.com2",
         )
         self.category3 = Category.objects.create(
             id=3,
             category_name="petit dej3",
-            url_category="https://petit_dej_au_lit3.com"
+            url_category="https://petit_dej_au_lit3.com",
         )
         self.category4 = Category.objects.create(
             id=4,
             category_name="petit dej4",
-            url_category="https://petit_dej_au_lit4.com"
+            url_category="https://petit_dej_au_lit4.com",
         )
         self.category5 = Category.objects.create(
             id=5,
             category_name="petit dej5",
-            url_category="https://petit_dej_au_lit5.com"
+            url_category="https://petit_dej_au_lit5.com",
         )
-        self.category.products.add(self.product, through_defaults={
-            'hyerarchie_score': 5
-        })
-        self.category2.products.add(self.product, through_defaults={
-            'hyerarchie_score': 2
-        })
-        self.category3.products.add(self.product, through_defaults={
-            'hyerarchie_score': 3
-        })
-        self.category4.products.add(self.product, through_defaults={
-            'hyerarchie_score': 1
-        })
-        self.category5.products.add(self.product, through_defaults={
-            'hyerarchie_score': 4
-        })
+        self.category.products.add(
+            self.product, through_defaults={"hyerarchie_score": 5}
+        )
+        self.category2.products.add(
+            self.product, through_defaults={"hyerarchie_score": 2}
+        )
+        self.category3.products.add(
+            self.product, through_defaults={"hyerarchie_score": 3}
+        )
+        self.category4.products.add(
+            self.product, through_defaults={"hyerarchie_score": 1}
+        )
+        self.category5.products.add(
+            self.product, through_defaults={"hyerarchie_score": 4}
+        )
         self.food = food.Food("invention")
         i = 0
 
@@ -285,16 +283,16 @@ class TestFood(TestCase):
                 nutriscore=random.choice(range_letter),
             )
             if product.nutriscore > "c":
-                self.category.products.add(product, through_defaults={
-                    'hyerarchie_score': 5
-                })
-                self.category2.products.add(product, through_defaults={
-                    'hyerarchie_score': 2
-                })
+                self.category.products.add(
+                    product, through_defaults={"hyerarchie_score": 5}
+                )
+                self.category2.products.add(
+                    product, through_defaults={"hyerarchie_score": 2}
+                )
 
-            self.category3.products.add(product, through_defaults={
-                'hyerarchie_score': 3
-            })
+            self.category3.products.add(
+                product, through_defaults={"hyerarchie_score": 3}
+            )
             i += 1
 
     def test_than_class_research_food_data_by_name_is_ok(self):
@@ -328,14 +326,19 @@ class TestFood(TestCase):
         category and a best nutriscore
         """
         complete_product = self.food.search_food_and_categories_by_product_name()
-        nutriscore_of_complete_product = complete_product.get('product').get('nutriscore')
-        result, commune_category = self.food.substitute_food_by_foods_with_best_nutriscore(
-            complete_product
+        nutriscore_of_complete_product = complete_product.get("product").get(
+            "nutriscore"
         )
-        self.assertEqual(type(result), list)
+        (
+            result,
+            commune_category,
+        ) = self.food.substitute_food_by_foods_with_best_nutriscore(complete_product)
+        # self.assertEqual(type(result), list)
         self.assertTrue(len(result) <= 6)
         for substitute in result:
-            self.assertTrue(substitute.get('nutriscore') <= nutriscore_of_complete_product)
+            self.assertTrue(
+                substitute.get("nutriscore") <= nutriscore_of_complete_product
+            )
 
     def test_substitute_food_by_food_with_best_nutriscore_wrong(self):
         """
@@ -347,6 +350,9 @@ class TestFood(TestCase):
         result = self.food.substitute_food_by_foods_with_best_nutriscore(
             complete_best_product
         )
-        self.assertEqual(result, 'this product have the best nutriscore')
+        self.assertEqual(
+            result, ("this product have the best nutriscore", "category commune")
+        )
+
 
 # endregion
