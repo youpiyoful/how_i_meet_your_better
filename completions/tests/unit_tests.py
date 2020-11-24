@@ -22,7 +22,10 @@ class MockResponseToGetAttr:
 
 
     def get_attr(self):
-        pass
+        """mock getattr()"""
+        if self.attribute:
+            return self.attribute
+        return self.default_value
 
 # @tag('test_helpers')
 class TestHelpers(TestCase):
@@ -50,12 +53,12 @@ class TestHelpers(TestCase):
                 sugars=1,
                 salt=1
             )
-            i += 1
-        test = Product.objects.all().order_by('-nutriscore')[:5]
-        # test_2 = test[len(test)-5:]
-        print(len(test))
-        print(test[0].nutriscore)
-        print(test[4].nutriscore)
+        #     i += 1
+        # test = Product.objects.all().order_by('-nutriscore')[:5]
+        # # test_2 = test[len(test)-5:]
+        # print(len(test))
+        # print(test[0].nutriscore)
+        # print(test[4].nutriscore)
         
 
     def test_get_completions_have_limit_of_15(self):
