@@ -1,4 +1,4 @@
-from .base import INSTALLED_APPS, MIDDLEWARE
+from .base import *
 import django_heroku
 # import os
 

@@ -1,6 +1,7 @@
 import os
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+print("BASE_DIR ======> ", BASE_DIR)
 SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.getenv('DEBUG')
 
@@ -13,14 +14,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'debug_toolbar',
     'user.apps.UserConfig',
     'business.apps.BusinessConfig',
     'completions.apps.CompletionsConfig',
 ]
 
 MIDDLEWARE = [
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -30,6 +29,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+ROOT_URLCONF = 'himyb.urls'
 
 TEMPLATES = [
     {
@@ -51,6 +52,8 @@ TEMPLATES = [
         },
     },
 ]
+
+WSGI_APPLICATION = 'himyb.wsgi.application'
 
 DATABASES = {
     'default': {
@@ -77,6 +80,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -106,10 +110,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
-
-ROOT_URLCONF = 'himyb.urls'
-
-WSGI_APPLICATION = 'himyb.wsgi.application'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
