@@ -1,0 +1,20 @@
+language: python
+python:
+  - "3.5"
+
+before_script:
+  - pip install -r requirements.txt
+
+branches:
+  only:
+    - himyb/project10
+    - develop
+    - master
+
+env: DJANGO_SETTINGS_MODULE="himyb.settings.travis"
+
+services:
+  - postgresql
+
+script:
+  - ./manage.py coverage_script
