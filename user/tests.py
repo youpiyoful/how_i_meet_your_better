@@ -33,7 +33,7 @@ class LogInTests(TestCase):
         self.assertTrue(response.context["user"].is_authenticated)
         self.assertRedirects(
             response,
-            "/Vous%20vous%20%C3%AAtes%20connect%C3%A9%20avec%20succ%C3%A8s%20!",
+            "/?message=Vous+vous+êtes+connecté+avec+succès+%21",
             status_code=302,
             target_status_code=200,
             fetch_redirect_response=True,
