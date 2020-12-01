@@ -1,6 +1,8 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from selenium.webdriver.firefox.webdriver import WebDriver
-from selenium.webdriver.support.wait import WebDriverWait
+from selenium import webdriver
+
+firefox_options = webdriver.FirefoxOptions()
+firefox_options.headless = True
 
 
 class MyUserSeleniumTests(StaticLiveServerTestCase):
@@ -9,7 +11,7 @@ class MyUserSeleniumTests(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.selenium = WebDriver()
+        cls.selenium = webdriver.Firefox(log_path='geckodriver.log', options=firefox_options)
         cls.selenium.implicitly_wait(10)
 
     @classmethod

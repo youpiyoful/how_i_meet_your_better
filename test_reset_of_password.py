@@ -1,8 +1,11 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from selenium.webdriver.firefox.webdriver import WebDriver
+from selenium import webdriver
 from django.contrib.auth.models import User
 from django.core import mail
 from django.shortcuts import reverse
+
+firefox_options = webdriver.FirefoxOptions()
+firefox_options.headless = True
 
 
 class MySeleniumTests(StaticLiveServerTestCase):
@@ -24,7 +27,7 @@ class MySeleniumTests(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.selenium = WebDriver()
+        cls.selenium = webdriver.Firefox(log_path='geckodriver.log', options=firefox_options)
         cls.selenium.implicitly_wait(10)
 
     def test_reset_of_password(self):

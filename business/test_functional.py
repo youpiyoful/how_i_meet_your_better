@@ -1,8 +1,13 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.shortcuts import reverse
-from selenium.webdriver.firefox.webdriver import WebDriver
+from himyb.settings.base import BASE_DIR
+# from selenium.webdriver.firefox.webdriver import WebDriver
+from selenium import webdriver
 
 # from selenium.webdriver.support.wait import WebDriverWait
+
+firefox_options = webdriver.FirefoxOptions()
+firefox_options.headless = True
 
 
 class MyBusinessSeleniumTests(StaticLiveServerTestCase):
@@ -11,7 +16,7 @@ class MyBusinessSeleniumTests(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.selenium = WebDriver(log_path="geckodriver.log")
+        cls.selenium = webdriver.Firefox(log_path="geckodriver.log", options=firefox_options)
         cls.selenium.implicitly_wait(10)
         print("wait 10 sec")
 
