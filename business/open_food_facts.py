@@ -75,7 +75,7 @@ class OpenFoodFact:
 
         return 0  # 0 == error
 
-    def retrieve_food_with_url_category(self, current_category):
+    def retrieve_food_with_url_category_old(self, current_category):
         """
         :param url_category:
         :param id_category:
@@ -152,6 +152,166 @@ class OpenFoodFact:
 
         return list_of_food_by_category
 
+    @staticmethod
+    def update_data_in_db_when_not_equal(new_obj, old_obj, dict_of_corresponding=None):
+        """
+        control than new food from openfoodfact is equal to old food in
+        database save if not equal and return data_is_equal true or false.
+        """
+        data_is_equal = False
+
+        if new_obj.get("nutriscore_grade") != old_obj.nutriscore:
+            old_obj.nutriscore = new_obj.get("nutriscore_grade")
+        
+        if new_obj.get('nutriments').get('fat', 0) != old_obj.fat:
+            old_obj.fat = new_obj.get('nutriments').get('fat', 0)
+        
+        if new_obj.get('nutriments').get('saturated_fat', 0) != old_obj.saturated_fat:
+            old_obj.saturated_fat = new_obj.get('nutriments').get('saturated_fat', 0)
+
+        if new_obj.get("nutriments").get("sugars", 0) != old_obj.sugars:
+            old_obj.sugars = new_obj.get("nutriments").get("sugars", 0)
+
+        if new_obj.get("nutriments").get("salt", 0) != old_obj.salt:
+            old_obj.salt = new_obj.get("nutriments").get("salt", 0)
+
+        if new_obj.get("image_url") != old_obj.image_url:
+            old_obj.image_url = new_obj.get("image_url")
+        
+        if  new_obj.get("url") != old_obj.product_url:
+            old_obj.product_url = new_obj.get("url")
+
+        else:
+            data_is_equal = True
+
+        old_obj.save()
+        return data_is_equal
+
+
+    def retrieve_food_with_url_category(self, current_category):
+        """
+        :param url_category:
+        :param id_category:
+        :return:
+        """
+        number_of_food_already_exist = 0
+        number_of_food_created = 0
+        number_of_food_update = 0
+        list_of_food_by_category = []
+        num_page = 1
+        while len(list_of_food_by_category) <= self.number_min_food_by_category:
+            response = requests.get(
+                current_category.url_category + "/" + str(num_page) + ".json"
+            )
+            print("RESPONSE FOR FOOD : ", response)
+            list_of_food = response.json().get("products")
+            print("list of food : ", list_of_food)
+            num_page += 1
+            print("number of page : ", num_page)
+            print("coucou")
+
+            if list_of_food is None:
+                break
+
+            for food in list_of_food:
+                print("===============================================")
+                print("product_name : ", food.get("product_name"))
+                print("nutriscore : ", food.get("nutriscore_grade"))
+                print("url : ", food.get("url"))
+                print("fat : ", food.get("nutriments").get("fat", 0))
+                print(
+                    "saturated_fat : ", food.get("nutriments").get("saturated_fat", 0)
+                )
+                print("sugars : ", food.get("nutriments").get("sugars", 0))
+                print("salt : ", food.get("nutriments").get("salt", 0))
+                print("image_url : ", food.get("image_url"))
+                print("categories : ", food.get("categories"))
+                print("===============================================")
+                if (
+                    food.get("product_name")
+                    and food.get("nutriscore_grade")
+                    and food.get("url")
+                    and food.get("image_url")
+                    # and id_category
+                ):
+                    print("condition")
+                    list_of_food_by_category.append(food.get("product_name"))
+
+                    product, created = Product.objects.get_or_create(
+                        product_name=food.get("product_name"),
+                        defaults={
+                            "nutriscore": food.get("nutriscore_grade"),
+                            "fat": food.get("nutriments").get("fat", 0),
+                            "saturated_fat": food.get("nutriments").get(
+                                "saturated_fat", 0
+                            ),
+                            "sugars": food.get("nutriments").get("sugars", 0),
+                            "salt": food.get("nutriments").get("salt", 0),
+                            "image_url": food.get("image_url"),
+                            "product_url": food.get("url"),
+                        },
+                    )
+                    # corresponding_dict = {
+                    #     "nutriscore": food.get("nutriscore_grade"),
+                    #     "fat": food.get("nutriments").get("fat", 0),
+                    #     "saturated_fat": food.get("nutriments").get(
+                    #         "saturated_fat", 0
+                    #     ),
+                    #     "sugars": food.get("nutriments").get("sugars", 0),
+                    #     "salt": food.get("nutriments").get("salt", 0),
+                    #     "image_url": food.get("image_url"),
+                    #     "product_url": food.get("url"),
+                    # }
+
+                    if created == False:
+                        print("food already exist")
+                        number_of_food_already_exist += 1
+                        result = self.update_data_in_db_when_not_equal(food, product)
+                        if result is False:
+                            number_of_food_update += 1
+                            hyerarchie_score = self.give_a_hyerarchi_score_to_category_of_product(
+                                food, current_category
+                            )
+                            current_category.products.add(
+                                product, through_defaults={"hyerarchie_score": hyerarchie_score}
+                            )
+                    
+                    else:
+                        number_of_food_created += 1
+                        hyerarchie_score = self.give_a_hyerarchi_score_to_category_of_product(
+                            food, current_category
+                        )
+                        current_category.products.add(
+                            product, through_defaults={"hyerarchie_score": hyerarchie_score}
+                        )
+
+            print("size_of_list_of_food_by_category : ", len(list_of_food_by_category))
+
+            if len(list_of_food) < 20:
+                break
+
+        if list_of_food_by_category == []:
+            return "any food contain in this category"
+
+        return list_of_food_by_category
+    
+
+    @staticmethod
+    def calculate_total_of_state_occurences_for_all_foods(state, list_of_state_occurences):
+        """
+        :param state (state can be food_already_exist, food_created and food_updated):
+        :param list of state occurences : 
+        :return a dict {state: string, total_of_state_occurences: integer}:
+        """
+        total_of_state_occurences = 0
+        for state_occurence in list_of_state_occurences:
+            total_of_state_occurences += state_occurence
+        
+        result = {
+            f"{state}": f"{total_of_state_occurences}" 
+        }
+        return result
+    
     @staticmethod
     def filter_category_by_interest(
         list_of_new_category, list_of_keywords
