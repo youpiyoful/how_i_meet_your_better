@@ -152,6 +152,42 @@ class OpenFoodFact:
 
         return list_of_food_by_category
 
+    @staticmethod
+    def update_data_in_db_when_not_equal(new_obj, old_obj, dict_of_corresponding=None):
+        """
+        control than new food from openfoodfact is equal to old food in
+        database save if not equal and return data_is_equal true or false.
+        """
+        data_is_equal = False
+
+        if new_obj.get("nutriscore_grade") != old_obj.nutriscore:
+            old_obj.nutriscore = new_obj.get("nutriscore_grade")
+        
+        if new_obj.get('nutriments').get('fat', 0) != old_obj.fat:
+            old_obj.fat = new_obj.get('nutriments').get('fat', 0)
+        
+        if new_obj.get('nutriments').get('saturated_fat', 0) != old_obj.saturated_fat:
+            old_obj.saturated_fat = new_obj.get('nutriments').get('saturated_fat', 0)
+
+        if new_obj.get("nutriments").get("sugars", 0) != old_obj.sugars:
+            old_obj.sugars = new_obj.get("nutriments").get("sugars", 0)
+
+        if new_obj.get("nutriments").get("salt", 0) != old_obj.salt:
+            old_obj.salt = new_obj.get("nutriments").get("salt", 0)
+
+        if new_obj.get("image_url") != old_obj.image_url:
+            old_obj.image_url = new_obj.get("image_url")
+        
+        if  new_obj.get("url") != old_obj.product_url:
+            old_obj.product_url = new_obj.get("url")
+
+        else:
+            data_is_equal = True
+
+        old_obj.save()
+        return data_is_equal
+
+
     def retrieve_food_with_url_category(self, current_category):
         """
         :param url_category:
@@ -230,7 +266,7 @@ class OpenFoodFact:
                     if created == False:
                         print("food already exist")
                         number_of_food_already_exist += 1
-                        result = update_data_in_db_when_not_equal(food, product, corresponding_dict)
+                        result = self.update_data_in_db_when_not_equal(food, product)
                         if result is False:
                             number_of_food_update += 1
                             hyerarchie_score = self.give_a_hyerarchi_score_to_category_of_product(
@@ -259,40 +295,6 @@ class OpenFoodFact:
 
         return list_of_food_by_category
     
-    @staticmethod
-    def update_data_in_db_when_not_equal(new_obj, old_obj, dict_of_corresponding=None):
-        """
-        control than new food from openfoodfact is equal to old food in
-        database save if not equal and return data_is_equal true or false.
-        """
-        data_is_equal = False
-
-        if new_obj.get("nutriscore_grade") != old_obj.nutriscore:
-            old_obj.nutriscore = new_obj.get("nutriscore_grade")
-        
-        if new_obj.get('nutriments').get('fat', 0) != old_obj.fat:
-            old_obj.fat = new_obj.get('nutriments').get('fat', 0)
-        
-        if new_obj.get('nutriments').get('saturated_fat', 0) != old_obj.saturated_fat:
-            old_obj.saturated_fat = new_obj.get('nutriments').get('saturated_fat', 0)
-
-        if food.get("nutriments").get("sugars", 0) != old_obj.sugars:
-            old_obj.sugars = food.get("nutriments").get("sugars", 0)
-
-        if food.get("nutriments").get("salt", 0) != old_obj.salt:
-            old_obj.salt = food.get("nutriments").get("salt", 0)
-
-        if food.get("image_url") != old_obj.image_url:
-            old_obj.image_url = food.get("image_url")
-        
-        if  food.get("url") != old_obj.product_url:
-            old_obj.product_url = food.get("url")
-
-        else:
-            data_is_equal = True
-
-        old_obj.save()
-        return data_is_equal
 
     @staticmethod
     def calculate_total_of_state_occurences_for_all_foods(state, list_of_state_occurences):
