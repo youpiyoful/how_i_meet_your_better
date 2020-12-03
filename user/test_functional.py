@@ -1,9 +1,10 @@
+import os
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 
 firefox_options = webdriver.FirefoxOptions()
 firefox_options.headless = True
-
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'himyb.settings.development')
 
 class MyUserSeleniumTests(StaticLiveServerTestCase):
     fixtures = ["all_data.json"]
