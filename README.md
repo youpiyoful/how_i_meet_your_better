@@ -55,3 +55,5 @@
 **Given** a connected user wants consult their data \
 **When** he will click on "my profil" tab
 **Then** the system will redirect the user to their profile page
+
+# modification mineur du code pour test ci

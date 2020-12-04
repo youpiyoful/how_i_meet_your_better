@@ -194,9 +194,6 @@ class OpenFoodFact:
         :param id_category:
         :return:
         """
-        number_of_food_already_exist = 0
-        number_of_food_created = 0
-        number_of_food_update = 0
         list_of_food_by_category = []
         num_page = 1
         while len(list_of_food_by_category) <= self.number_min_food_by_category:
@@ -214,6 +211,7 @@ class OpenFoodFact:
                 break
 
             for food in list_of_food:
+# region print code
                 print("===============================================")
                 print("product_name : ", food.get("product_name"))
                 print("nutriscore : ", food.get("nutriscore_grade"))
@@ -227,6 +225,7 @@ class OpenFoodFact:
                 print("image_url : ", food.get("image_url"))
                 print("categories : ", food.get("categories"))
                 print("===============================================")
+# endregion
                 if (
                     food.get("product_name")
                     and food.get("nutriscore_grade")
@@ -251,17 +250,6 @@ class OpenFoodFact:
                             "product_url": food.get("url"),
                         },
                     )
-                    # corresponding_dict = {
-                    #     "nutriscore": food.get("nutriscore_grade"),
-                    #     "fat": food.get("nutriments").get("fat", 0),
-                    #     "saturated_fat": food.get("nutriments").get(
-                    #         "saturated_fat", 0
-                    #     ),
-                    #     "sugars": food.get("nutriments").get("sugars", 0),
-                    #     "salt": food.get("nutriments").get("salt", 0),
-                    #     "image_url": food.get("image_url"),
-                    #     "product_url": food.get("url"),
-                    # }
 
                     if created == False:
                         print("food already exist")
