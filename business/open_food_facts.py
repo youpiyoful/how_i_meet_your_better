@@ -196,6 +196,9 @@ class OpenFoodFact:
         """
         list_of_food_by_category = []
         num_page = 1
+        number_of_food_created = 0
+        number_of_food_already_exist = 0
+        number_of_food_update = 0
         while len(list_of_food_by_category) <= self.number_min_food_by_category:
             response = requests.get(
                 current_category.url_category + "/" + str(num_page) + ".json"
